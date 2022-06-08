@@ -6,7 +6,7 @@ import * as library from './domain/library';
 import * as login from './domain/login';
 
 const serverConfig: {port: number} = config.get('server');
-const port = serverConfig.port;
+const port = process.env.PORT || serverConfig.port || 3000
 
 console.log(`Starting library server on port ${port}`);
 const app: express.Application = express();
