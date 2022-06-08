@@ -4,8 +4,9 @@
   "description": "GSSB library server v2",
   "main": "src/main.ts",
   "scripts": {
-    "start": "npx nodemon src/main.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm install",
+    "start": "npx ts-node src/main.ts",
+    "start-dev": "npx nodemon src/main.ts"
   },
   "author": "Andreas Hohmann",
   "license": "MIT",
