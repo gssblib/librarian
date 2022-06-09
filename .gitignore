@@ -1,5 +1,4 @@
 node_modules
-package-lock.json
 tags
 *.pyc
 *.sql.gz
@@ -19,5 +18,6 @@ client2/dist
 client2/dist-public
 client2/.public.git-rev
 client2/.volunteers.git-rev
+client2/src/environments
 
 provision/grains

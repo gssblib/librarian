@@ -4,7 +4,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { FileUploadModule } from 'ng2-file-upload';
 import { CoreModule } from '../core/core.module';
 import { ItemService } from './shared/item.service';
 import { ItemsService } from './shared/items.service';
@@ -24,7 +23,6 @@ import { ItemLabelsComponent } from './item-labels/item-labels.component';
 import { ItemStatusComponent } from './item-status/item-status.component';
 import { ItemAntolinComponent } from './item-antolin/item-antolin.component';
 import { ItemEditCoverComponent } from './item-edit-cover/item-edit-cover.component';
-import { ItemCardComponent } from './item-card/item-card.component';
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { MatCardModule } from "@angular/material/card";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -40,7 +38,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { ItemAvailabilityComponent } from './item-availability/item-availability.component';
-
+import { NgxFileDropModule } from 'ngx-file-drop';
 /**
  * Angular module for the items (books, CDs) in the library.
  *
@@ -49,7 +47,6 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
  */
 @NgModule({
   imports: [
-    FileUploadModule,
     CommonModule,
     FormsModule,
     FlexLayoutModule,
@@ -69,6 +66,7 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    NgxFileDropModule,
     FormlyModule.forRoot(),
     FormlyMaterialModule,
     RouterModule,
@@ -87,7 +85,6 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
     ItemStatusComponent,
     ItemAntolinComponent,
     ItemEditCoverComponent,
-    ItemCardComponent,
     ItemDetailsComponent,
     ItemAvailabilityComponent,
   ],
@@ -103,7 +100,6 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
     ItemEditCoverComponent,
     ItemStatusComponent,
     ItemAntolinComponent,
-    ItemCardComponent,
     ItemSearchPageComponent,
     ItemDetailsComponent,
     ItemAvailabilityComponent,

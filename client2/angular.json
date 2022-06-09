@@ -89,6 +89,10 @@
               "src/favicon.ico"
             ]
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     },
@@ -219,5 +223,8 @@
     "@schematics/angular:directive": {
       "prefix": "gsl"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

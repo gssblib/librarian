@@ -1,10 +1,7 @@
-#!/usr/bin/env node
-
 /**
  * HTTP server for the GSSB library system.
  *
- * This server serves the client web application as static content
- * and responds to the AJAX requests from the client.
+ * This server serves can be used by Firebase Cloud Functions.
  *
  * The AJAX requests are translated to calls to the library service
  * (defined in library.js).
@@ -12,9 +9,7 @@
 
 const config = require('config'),
       express = require('express'),
-      fs = require('fs'),
       Q = require('q'),
-      logger = require('morgan'),
       mysqlq = require('../lib/mysqlq'),
       api_prefix = '/api',
       db = mysqlq(require('mysql').createPool(config.get('db'))),
@@ -26,16 +21,8 @@ const config = require('config'),
       expressJwt = require('express-jwt'),
       multer = require('multer');
 
-server.use(logger('combined', {
-  stream: fs.createWriteStream(__dirname + '/requests.log', {flags: 'a'})}));
-
 server.use(require('body-parser').json());
 server.use(require('cookie-parser')(config.get('auth').cookie));
-
-var img_root_path = config['resources']['covers'];
-if (img_root_path[0] != '/') {
-  img_root_path = __dirname + '/../' + img_root_path;
-}
 
 // Middleware that authentication JWT requests.
 server.use(expressJwt(
@@ -130,40 +117,6 @@ httpcall.handlePaths([
     action: {resource: 'reports', operation: 'read'},
   },
   {
-    get: '/items/:key/cover',
-    fn: function (call) {
-      var img_path = img_root_path + '/' + call.param('key') + '.jpg';
-      if (!fs.existsSync(img_path)) {
-        return Q(call.res.status(404).send('Not found'));
-      }
-      var img = fs.readFileSync(img_path, {'encoding': null});
-      call.res.writeHead(200, {'Content-Type': 'image/jpg'});
-      call.res.end(img, 'binary');
-      return Q();
-    },
-  },
-  {
-    post: '/items/:key/cover',
-    fn: function (call) {
-      var img_path = img_root_path + '/' + call.param('key') + '.jpg';
-      fs.writeFileSync(img_path, call.req.files['file'][0].buffer);
-      return Q('{"status": "Ok"}');
-    },
-    middleware: multer().fields([{name: 'file'}]),
-    action: {resource: 'items', operation: 'update'},
-  },
-  {
-    delete: '/items/:key/cover',
-    fn: function (call) {
-      var img_path = img_root_path + '/' + call.param('key') + '.jpg';
-      if (fs.existsSync(img_path)) {
-        fs.unlinkSync(img_path);
-      }
-      return Q('{"status": "Ok"}');
-    },
-    action: {resource: 'items', operation: 'update'},
-  },
-  {
     get: '/me',
     fn: call => {
       return library.borrowers.get(call.req.user.id, {items: true, fees: true, order: true});
@@ -192,43 +145,4 @@ httpcall.handleEntity(library.borrowers, ['payFees', 'renewAllItems']);
 httpcall.handleEntity(library.orderCycles, []);
 httpcall.handleEntity(library.orders, []);
 
-// Serve the client web application as static content.
-config['clients'].forEach(function(clientConfig) {
-  var path = clientConfig.path;
-  if (path[0] != '/') {
-    path = __dirname + '/' + path;
-  }
-  if (clientConfig.endpoint === '') {
-    server.use(express.static(path));
-    // This needs to be the last registration, otherwise it will catch
-    // everything else.
-    server.get(
-      '*',
-      (req, res) => {
-        res.sendFile('index.html', {'root': path});
-      });
-  } else {
-    server.use(clientConfig.endpoint, express.static(path));
-    server.get(
-      clientConfig.endpoint + '/*',
-      (req, res) => {
-        res.sendFile('index.html', {'root': path});
-      });
-  }
-});
-
-// Start server.
-if (config.has('server')) {
-  const port = config.get('server').port;
-  server.listen(port, function() {
-    console.log("library server is listening on port", port);
-  });
-} else {
-  console.log("exporting library server");
-  exports.server = server
-}
-
-// Shutdown connection pool on exit.
-process.on('exit', function() {
-  db.end();
-});
+exports.server = server

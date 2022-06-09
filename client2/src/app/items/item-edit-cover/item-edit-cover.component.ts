@@ -1,27 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FileUploader } from 'ng2-file-upload';
 import { ConfigService } from "../../core/config.service";
 import { RpcService } from "../../core/rpc.service";
 import { NotificationService } from "../../core/notification-service";
 import { Item } from "../shared/item";
 import { ItemsService } from "../shared/items.service";
-
-
-class CoverUploader extends FileUploader {
-  itemCoverEdit;
-
-  constructor(itemCoverEdit, options) {
-    super(options)
-    this.itemCoverEdit = itemCoverEdit;
-  }
-
-  public onSuccessItem(item:any, response:any, status:any, headers:any):any {
-    // Force image reload.
-    this.itemCoverEdit.urlHash = Math.random().toString();
-    this.itemCoverEdit.hasCover = true;
-    return {item, response, status, headers};
-  }
-}
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
+import { Observable, of, from, defer } from 'rxjs';
+import { catchError, tap, take } from 'rxjs/operators';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'gsl-item-edit-cover',
@@ -29,61 +15,78 @@ class CoverUploader extends FileUploader {
   styleUrls: ['./item-edit-cover.component.css'],
 })
 export class ItemEditCoverComponent implements OnInit {
-  @Input('item')
-  item: Item;
-  urlHash: string = Math.random().toString();
+  @Input('item') item: Item;
 
-  public hasCover:boolean = true;
-
-  public uploader: CoverUploader;
-  public hasDropZoneOver:boolean = false;
-
-  get coverUrl(): string {
-    return this.config.apiPath('items/' + this.item.barcode + '/cover');
-  }
-
-  get coverUrlShown(): string {
-    return this.coverUrl + '?random=' + this.urlHash;
-  }
+  private ref: AngularFireStorageReference;
+  public url: Observable<string | null>;
 
   constructor(
     private rpc: RpcService,
     private notificationService: NotificationService,
     private itemsService: ItemsService,
-    private config: ConfigService
-  ) {}
+    private config: ConfigService,
+    private readonly storage: AngularFireStorage
+  ) { }
 
   ngOnInit() {
-    this.uploader = new CoverUploader(
-      this, {
-        url: this.coverUrl,
-        authToken: this.rpc.getJWTAuthToken(),
-        isHTML5: true,
-        disableMultipart: false,
-        removeAfterUpload: true,
-        autoUpload: true,
-    });
+    this.fetchImageRef();
   }
 
-  handleMissingImage() {
-    this.hasCover = false;
+  private fetchImageRef() {
+    this.ref = this.storage.ref('covers/' + this.item.barcode + '.jpg');
+    this.url = this.ref.getDownloadURL().pipe(
+      catchError(() => {
+        // return null if image not found.
+        return of(null);
+      }),
+    );
   }
 
-  /* Hover and Drop state management */
-  public fileOver(e:any):void {
-    this.hasDropZoneOver = e;
+  dropped(files: NgxFileDropEntry[]) {
+    if (files.length === 0) {
+      console.log('no file is uploaded');
+      return;
+    }
+    const droppedFile = files[0];
+
+    // if it's valid file
+    if (droppedFile.fileEntry.isFile) {
+      const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+      fileEntry.file((file: File) => {
+        const newRef = this.storage.ref('covers/' + this.item.barcode + '.jpg');
+        from(newRef.put(file)).pipe(
+          take(1),
+          tap(() => {
+            this.notificationService.show("Upload image successfully");
+            this.fetchImageRef();
+          }),
+          catchError(() => {
+            this.notificationService.showError("Fail to upload the image");
+            return of(null);
+          }),
+        ).subscribe();
+      });
+    }
+
+    return;
+  }
+
+  dragFilesDropped(droppedFile: any) {
+    console.log("dropped", droppedFile);
   }
 
   /* Actions */
   deleteCover() {
-    this.itemsService.deleteCover(this.item).subscribe(
-      () => {
-        this.notificationService.show('Cover deleted.');
-        this.handleMissingImage();
-      },
-      error => {
-        this.notificationService.showError(error.data.status);
-      }
-    );
+    this.ref.delete().pipe(
+      take(1),
+      tap(() => {
+        this.fetchImageRef();
+        this.notificationService.show("Delete image successfully");
+      }),
+      catchError((error) => {
+        this.notificationService.showError("Failed to delete image");
+        return of(null);
+      }),
+    ).subscribe();
   }
 }
