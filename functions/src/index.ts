@@ -1,14 +1,11 @@
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import {onRequest} from 'firebase-functions/v2/https';
 import {ExpressApp} from './common/express_app';
 import * as library from './domain/library';
 import * as login from './domain/login';
 
-const serverConfig: {port: number} = config.get('server');
-const port = process.env.PORT || serverConfig.port || 3000
-
-console.log(`Starting library server on port ${port}`);
 const app: express.Application = express();
 const authConfig: {cookie: string} = config.get('auth');
 
@@ -31,6 +28,4 @@ function errorHander(
 
 app.use(errorHander);
 
-app.listen(port, () => {
-  console.log(`The application is listening on port ${port}!`);
-});
+exports.api2 = onRequest(app);
