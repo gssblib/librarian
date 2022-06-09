@@ -28,4 +28,4 @@ function errorHander(
 
 app.use(errorHander);
 
-exports.api2 = onRequest(app);
+exports.api = onRequest(app);
