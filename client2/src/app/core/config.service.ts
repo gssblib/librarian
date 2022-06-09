@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ConfigService {
   /** Base path for the REST API. */
-  private _api: string = '/api/';
+  private _api: string = '/api2/';
   private _labelsApi: string = 'http://localhost:3001/';
 
   constructor() { }
