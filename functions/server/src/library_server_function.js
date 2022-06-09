@@ -26,7 +26,7 @@ server.use(require('cookie-parser')(config.get('auth').cookie));
 
 // Middleware that authentication JWT requests.
 server.use(expressJwt(
-    {secret: config['jwt']['secret'], credentialsRequired: false}));
+    {secret: config['jwt']['secret'], algorithms: config['jwt']['algorithms'], credentialsRequired: false}));
 
 httpcall.handlePaths([
   {
