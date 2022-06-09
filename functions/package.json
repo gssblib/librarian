@@ -12,7 +12,9 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "start-server": "npx ts-node src/main.ts",
+    "start-server-dev": "npx nodemon src/main.ts"
   },
   "engines": {
     "node": "16"
