@@ -27,81 +27,86 @@ import { BorrowerAddPageComponent } from './borrower-add-page/borrower-add-page.
 import { BorrowerStatusComponent } from './borrower-status/borrower-status.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { RenewReturnDialogComponent } from "./borrower-checkouts/renew-return-dialog.component";
-import {MatCardModule} from "@angular/material/card";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatTabsModule} from "@angular/material/tabs";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatSelectModule} from "@angular/material/select";
-import {MatSortModule} from "@angular/material/sort";
-import {MatButtonModule} from "@angular/material/button";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatTableModule} from "@angular/material/table";
+import { MatCardModule } from "@angular/material/card";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSortModule } from "@angular/material/sort";
+import { MatButtonModule } from "@angular/material/button";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatTableModule } from "@angular/material/table";
+import { MatExpansionModule } from '@angular/material/expansion';
 import { BorrowerOrdersComponent } from './borrower-orders/borrower-orders.component';
 import { BorrowerOrderComponent } from './borrower-order/borrower-order.component';
+import { BorrowerRemindersComponent } from './borrower-reminders/borrower-reminders.component';
+import { BorrowerRemindersTableComponent } from './borrower-reminders-table/borrower-reminders-table.component';
+import { BorrowerReminderDialogComponent } from './borrower-reminder-dialog/borrower-reminder-dialog.component';
 
 @NgModule({
-  imports: [
-    CoreModule,
-    CommonModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    CdkTableModule,
-    SharedModule,
-    ConfirmationDialogModule,
-    MatCardModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatAutocompleteModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatSortModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    FormlyModule.forRoot(),
-    FormlyMaterialModule,
-    RouterModule,
-    ItemsModule,
-  ],
-  declarations: [
-    BorrowerPageComponent,
-    BorrowerSearchPageComponent,
-    BorrowerCheckoutsComponent,
-    BorrowerFeesComponent,
-    BorrowerHistoryComponent,
-    BorrowerProfileComponent,
-    BorrowerProfileEditComponent,
-    BorrowerCheckoutsTableComponent,
-    BorrowerAutoCompleteComponent,
-    BorrowerSearchBarComponent,
-    BorrowerAddPageComponent,
-    BorrowerStatusComponent,
-    RenewReturnDialogComponent,
-    BorrowerOrdersComponent,
-    BorrowerOrderComponent,
-  ],
-  providers: [
-    BorrowerService,
-    BorrowerResolverService,
-    BorrowersService,
-  ],
-  exports: [
-    BorrowerSearchBarComponent,
-    BorrowerCheckoutsTableComponent
-  ],
-  entryComponents: [
-    RenewReturnDialogComponent,
-  ],
+    imports: [
+        CoreModule,
+        CommonModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        CdkTableModule,
+        SharedModule,
+        ConfirmationDialogModule,
+        MatCardModule,
+        MatChipsModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatTabsModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatSortModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        FormlyModule.forRoot(),
+        FormlyMaterialModule,
+        RouterModule,
+        ItemsModule,
+    ],
+    declarations: [
+        BorrowerPageComponent,
+        BorrowerSearchPageComponent,
+        BorrowerCheckoutsComponent,
+        BorrowerFeesComponent,
+        BorrowerHistoryComponent,
+        BorrowerProfileComponent,
+        BorrowerProfileEditComponent,
+        BorrowerCheckoutsTableComponent,
+        BorrowerAutoCompleteComponent,
+        BorrowerSearchBarComponent,
+        BorrowerAddPageComponent,
+        BorrowerStatusComponent,
+        RenewReturnDialogComponent,
+        BorrowerOrdersComponent,
+        BorrowerOrderComponent,
+        BorrowerRemindersComponent,
+        BorrowerRemindersTableComponent,
+        BorrowerReminderDialogComponent,
+    ],
+    providers: [
+        BorrowerService,
+        BorrowerResolverService,
+        BorrowersService,
+    ],
+    exports: [
+        BorrowerSearchBarComponent,
+        BorrowerCheckoutsTableComponent
+    ]
 })
 export class BorrowersModule {
 }

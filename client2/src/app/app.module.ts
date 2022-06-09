@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BorrowersModule } from './borrowers/borrowers.module';
 import { AppSearchBarComponent } from './app-search-bar/app-search-bar.component';
 import { FeesModule } from './fees/fees.module';
+import { RemindersModule } from './reminders/reminders.module';
 import { ReportsModule } from './reports/reports.module';
 import { ItemsRoutingModule } from "./items/items-routing.module";
 import { BorrowersRoutingModule } from './borrowers/borrowers-routing.module';
@@ -48,6 +49,7 @@ import { environment } from '../environments/environment';
     ItemsModule,
     BorrowersModule,
     FeesModule,
+    RemindersModule,
     ReportsModule,
     CheckoutsModule,
     OrdersModule,
@@ -77,4 +79,5 @@ import { environment } from '../environments/environment';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RpcService } from '../../core/rpc.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Borrower } from './borrower';
+import {Borrower, BorrowerEmail, BorrowerReminder} from './borrower';
 import { FormService } from '../../core/form.service';
 import { Item } from '../../items/shared/item';
 import { TableFetchResult } from '../../core/table-fetcher';
@@ -56,7 +56,20 @@ export class BorrowersService extends ModelsService<Borrower> {
     return borrower;
   }
 
-  getBorrowerHistory(id: number, params: any) : Observable<TableFetchResult<ItemCheckout>> {
+  getBorrowerReminders(borrowerNumber: number, params: any): Observable<TableFetchResult<BorrowerEmail>> {
+    return this.rpc.httpGet(`borrowers/${borrowerNumber}/reminders`, {...params, returnCount: true})
+      .pipe(map(result => new TableFetchResult(result.rows, result.count)));
+  }
+
+  generateReminders(): Observable<BorrowerReminder[]> {
+    return this.rpc.httpGet('borrowers/reminders');
+  }
+
+  sendReminders(): Observable<BorrowerReminder[]> {
+    return this.rpc.httpPost('borrowers/sendReminders');
+  }
+
+  getBorrowerHistory(id: number, params: any): Observable<TableFetchResult<ItemCheckout>> {
     return this.rpc.httpGet(`borrowers/${id}/history`, params)
       .pipe(map(result => new TableFetchResult(result.rows, result.count)));
   }
@@ -72,6 +85,14 @@ export class BorrowersService extends ModelsService<Borrower> {
   removeOrderedItem(borrowerNumber: number, orderId: number, itemId: number) {
     const resourcePath = `borrowers/${borrowerNumber}/orders/${orderId}/items/${itemId}`;
     return this.rpc.httpDelete(resourcePath);
+  }
+
+  getReminder(borrowerNumber: number): Observable<BorrowerReminder> {
+    return this.rpc.httpGet(`borrowers/${borrowerNumber}/reminder`);
+  }
+
+  sendReminder(borrowerNumber: number) {
+    return this.rpc.httpPost(`borrowers/${borrowerNumber}/sendReminder`);
   }
 
   getMyBorrower() {
