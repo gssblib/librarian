@@ -55,10 +55,6 @@
           "function": "api"
         },
         {
-          "source": "/api2/**",
-          "function": "api2"
-        },
-        {
           "source": "**",
           "destination": "/index.html"
         }

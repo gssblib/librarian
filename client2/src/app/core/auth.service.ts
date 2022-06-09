@@ -65,7 +65,7 @@ export class AuthenticationService {
    * @returns Observable of the authentication result
    */
   login(username: string, password: string, type: string): Observable<boolean> {
-    return this.httpClient.post('/api2/authenticate', { username, password, type })
+    return this.httpClient.post('/api/authenticate', { username, password, type })
       .pipe(
         switchMap((response: JwtResponse) => {
         // login successful if there's a jwt token in the response

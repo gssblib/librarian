@@ -3,8 +3,4 @@
     "target": "http://localhost:5005",
     "secure": false
   }
-  "/api2": {
-    "target": "http://localhost:5005",
-    "secure": false
-  }
 }
