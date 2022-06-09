@@ -4,7 +4,7 @@ import { RpcService } from "../../core/rpc.service";
 import { NotificationService } from "../../core/notification-service";
 import { Item } from "../shared/item";
 import { ItemsService } from "../shared/items.service";
-import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
 import { Observable, of, from, defer } from 'rxjs';
 import { catchError, tap, take } from 'rxjs/operators';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';

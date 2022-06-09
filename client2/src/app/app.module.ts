@@ -31,8 +31,8 @@ import { OrdersRoutingModule } from "./orders/orders-routing.module";
 import { OrdersModule } from "./orders/orders.module";
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimepicker/core";
 import { FormlyMatDatetimepickerModule } from "./shared/formly/datetimepicker.module";
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from '../environments/environment';
 
 @NgModule({

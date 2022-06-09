@@ -10,7 +10,7 @@ import { Item } from "../../items/shared/item";
 import { ConfigService } from "../../core/config.service";
 import { Availability } from "../../items/shared/item-status";
 import { NotificationService } from "../../core/notification-service";
-import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 
 /**

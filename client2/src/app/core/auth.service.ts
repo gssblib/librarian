@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, Subject, from,of, EMPTY } from 'rxjs';
 import { catchError, map, switchMap,take } from 'rxjs/operators';
 
