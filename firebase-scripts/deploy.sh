@@ -1,28 +1,22 @@
 #!/bin/bash -eu
 
 DIR=`dirname $0`
-DIR=`cd ${DIR}; pwd`
+BASEDIR=`cd ${DIR}/..; pwd`
 
-echo "Compiling Angular"
+echo "Compiling Angular Client"
 
-cd ${DIR}/../client2
+cd ${BASEDIR}/client2
 npm install
-node_modules/@angular/cli/bin/ng build --prod --base-href "/"
-node_modules/@angular/cli/bin/ng build public --prod --base-href "/"
+node_modules/.bin/ng build --configuration production --base-href "/"
+node_modules/.bin/ng build --configuration production --base-href "/" public
 
-echo "Installing server dependencies"
+echo "Compiling Node Server"
 
-cd ${DIR}/../server
+cd ${BASEDIR}/functions
 npm install
+npm run build
 
-echo "Deploying for ${DIR}"
+echo "Deploying"
 
-cd ${DIR}/functions
-npm install
-
-export NODE_CONFIG_DIR=${DIR}/functions/config
-export NODE_ENV=production
-
-echo "Using ${NODE_CONFIG_DIR}/${NODE_ENV}.json"
-
+cd ${BASEDIR}
 firebase deploy
