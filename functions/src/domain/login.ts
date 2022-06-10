@@ -1,21 +1,21 @@
-import config from 'config';
-import * as crypto from 'crypto';
-import * as express from 'express';
-import * as jwt from 'jsonwebtoken';
-import needle from 'needle';
-import {getPermissions} from './auth';
-import {borrowers, db} from './library';
-import {roleRepository} from './roles';
-import {User} from './user';
-import { initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import config from "config";
+import * as crypto from "crypto";
+import * as express from "express";
+import * as jwt from "jsonwebtoken";
+import needle from "needle";
+import {getPermissions} from "./auth";
+import {borrowers, db} from "./library";
+import {roleRepository} from "./roles";
+import {User} from "./user";
+import {initializeApp} from "firebase-admin/app";
+import {getAuth} from "firebase-admin/auth";
 
 function hash(s: string): string {
-  return crypto.createHash('sha256').update(s).digest('hex');
+  return crypto.createHash("sha256").update(s).digest("hex");
 }
 
 function saltedHash(s: string): string {
-  const authConfig: {salt: string} = config.get('auth');
+  const authConfig: {salt: string} = config.get("auth");
   return hash(authConfig.salt + s);
 }
 
@@ -40,20 +40,20 @@ interface UserRow {
 }
 
 interface SycamoreConfig {
-  'school-id': string;
+  "school-id": string;
   url: string;
-  'success-text': string;
+  "success-text": string;
 }
 
 const app = initializeApp();
 
-const sycamoreConfig = config.get('sycamore-auth') as SycamoreConfig;
+const sycamoreConfig = config.get("sycamore-auth") as SycamoreConfig;
 
 type AuthenticationFn = (login: Login) => Promise<AuthenticationResult>;
 
 const authenticationFns = new Map<string, AuthenticationFn>([
-  ['internal', authenticateInternal],
-  ['sycamore', authenticateSycamore],
+  ["internal", authenticateInternal],
+  ["sycamore", authenticateSycamore],
 ]);
 
 async function authenticate(login: Login): Promise<AuthenticationResult> {
@@ -69,18 +69,18 @@ async function authenticate(login: Login): Promise<AuthenticationResult> {
 async function authenticateInternal(login: Login):
     Promise<AuthenticationResult> {
   const row = await db.selectRow(
-      'select * from users where username = ?', [login.username]);
+      "select * from users where username = ?", [login.username]);
   if (!row) {
-    return {authenticated: false, reason: 'UNKNOWN_USER'};
+    return {authenticated: false, reason: "UNKNOWN_USER"};
   }
   const userRow = row as UserRow;
   if (saltedHash(login.password) !== userRow.hashed_password) {
-    return {authenticated: false, reason: 'INCORRECT_PASSWORD'};
+    return {authenticated: false, reason: "INCORRECT_PASSWORD"};
   }
-  const roles = userRow.roles.split(',');
+  const roles = userRow.roles.split(",");
   const permissions = getPermissions(roleRepository, roles);
   const additionalClaims = {
-    type: 'internal',
+    type: "internal",
     roles: userRow.roles,
   };
   const customToken: string = await getAuth().createCustomToken(
@@ -88,12 +88,12 @@ async function authenticateInternal(login: Login):
   return {
     authenticated: true,
     user: {
-      type: 'internal',
+      type: "internal",
       username: userRow.username,
       roles,
       permissions,
       customToken: customToken,
-    }
+    },
   };
 }
 
@@ -107,29 +107,29 @@ async function authenticateSycamore(login: Login):
     };
   }
   const formData = {
-    entered_schid: sycamoreConfig['school-id'],
+    entered_schid: sycamoreConfig["school-id"],
     entered_login: login.username,
     entered_password: login.password,
   };
-  const response = await needle('post', sycamoreConfig.url, formData);
+  const response = await needle("post", sycamoreConfig.url, formData);
   const body: string = response.body;
-  if (!body.includes(sycamoreConfig['success-text'])) {
+  if (!body.includes(sycamoreConfig["success-text"])) {
     return {
       authenticated: false,
     };
   }
-  const roles = ['borrower'];
+  const roles = ["borrower"];
   const permissions = getPermissions(roleRepository, roles);
   const additionalClaims = {
-    type: 'sycamore',
-    roles: 'borrower',
+    type: "sycamore",
+    roles: "borrower",
   };
   const customToken: string = await getAuth().createCustomToken(
       login.username, additionalClaims);
   return {
     authenticated: true,
     user: {
-      type: 'sycamore',
+      type: "sycamore",
       username: login.username,
       roles,
       permissions,
@@ -141,17 +141,17 @@ async function authenticateSycamore(login: Login):
 }
 
 export function initRoutes(app: express.Application): void {
-  const jwtConfig: {secret: string} = config.get('jwt');
-  app.post('/api/authenticate', async (req, res) => {
+  const jwtConfig: {secret: string} = config.get("jwt");
+  app.post("/api/authenticate", async (req, res) => {
     const login = req.body as Login;
     const result = await authenticate(login);
     if (result.authenticated) {
       const user = result.user!;
-      user.token = jwt.sign(user, jwtConfig.secret, {algorithm: 'HS256'});
+      user.token = jwt.sign(user, jwtConfig.secret, {algorithm: "HS256"});
       res.send(user);
     } else {
       res.status(401);
       res.send(result);
     }
-  })
+  });
 }

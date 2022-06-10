@@ -1,10 +1,10 @@
-import config from 'config';
-import {BaseEntity} from '../common/base_entity';
-import {dateTimeColumnDomain} from '../common/column';
-import {Db} from '../common/db';
-import {mapQueryResult, QueryOptions, QueryResult} from '../common/query';
-import {EntityTable} from '../common/table';
-import {Email} from './emailer';
+import config from "config";
+import {BaseEntity} from "../common/base_entity";
+import {dateTimeColumnDomain} from "../common/column";
+import {Db} from "../common/db";
+import {mapQueryResult, QueryOptions, QueryResult} from "../common/query";
+import {EntityTable} from "../common/table";
+import {Email} from "./emailer";
 
 export interface ReminderEmailConfig {
   sender: string;
@@ -13,16 +13,16 @@ export interface ReminderEmailConfig {
   test_recipients?: string[];
 }
 
-export const reminderEmailConfig: ReminderEmailConfig = config.get('email');
+export const reminderEmailConfig: ReminderEmailConfig = config.get("email");
 
 export function createReminderEmailTemplate(): Email {
   return {
-    to: '',
+    to: "",
     from: reminderEmailConfig.sender,
     subject: reminderEmailConfig.subject,
     replyTo: reminderEmailConfig.reply_to,
-    html: '',
-    text: '',
+    html: "",
+    text: "",
   };
 }
 
@@ -50,12 +50,12 @@ export interface BorrowerEmail {
 
 export class BorrowerEmailTable extends EntityTable<BorrowerEmail> {
   constructor() {
-    super({name: 'emails', tableName: 'borrower_emails'});
-    super.addColumn({name: 'id'});
-    super.addColumn({name: 'borrower_id'});
-    super.addColumn({name: 'recipient'});
-    super.addColumn({name: 'send_time', domain: dateTimeColumnDomain});
-    super.addColumn({name: 'email_text'});
+    super({name: "emails", tableName: "borrower_emails"});
+    super.addColumn({name: "id"});
+    super.addColumn({name: "borrower_id"});
+    super.addColumn({name: "recipient"});
+    super.addColumn({name: "send_time", domain: dateTimeColumnDomain});
+    super.addColumn({name: "email_text"});
   }
 
   async getBorrowerEmails(
@@ -67,13 +67,13 @@ export class BorrowerEmailTable extends EntityTable<BorrowerEmail> {
         where b.borrowernumber = ?
       `;
     const result = await db.selectRows({sql, params: [borrowernumber], options});
-    return mapQueryResult(result, row => this.fromDb(row));
+    return mapQueryResult(result, (row) => this.fromDb(row));
   }
 
   async getLatestBorrowerEmail(db: Db, borrower_id: number):
       Promise<BorrowerEmail|undefined> {
     const sql =
-        'select * from borrower_emails where borrower_id = ? order by send_time desc limit 1';
+        "select * from borrower_emails where borrower_id = ? order by send_time desc limit 1";
     const result = await db.selectRows({sql, params: [borrower_id]});
     const row = result.rows[0];
     return row && this.fromDb(row);

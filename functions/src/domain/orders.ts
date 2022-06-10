@@ -1,14 +1,14 @@
-import {BaseEntity} from '../common/base_entity';
-import {dateTimeColumnDomain} from '../common/column';
-import {Db} from '../common/db';
-import {Flags} from '../common/entity';
-import {httpError} from '../common/error';
-import {mapQueryResult, QueryOptions, QueryResult} from '../common/query';
-import {SqlQuery} from '../common/sql';
-import {EntityTable} from '../common/table';
-import {dateToIsoStringWithoutTimeZone} from '../common/util';
-import {Borrower, borrowersTable} from './borrowers';
-import {Item, itemsTable} from './items';
+import {BaseEntity} from "../common/base_entity";
+import {dateTimeColumnDomain} from "../common/column";
+import {Db} from "../common/db";
+import {Flags} from "../common/entity";
+import {httpError} from "../common/error";
+import {mapQueryResult, QueryOptions, QueryResult} from "../common/query";
+import {SqlQuery} from "../common/sql";
+import {EntityTable} from "../common/table";
+import {dateToIsoStringWithoutTimeZone} from "../common/util";
+import {Borrower, borrowersTable} from "./borrowers";
+import {Item, itemsTable} from "./items";
 
 // The order tables form a hierarchy
 //
@@ -75,16 +75,16 @@ export interface OrderSummary {
 
 export class OrderCycleTable extends EntityTable<OrderCycle> {
   constructor() {
-    super({name: 'ordercycles', tableName: 'order_cycles'});
-    this.addColumn({name: 'id'});
+    super({name: "ordercycles", tableName: "order_cycles"});
+    this.addColumn({name: "id"});
     this.addColumn({
-      name: 'order_window_start',
-      label: 'Start',
+      name: "order_window_start",
+      label: "Start",
       domain: dateTimeColumnDomain,
     });
     this.addColumn({
-      name: 'order_window_end',
-      label: 'End',
+      name: "order_window_end",
+      label: "End",
       domain: dateTimeColumnDomain,
     });
   }
@@ -97,11 +97,11 @@ export class OrderCycleTable extends EntityTable<OrderCycle> {
         where o.order_cycle_id = ?
       `;
     const [cycleRow, ordersResult] = await Promise.all([
-      db.selectRow('select * from order_cycles where id = ?', [id]),
+      db.selectRow("select * from order_cycles where id = ?", [id]),
       db.selectRows({sql: ordersSql, params: [id]}),
     ]);
     const cycle = cycleRow as OrderCycle;
-    const orders: Order[] = ordersResult.rows.map(row => {
+    const orders: Order[] = ordersResult.rows.map((row) => {
       const order = ordersTable.fromDb(row);
       return {
         ...order,
@@ -140,7 +140,7 @@ export class OrderCycleTable extends EntityTable<OrderCycle> {
     const dbEnd = dateToIsoStringWithoutTimeZone(end);
     const result = await db.selectRows(
         {sql, params: [dbStart, dbEnd, dbStart, dbEnd, dbStart, dbEnd]});
-    return result.rows.map(row => row as OrderCycle);
+    return result.rows.map((row) => row as OrderCycle);
   }
 }
 
@@ -162,10 +162,10 @@ export class OrderCycles extends BaseEntity<OrderCycle> {
 
 export class OrderItemTable extends EntityTable<OrderItem> {
   constructor() {
-    super({name: 'orderitems', tableName: 'order_items'});
-    this.addColumn({name: 'id'});
-    this.addColumn({name: 'order_id'});
-    this.addColumn({name: 'item_id'});
+    super({name: "orderitems", tableName: "order_items"});
+    this.addColumn({name: "id"});
+    this.addColumn({name: "order_id"});
+    this.addColumn({name: "item_id"});
   }
 }
 
@@ -173,10 +173,10 @@ export const orderItemsTable = new OrderItemTable();
 
 export class OrderTable extends EntityTable<Order> {
   constructor() {
-    super({name: 'orders'});
-    this.addColumn({name: 'id'});
-    this.addColumn({name: 'borrower_id'});
-    this.addColumn({name: 'order_cycle_id'});
+    super({name: "orders"});
+    this.addColumn({name: "id"});
+    this.addColumn({name: "borrower_id"});
+    this.addColumn({name: "order_cycle_id"});
   }
 
   /**
@@ -203,24 +203,24 @@ export class OrderTable extends EntityTable<Order> {
     `;
     const [orderRow, itemsResult] = await Promise.all([
       await db.selectRow(orderSql, [id]),
-      await db.selectRows({sql: orderItemsSql, params: [id]})
+      await db.selectRows({sql: orderItemsSql, params: [id]}),
     ]);
     if (!orderRow) {
       throw httpError({
-        code: 'ENTITY_NOT_FOUND',
+        code: "ENTITY_NOT_FOUND",
         message: `order ${id} not found`,
         httpStatusCode: 404,
-      })
+      });
     }
     const borrower: Borrower = {
       ...borrowersTable.fromDb(orderRow),
-      id: orderRow.borrower_id
+      id: orderRow.borrower_id,
     };
     const cycle: OrderCycle = {
       ...orderCyclesTable.fromDb(orderRow),
-      id: orderRow.order_cycle_id
+      id: orderRow.order_cycle_id,
     };
-    const orderItems: OrderItem[] = itemsResult.rows.map(row => {
+    const orderItems: OrderItem[] = itemsResult.rows.map((row) => {
       const item: Item = itemsTable.fromDb(row);
       const orderItem: OrderItem = {...item, ...orderItemsTable.fromDb(row)};
       return orderItem;
@@ -245,7 +245,7 @@ export class OrderTable extends EntityTable<Order> {
     if (orderRow) {
       return orderRow as Order;
     }
-    return this.create(db, {borrower_id, order_cycle_id})
+    return this.create(db, {borrower_id, order_cycle_id});
   }
 
   /**
@@ -270,17 +270,17 @@ export class OrderTable extends EntityTable<Order> {
     };
     const result = await db.selectRows(sqlQuery);
     return mapQueryResult(
-        result, row => ({
-                  id: row.id,
-                  borrower_id: row.borrower_id,
-                  order_cycle_id: row.order_cycle_id,
-                  item_count: row.item_count,
-                  cycle: {
-                    id: row.order_cycle_id,
-                    order_window_start: row.order_window_start,
-                    order_window_end: row.order_window_end,
-                  },
-                }));
+        result, (row) => ({
+          id: row.id,
+          borrower_id: row.borrower_id,
+          order_cycle_id: row.order_cycle_id,
+          item_count: row.item_count,
+          cycle: {
+            id: row.order_cycle_id,
+            order_window_start: row.order_window_start,
+            order_window_end: row.order_window_end,
+          },
+        }));
   }
 
   /**
@@ -296,10 +296,10 @@ export class OrderTable extends EntityTable<Order> {
     const orderRow = await db.selectRow(orderSql, [borrowerNumber, orderId]);
     if (!orderRow) {
       throw httpError({
-        code: 'ENTITY_NOT_FOUND',
+        code: "ENTITY_NOT_FOUND",
         message: `no order ${orderId} found for borrower ${borrowerNumber}`,
         httpStatusCode: 404,
-      })
+      });
     }
     const itemSql = `
         delete from order_items where order_id = ? and item_id = ?
@@ -312,7 +312,7 @@ export class OrderTable extends EntityTable<Order> {
 
 export const ordersTable = new OrderTable();
 
-type OrderFlag = 'items';
+type OrderFlag = "items";
 type OrderFlags = Flags<OrderFlag>;
 
 export class Orders extends BaseEntity<Order, OrderFlag> {
