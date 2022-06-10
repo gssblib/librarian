@@ -9,6 +9,7 @@ export interface User {
   token?: string;
   id?: string;
   surname?: string;
+  customToken?: string;
 }
 
 /**

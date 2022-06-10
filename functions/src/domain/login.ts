@@ -7,6 +7,8 @@ import {getPermissions} from './auth';
 import {borrowers, db} from './library';
 import {roleRepository} from './roles';
 import {User} from './user';
+import { initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
 function hash(s: string): string {
   return crypto.createHash('sha256').update(s).digest('hex');
@@ -43,6 +45,8 @@ interface SycamoreConfig {
   'success-text': string;
 }
 
+const app = initializeApp();
+
 const sycamoreConfig = config.get('sycamore-auth') as SycamoreConfig;
 
 type AuthenticationFn = (login: Login) => Promise<AuthenticationResult>;
@@ -75,6 +79,12 @@ async function authenticateInternal(login: Login):
   }
   const roles = userRow.roles.split(',');
   const permissions = getPermissions(roleRepository, roles);
+  const additionalClaims = {
+    type: 'internal',
+    roles: userRow.roles,
+  };
+  const customToken: string = await getAuth().createCustomToken(
+      userRow.username, additionalClaims);
   return {
     authenticated: true,
     user: {
@@ -82,6 +92,7 @@ async function authenticateInternal(login: Login):
       username: userRow.username,
       roles,
       permissions,
+      customToken: customToken,
     }
   };
 }
@@ -109,6 +120,12 @@ async function authenticateSycamore(login: Login):
   }
   const roles = ['borrower'];
   const permissions = getPermissions(roleRepository, roles);
+  const additionalClaims = {
+    type: 'sycamore',
+    roles: 'borrower',
+  };
+  const customToken: string = await getAuth().createCustomToken(
+      login.username, additionalClaims);
   return {
     authenticated: true,
     user: {
@@ -118,6 +135,7 @@ async function authenticateSycamore(login: Login):
       permissions,
       id: `${borrower.borrowernumber}`,
       surname: borrower.surname,
+      customToken: customToken,
     },
   };
 }
