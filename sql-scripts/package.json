@@ -1,0 +1,32 @@
+{
+  "name": "gssblib-scripts",
+  "version": "0.7.0",
+  "description": "Scripts for DB maintanance",
+  "private": true,
+  "scripts": {
+    "test": "jasmine-node src/tests/spec"
+  },
+  "contributors": [
+    {
+      "name": "Andreas Hohmann"
+    },
+    {
+      "name": "Stephan Richter"
+    }
+  ],
+  "license": "BSD",
+  "dependencies": {
+    "clone": "^2.1.1",
+    "config": "^1.8.1",
+    "csv": "^5.3.2",
+    "merge": "^2.1.1",
+    "mysql": "^2.18.1",
+    "q": "^1.1.2",
+    "sprintf-js": "^1.0.3",
+    "stream-to-array": "^2.3.0",
+    "winston": "^0.8.3"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.16.0"
+  }
+}
