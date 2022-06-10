@@ -1,4 +1,4 @@
-import {QueryOptions} from './query';
+import {QueryOptions} from "./query";
 
 export type SqlParamValue = string|number|Date|null;
 export type SqlParams = SqlParamValue[];
@@ -26,7 +26,7 @@ export interface SqlQuery extends SqlSelect {
   options?: QueryOptions;
 }
 
-export type SqlComparison = 'like'|'='|'>'|'<'|'>='|'<=';
+export type SqlComparison = "like"|"="|">"|"<"|">="|"<=";
 
 /**
  * Term in a SQL where clause.

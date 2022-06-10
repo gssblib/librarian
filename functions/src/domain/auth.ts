@@ -35,8 +35,8 @@ export type AuthRoleRepository = Map<string, AuthRole>;
 export function getPermissions(
     repository: AuthRoleRepository, roleNames: string[]|string): Permission[] {
   if (!Array.isArray(roleNames)) {
-    roleNames = roleNames.split(',');
+    roleNames = roleNames.split(",");
   }
-  return roleNames.map(roleName => repository.get(roleName))
-      .flatMap(role => role && role.permissions || []);
+  return roleNames.map((roleName) => repository.get(roleName))
+      .flatMap((role) => role && role.permissions || []);
 }

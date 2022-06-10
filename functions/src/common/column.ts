@@ -1,13 +1,13 @@
-import {SqlParamValue} from './sql';
-import {capitalizeFirst, dateToIsoStringWithoutTimeZone} from './util';
+import {SqlParamValue} from "./sql";
+import {capitalizeFirst, dateToIsoStringWithoutTimeZone} from "./util";
 
-export type QueryOp = 'contains'|'equals'|'startswith'|'endswith';
+export type QueryOp = "contains"|"equals"|"startswith"|"endswith";
 
 export enum DomainType {
-  STRING = 'string',
-  ENUM = 'enum',
-  DATETIME = 'datetime',
-  BOOLEAN = 'boolean',
+  STRING = "string",
+  ENUM = "enum",
+  DATETIME = "datetime",
+  BOOLEAN = "boolean",
 }
 
 export interface FrontendColumnDomain {
@@ -56,7 +56,7 @@ export class StringColumnDomain implements ColumnDomain<string, string> {
 
 /**
  * Domain for date-time values.
- * 
+ *
  * The mysql column type is `datetime`, the field type `string|Date`.
  */
 export class DateTimeColumnDomain implements ColumnDomain<Date|string, string> {
@@ -75,7 +75,7 @@ export const dateTimeColumnDomain: ColumnDomain<Date|string, string> = new DateT
 
 /**
  * Domain for boolean values.
- * 
+ *
  * The mysql column type is `tinyint`, the field type `boolean`.
  */
 export class BooleanColumnDomain implements ColumnDomain<boolean, number> {
@@ -147,7 +147,7 @@ export class Column<T, K extends keyof T, C extends SqlParamValue = string> {
   name: K = this.config.name;
 
   /** Default query operation is 'equals'. */
-  queryOp: QueryOp = this.config.queryOp ?? 'equals';
+  queryOp: QueryOp = this.config.queryOp ?? "equals";
 
   /** Default label is the capitalized name. */
   label = this.config.label ?? capitalizeFirst(this.config.name as string);

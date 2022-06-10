@@ -1,12 +1,12 @@
-import mysql from 'mysql2/promise';
-import {QueryOptions, QueryResult} from './query';
-import {SqlParams, SqlQuery} from './sql';
+import mysql from "mysql2/promise";
+import {QueryOptions, QueryResult} from "./query";
+import {SqlParams, SqlQuery} from "./sql";
 
 /**
  * Excapes an identifier in a SQL string using backticks.
  */
 export function escapeId(name: string): string {
-  return '`' + name + '`';
+  return "`" + name + "`";
 }
 
 /**
@@ -30,10 +30,10 @@ export class Db {
 
   /**
    * Runs a task with either the given connection or a connection from the pool.
-   * 
+   *
    * @param connection Optional connection to run the task on
    * @param task Task to exectue
-   * @returns Result of the task
+   * @return Result of the task
    */
   async withConnection<T>(
       connection: mysql.Connection|undefined,
@@ -58,7 +58,7 @@ export class Db {
    * @param sql SQL statement
    * @param params Values to be inserted for the placeholder in the SQL string
    * @param connection Optional connection to use
-   * @returns resulting rows
+   * @return resulting rows
    */
   async execute(
       sql: string, params: SqlParams = [],
@@ -77,7 +77,7 @@ export class Db {
    * @param sql SQL select statement
    * @param params Values to be inserted for the placeholder in the SQL string
    * @param connection Optional connection to use
-   * @returns fetched rows
+   * @return fetched rows
    */
   async query(
       sql: string, params: SqlParams = [],
@@ -87,7 +87,7 @@ export class Db {
       const result = await connection.query(sql, params);
       const rows = result[0] as mysql.RowDataPacket[];
       return rows;
-    })
+    });
   }
 
   /**
@@ -96,7 +96,7 @@ export class Db {
    * @param sql SQL select statement
    * @param params Values to be inserted for the placeholder in the SQL string
    * @param connection Optional connection to use
-   * @returns Selected row
+   * @return Selected row
    */
   async selectRow(
       sql: string, params?: SqlParams,
@@ -113,7 +113,7 @@ export class Db {
    * Selects multiple rows.
    *
    * @param query Query with SQL string and options
-   * @returns Selected rows
+   * @return Selected rows
    */
   async selectRows(query: SqlQuery): Promise<QueryResult<mysql.RowDataPacket>> {
     let valueSql = query.sql;
@@ -123,7 +123,7 @@ export class Db {
     // Add order clause if needed.
     if (options.order) {
       const order: string = options.order;
-      if (order[0] === '-') {
+      if (order[0] === "-") {
         valueSql += ` order by ${order.substring(1)} desc`;
       } else {
         valueSql += ` order by ${order}`;
@@ -132,10 +132,10 @@ export class Db {
 
     // Add limit clause if needed.
     if (options.offset) {
-      valueSql += ' limit ?, ?';
-            valueParams.push(options.offset, options.limit ?? this.options.defaultLimit);
+      valueSql += " limit ?, ?";
+      valueParams.push(options.offset, options.limit ?? this.options.defaultLimit);
     } else if (options.limit) {
-      valueSql += ' limit ?';
+      valueSql += " limit ?";
       valueParams.push(options.limit);
     }
 
@@ -143,12 +143,12 @@ export class Db {
       // replace `from` clause (everything between `select` and `from`) with
       // `count(1)`
       const countSql = query.sql.replace(
-          /(\s*select\s+).*?(\s+from.*)/i, '$1 count(1) as count $2');
+          /(\s*select\s+).*?(\s+from.*)/i, "$1 count(1) as count $2");
 
       // run the count and value queries in parallel
       const [countResult, rows] = await Promise.all([
-          this.selectRow(countSql, query.params ?? []),
-          this.query(valueSql, valueParams),
+        this.selectRow(countSql, query.params ?? []),
+        this.query(valueSql, valueParams),
       ]);
       return {count: countResult?.count, rows};
     } else {

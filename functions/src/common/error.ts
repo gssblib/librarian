@@ -6,7 +6,7 @@ export interface HttpError {
 }
 
 export function isHttpError(object: any): object is HttpError {
-  return typeof object === 'object' && object.httpStatusCode !== undefined;
+  return typeof object === "object" && object.httpStatusCode !== undefined;
 }
 
 export function httpError({httpStatusCode, code, message}: {

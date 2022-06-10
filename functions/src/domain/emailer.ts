@@ -1,5 +1,5 @@
-import config from 'config';
-import nodemailer from 'nodemailer';
+import config from "config";
+import nodemailer from "nodemailer";
 
 export interface Email {
   from: string;
@@ -16,11 +16,11 @@ export interface Emailer {
 
 class FakeEmailer implements Emailer {
   constructor() {
-    console.log('using FakeEmailer');
+    console.log("using FakeEmailer");
   }
 
   send(email: Email): Promise<Email> {
-    console.log('fake emailer send:', email);
+    console.log("fake emailer send:", email);
     return Promise.resolve(email);
   }
 }
@@ -40,7 +40,7 @@ interface SmtpConfig {
   fake?: boolean;
 }
 
-const smtpConfig: SmtpConfig = config.get('smtp');
+const smtpConfig: SmtpConfig = config.get("smtp");
 
 export const emailer =
     smtpConfig.fake ? new FakeEmailer() : new NodemailerEmailer();

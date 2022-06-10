@@ -1,13 +1,13 @@
-import config from 'config';
-import mysql from 'mysql2/promise';
-import {Db} from '../common/db';
-import {ExpressApp} from '../common/express_app';
-import {Borrowers} from './borrowers';
-import {Checkouts, History} from './checkouts';
-import {Items} from './items';
-import {OrderCycles, Orders} from './orders';
+import config from "config";
+import mysql from "mysql2/promise";
+import {Db} from "../common/db";
+import {ExpressApp} from "../common/express_app";
+import {Borrowers} from "./borrowers";
+import {Checkouts, History} from "./checkouts";
+import {Items} from "./items";
+import {OrderCycles, Orders} from "./orders";
 
-export const pool = mysql.createPool(config.get('db'));
+export const pool = mysql.createPool(config.get("db"));
 
 export const db = new Db(pool);
 
