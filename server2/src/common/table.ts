@@ -100,7 +100,7 @@ export class EntityTable<T> {
     if (terms.length > 0) {
       terms.forEach((term, index) => {
         if (index > 0) where += ` ${op} `;
-        where += prefix + term.field + ' ' + term.op + ' ?';
+        where += prefix + String(term.field) + ' ' + term.op + ' ?';
         params.push(term.value);
       });
     }
@@ -212,7 +212,7 @@ export class EntityTable<T> {
       const value = obj[column.name];
       if (value != undefined) {
         if (sql.length > 0) sql += ', ';
-        sql += column.name + ' = ?';
+        sql += String(column.name) + ' = ?';
         const toDb = column.config.domain?.toDb;
         params.push(toDb ? toDb(value) : value);
       }
