@@ -7,7 +7,7 @@ PIP3 = $(shell pwd)/python3-ve/bin/pip
 NODE_DEB_URL = https://deb.nodesource.com/setup_8.x
 
 ##> all : Build all components
-all: server labels scripts client
+all: config server labels scripts client
 
 ##> help : Show this help text
 .PHONY: help
@@ -24,6 +24,11 @@ python3-ve:
 	curl -sL $(NODE_DEB_URL) | sudo -E bash -
 	sudo apt-get install -y nodejs
 	sudo npm install npm --global
+
+config: config/prod.json
+
+config/prod.json: config/template.json.in
+	cp config/template.json.in config/prod.json
 
 ##> ubuntu-env : Installs all necessary Ubuntu packages.
 .PHONY: ubuntu-env
@@ -54,24 +59,24 @@ real-clean:
 
 ####> Library Application Server <#############################################
 
-server/node_modules: server/package.json
-	cd server; \
+server2/node_modules: server2/package.json
+	cd server2; \
 	npm install
 
 ##> server : Install/build the node server.
-server: | server/node_modules
+server: config/prod.json | server2/node_modules
 
 ##> test-server : Run server tests.
 .PHONY: test-server
 test-server:
-	cd server; \
+	cd server2; \
 	npm test
 
 ##> run-server : Run server on standard port.
 .PHONY: run-server
-run-server:
-	cd server; \
-	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod node ./src/library_server.js
+run-server: server
+	cd server2; \
+	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod npm run start-dev
 
 
 ####> Library Label Server <###################################################
