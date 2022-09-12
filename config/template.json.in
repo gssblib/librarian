@@ -9,7 +9,7 @@
     "database": "spils",
     "host": "localhost",
     "user": "gssb",
-    "password": "<passwd>",
+    "password": "gssblib",
     "timezone": "UTC"
   },
 
@@ -48,6 +48,13 @@
     "school-id": "2132",
     "url": "https://app.sycamoreschool.com/index.php",
     "success-text": "schoolhome.php"
+  },
+
+  "smtp": {
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": ""
   },
 
   "label-server": {
