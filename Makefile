@@ -59,23 +59,23 @@ real-clean:
 
 ####> Library Application Server <#############################################
 
-server2/node_modules: server2/package.json
-	cd server2; \
+server/node_modules: server/package.json
+	cd server; \
 	npm install
 
 ##> server : Install/build the node server.
-server: config/prod.json | server2/node_modules
+server: config/prod.json | server/node_modules
 
 ##> test-server : Run server tests.
 .PHONY: test-server
 test-server:
-	cd server2; \
+	cd server; \
 	npm test
 
 ##> run-server : Run server on standard port.
 .PHONY: run-server
 run-server: server
-	cd server2; \
+	cd server; \
 	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod npm run start-dev
 
 
