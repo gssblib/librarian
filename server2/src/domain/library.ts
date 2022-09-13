@@ -5,6 +5,7 @@ import {ExpressApp} from '../common/express_app';
 import {Borrowers} from './borrowers';
 import {Checkouts, History} from './checkouts';
 import {Items} from './items';
+import {InternalUsers} from './internal_users';
 import {OrderCycles, Orders} from './orders';
 
 export const pool = mysql.createPool(config.get('db'));
@@ -17,6 +18,8 @@ const checkouts = new Checkouts(db);
 const history = new History(db);
 const orderCycles = new OrderCycles(db);
 const orders = new Orders(db);
+const users = new InternalUsers(db);
+
 
 export function initRoutes(application: ExpressApp): void {
   items.initRoutes(application);
@@ -25,4 +28,5 @@ export function initRoutes(application: ExpressApp): void {
   history.initRoutes(application);
   orderCycles.initRoutes(application);
   orders.initRoutes(application);
+  users.initRoutes(application);
 }

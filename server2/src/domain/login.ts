@@ -12,7 +12,7 @@ function hash(s: string): string {
   return crypto.createHash('sha256').update(s).digest('hex');
 }
 
-function saltedHash(s: string): string {
+export function saltedHash(s: string): string {
   const authConfig: {salt: string} = config.get('auth');
   return hash(authConfig.salt + s);
 }

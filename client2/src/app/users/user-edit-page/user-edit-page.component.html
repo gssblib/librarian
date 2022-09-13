@@ -1,0 +1,27 @@
+<mat-card>
+  <h1>
+    Edit User
+  </h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="fields">
+      <formly-form [model]="user" [fields]="fields" [form]="form">
+      </formly-form>
+    </div>
+    <div class="actions">
+      <button type="submit" mat-raised-button color="primary" class="action"
+              [disabled]="form.invalid"
+              *gslAuthorized="'users.update'">
+        Save
+      </button>
+      <button color="primary" color="warn" class="action"
+         mat-raised-button
+         gslConfirmationDialog
+         title="Confirm Deletion"
+         message="Are you sure you want to delete the user?"
+         (confirm)="delete()"
+         *gslAuthorized="'users.delete'">
+        Delete
+      </button>
+    </div>
+  </form>
+</mat-card>
