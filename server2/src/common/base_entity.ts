@@ -31,7 +31,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
   }
 
   async get(key: string, flags?: Flags<F>): Promise<T> {
-    const object = await this.find(this.toKeyFields(key));
+    const object = await this.find({fields: this.toKeyFields(key)});
     if (!object) {
       throw httpError({
         code: 'ENTITY_NOT_FOUND',
