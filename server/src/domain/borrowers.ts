@@ -221,6 +221,24 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
     return {borrowernumber: parseInt(key, 10)};
   }
 
+  nextBorrowerNumber(): Promise<number> {
+    return this.db.selectRow(
+      'select max(borrowernumber) as max_borrowernumber from borrowers')
+      .then(data => {
+        if (data === undefined) {
+          return 0
+        }
+        return data.max_borrowernumber + 1;
+    });
+  }
+
+  override create(obj: Borrower): Promise<Borrower> {
+    return this.nextBorrowerNumber().then(number => {
+      obj.borrowernumber = number;
+      return super.create(obj);
+    });
+  }
+
   /**
    * Returns the current check-outs of a borrower.
    *
