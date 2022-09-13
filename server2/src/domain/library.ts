@@ -13,12 +13,12 @@ export const pool = mysql.createPool(config.get('db'));
 export const db = new Db(pool);
 
 export const borrowers = new Borrowers(db);
-const items = new Items(db);
-const checkouts = new Checkouts(db);
-const history = new History(db);
-const orderCycles = new OrderCycles(db);
-const orders = new Orders(db);
-const users = new InternalUsers(db);
+export const items = new Items(db);
+export const checkouts = new Checkouts(db);
+export const history = new History(db);
+export const orderCycles = new OrderCycles(db);
+export const orders = new Orders(db);
+export const users = new InternalUsers(db);
 
 
 export function initRoutes(application: ExpressApp): void {
