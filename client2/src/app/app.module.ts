@@ -10,12 +10,14 @@ import { AppComponent } from './app.component';
 import { ItemsModule } from './items/items.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BorrowersModule } from './borrowers/borrowers.module';
+import { UsersModule } from './users/users.module';
 import { AppSearchBarComponent } from './app-search-bar/app-search-bar.component';
 import { FeesModule } from './fees/fees.module';
 import { RemindersModule } from './reminders/reminders.module';
 import { ReportsModule } from './reports/reports.module';
 import { ItemsRoutingModule } from "./items/items-routing.module";
 import { BorrowersRoutingModule } from './borrowers/borrowers-routing.module';
+import { UsersRoutingModule } from './users/users-routing.module';
 import { CheckoutsModule } from "./checkouts/checkouts.module";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -45,6 +47,7 @@ import { FormlyMatDatetimepickerModule } from "./shared/formly/datetimepicker.mo
     CoreModule,
     ItemsModule,
     BorrowersModule,
+    UsersModule,
     FeesModule,
     RemindersModule,
     ReportsModule,
@@ -69,6 +72,7 @@ import { FormlyMatDatetimepickerModule } from "./shared/formly/datetimepicker.mo
     ItemsRoutingModule,
     BorrowersRoutingModule,
     OrdersRoutingModule,
+    UsersRoutingModule,
     AppRoutingModule,
   ],
   providers: [],

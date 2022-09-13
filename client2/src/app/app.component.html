@@ -56,6 +56,11 @@
         <mat-icon>poll</mat-icon>
         Rep<span class="accesskey">o</span>rts
       </a>
+      <a mat-list-item routerLink="/users" accesskey="u" routerLinkActive="active"
+         *gslAuthorized="'users.read'">
+        <mat-icon>people</mat-icon>
+        <span class="accesskey">U</span>sers
+      </a>
       <a mat-list-item (click)="logout()" *ngIf="user">
         <mat-icon>person</mat-icon>
         Logout

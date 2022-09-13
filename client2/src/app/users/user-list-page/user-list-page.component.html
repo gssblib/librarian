@@ -1,0 +1,35 @@
+<mat-card>
+  <div class="containerX">
+    <div fxFlex="">
+      <h1>Internal Users</h1>
+    </div>
+    <div class="add" *gslAuthorized="'users.create'">
+      <a mat-mini-fab routerLink="add" title="Add new internal user">
+        <mat-icon>add</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div class="mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource"
+               matSort matSortActive="username" matSortDisableClear matSortDirection="asc">
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.username}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="roles">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Roles</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.roles}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="failed_login_attempts">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Failed Logins</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.failed_login_attempts}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+               style="cursor: pointer"
+               [routerLink]="[row.id, 'edit']"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="count" [pageSize]="10">
+    </mat-paginator>
+  </div>
+</mat-card>
