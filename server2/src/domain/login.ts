@@ -4,9 +4,11 @@ import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import needle from 'needle';
 import {getPermissions} from './auth';
-import {borrowers, db} from './library';
+import {borrowers, db, users} from './library';
 import {roleRepository} from './roles';
 import {User} from './user';
+
+const MAX_FAILED_ATTEMPTS = 5;
 
 function hash(s: string): string {
   return crypto.createHash('sha256').update(s).digest('hex');
@@ -69,8 +71,13 @@ async function authenticateInternal(login: Login):
   if (!row) {
     return {authenticated: false, reason: 'UNKNOWN_USER'};
   }
+  if (row.failed_login_attempts == MAX_FAILED_ATTEMPTS) {
+    return {authenticated: false, reason: 'LOCKED'};
+  }
   const userRow = row as UserRow;
   if (saltedHash(login.password) !== userRow.hashed_password) {
+    // Record the failed login attempt.
+    users.update({id: row.id, failed_login_attempts: row.failed_login_attempts + 1})
     return {authenticated: false, reason: 'INCORRECT_PASSWORD'};
   }
   const roles = userRow.roles.split(',');
