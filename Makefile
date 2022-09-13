@@ -49,9 +49,9 @@ database:
 clean:
 	rm -rf python-ve
 	rm -rf python3-ve
-	rm -rf client2/dist
-	rm -rf client2/dist-public
-	rm -rf client2/node_modules
+	rm -rf client/dist
+	rm -rf client/dist-public
+	rm -rf client/node_modules
 
 ##> clean : Remove all untracked files. Be careful using this!
 real-clean:
@@ -94,29 +94,29 @@ run-labels-server:
 ####> Client <#################################################################
 
 ##> client : Install client components.
-client: client2/package.json
-	cd client2; \
+client: client/package.json
+	cd client; \
 	sudo npm install -g @angular/cli; \
 	npm install
 
 ##> client-dist : Build volunteer client distribution
 client-dist:
-	cd client2; \
+	cd client; \
 	ng build --prod --base-href "/"
 
 ##> client-dev : Start the volunteer client dev server on port 4200.
 client-dev:
-	cd client2; \
+	cd client; \
 	ng serve --proxy-config proxy.conf.json
 
 ##> public-client-dist : Build public client distribution
 public-client-dist:
-	cd client2; \
+	cd client; \
 	ng build public --prod --base-href "/public/"
 
 ##> public-client-dev : Start the public client dev server on port 5200.
 public-client-dev:
-	cd client2; \
+	cd client; \
 	ng serve public --proxy-config proxy.conf.json --port 5200
 
 
