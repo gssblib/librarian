@@ -126,7 +126,7 @@ function getItemAvailability(item: Item): ItemAvailability {
 
 export class ItemTable extends EntityTable<Item> {
   constructor() {
-    super({name: 'items'});
+    super({name: 'items', naturalKey: 'barcode'});
     this.addColumn({name: 'id'});
     this.addColumn({name: 'barcode', required: true});
     this.addColumn({name: 'category', required: true, domain: ItemDescription});
