@@ -34,7 +34,6 @@ export class InternalUserTable extends EntityTable<InternalUser> {
   constructor() {
     super({
       name: 'users',
-      naturalKey: 'id'
     });
     this.addColumn({
       name: 'id'
