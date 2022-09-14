@@ -1,0 +1,24 @@
+<div>
+  <p>
+    Here you can sync the Antolin database with the library. The system will
+    automatically download the latest Antolin database, load the books and then link
+    Antolin entries to the library items.
+    <b>This process might take several minutes.</b>
+  </p>
+  <div>
+    <div *ngIf="loading" class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+    <form>
+      <button color="primary" class="action"
+         mat-raised-button
+         gslConfirmationDialog
+         title="Confirm Antolin Sync"
+         message="Are you sure you want to sync with the Antolin database?"
+         (confirm)="sync()"
+         *gslAuthorized="'admin.antolin_sync'">
+        Sync
+      </button>
+    </form>
+  </div>
+</div>

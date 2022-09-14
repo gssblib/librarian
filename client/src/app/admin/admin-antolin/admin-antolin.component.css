@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.download {
+  margin: 10px 0;
+}
+.container {
+  margin-top: 10px;
+}
+.spinner {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  display: flex;
+  top: 50%;
+  left: 50%;
+}

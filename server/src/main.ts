@@ -4,6 +4,7 @@ import express from 'express';
 import {ExpressApp} from './common/express_app';
 import * as library from './domain/library';
 import * as login from './domain/login';
+import * as admin from './domain/admin';
 
 const serverConfig: {port: number} = config.get('server');
 const port = process.env.PORT || serverConfig.port || 3000
@@ -17,6 +18,7 @@ app.use(cookieParser(authConfig.cookie));
 
 const application = new ExpressApp(app);
 login.initRoutes(app);
+admin.initRoutes(app);
 library.initRoutes(application);
 
 function errorHander(
