@@ -408,6 +408,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       },
       authAction: {resource: 'reports', operation: 'read'},
     });
+
     super.initRoutes(application);
   }
 }

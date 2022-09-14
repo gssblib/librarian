@@ -1,11 +1,11 @@
-<mat-grid-list cols="2" class="foo">
-  <mat-grid-tile>
+<div class="containerX">
+  <div fxFlex="">
     <form (ngSubmit)="printLabel(item, category, data)">
 
       <mat-form-field [style.width]="'100%'">
         <mat-select name="category" placeholder="Label Categories"
                     [(ngModel)]="category"
-                    (change)="onCategoryChange(item, category)">
+                    (selectionChange)="onCategoryChange(item, category)">
           <mat-option *ngFor="let cat of categories" [value]="cat">
             {{ cat }}
           </mat-option>
@@ -21,15 +21,17 @@
       </fieldset>
       <button type="print" mat-raised-button color="primary">Print</button>
     </form>
-  </mat-grid-tile>
-  <mat-grid-tile>
-
-    <div id="item-label-preview" class="item-label-preview"
-         *ngIf="category">
+  </div>
+  <div fxFlex="">
+    <div id="item-label-preview" class="item-label-preview" *ngIf="category">
       <h2>Preview</h2>
-      <img src="data:image/png;base64,{{ previewImage }}"
-           *ngIf="previewImage" />
+      <ngx-extended-pdf-viewer
+        [base64Src]="previewPdf"
+        [height]="'25vh'"
+        [useBrowserLocale]="true"
+        >
+      </ngx-extended-pdf-viewer>
     </div>
+  </div>
+</div>
 
-  </mat-grid-tile>
-</mat-grid-list>

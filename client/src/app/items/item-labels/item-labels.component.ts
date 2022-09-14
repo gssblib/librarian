@@ -3,6 +3,7 @@ import { NotificationService } from "../../core/notification-service";
 import { Item } from "../shared/item";
 import { ItemService } from "../shared/item.service";
 import { ItemsService } from "../shared/items.service";
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'gsl-item-labels',
@@ -18,7 +19,7 @@ export class ItemLabelsComponent implements OnInit {
 
   categoryFields: Array<any> = [];
   data: Object;
-  previewImage;
+  previewPdf;
 
   constructor(
     private notificationService: NotificationService,
@@ -49,10 +50,10 @@ export class ItemLabelsComponent implements OnInit {
   };
 
   updatePreview(item, category, data) {
-    this.itemsService.getLabelPreviewImage(item, category, data)
+    this.itemsService.getLabelPreview(item, category, data)
       .subscribe(
-        image => {
-          this.previewImage = image;
+        pdf => {
+          this.previewPdf = pdf;
         }
       );
   };

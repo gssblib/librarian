@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE document SYSTEM "rml.dtd">
+
+<document>
+  <pageInfo pageSize="2.5in, 0.75in" />
+  <pageDrawing>
+
+    <setFont name="Helvetica-Bold" size="7.0pt" />
+    <drawCenteredString x="1.25in" y="0.6in">
+      German Saturday School Boston Library
+    </drawCenteredString>
+    <!--
+    <barCode x="0.25in" y="0.20in" code="standard39" barHeight="0.375in"
+             quiet="false" barWidth="0.015in" width="2in"
+             checksum="0">
+      {{item.barcode}}
+    </barCode>
+    -->
+    <setFont name="Courier-Bold" size="9pt" />
+    <drawString x="0.25in" y="0.08in">
+      <!-- *{{item.barcode}}* -->
+    </drawString>
+
+  </pageDrawing>
+</document>
