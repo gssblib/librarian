@@ -61,6 +61,11 @@
         <mat-icon>people</mat-icon>
         <span class="accesskey">U</span>sers
       </a>
+      <a mat-list-item routerLink="/admin/antolin" accesskey="a" routerLinkActive="active"
+         *gslAuthorized="'admin.antolin_sync'">
+        <mat-icon>settings</mat-icon>
+        <span class="accesskey">A</span>dmin
+      </a>
       <a mat-list-item (click)="logout()" *ngIf="user">
         <mat-icon>person</mat-icon>
         Logout
