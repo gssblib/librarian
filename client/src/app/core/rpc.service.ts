@@ -85,9 +85,9 @@ export class RpcService {
    * @param body POST payload
    * @returns {Observable<Object>} JSON result observable
    */
-  httpPost(path: string, body?: any): Observable<any> {
+  httpPost(path: string, body?: any, options?: any): Observable<any> {
     return this.handleHttpResult(
-      this.http.post(this.config.apiPath(path), body, this.addJwt()));
+      this.http.post(this.config.apiPath(path), body, this.addJwt(options)));
   }
 
   /**
@@ -127,30 +127,6 @@ export class RpcService {
   fetch(path: string, criteria: object, offset?: number, limit?: number, returnCount?: number):
       Observable<any> {
     return this.httpGet(path, this.createSearchParams(criteria, offset, limit, returnCount));
-  }
-
-  /**
-   * Sends a GET request to the Labels API server.
-   *
-   * @param path Path relative to the API path.
-   * @param params Query parameters
-   * @returns {Observable<Object>} JSON result observable
-   */
-  labelsHttpGet(path: string, params?: {[param: string]: string}): Observable<any> {
-    return this.handleHttpResult(
-      this.http.get(this.config.labelsApiPath(path), {params: params}));
-  }
-
-  /**
-   * Sends a POST request to Labels the API server.
-   *
-   * @param path Path relative to the API path.
-   * @param body POST payload
-   * @returns {Observable<Object>} JSON result observable
-   */
-  labelsHttpPost(path: string, body?: any, options?: any): Observable<any> {
-    return this.handleHttpResult(this.http.post(
-      this.config.labelsApiPath(path), body, options));
   }
 
   /**

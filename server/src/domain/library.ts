@@ -7,6 +7,7 @@ import {Checkouts, History} from './checkouts';
 import {Items} from './items';
 import {InternalUsers} from './internal_users';
 import {OrderCycles, Orders} from './orders';
+import * as labels from './labels';
 
 export const pool = mysql.createPool(config.get('db'));
 
@@ -23,6 +24,7 @@ export const users = new InternalUsers(db);
 
 export function initRoutes(application: ExpressApp): void {
   items.initRoutes(application);
+  labels.initRoutes(application)
   borrowers.initRoutes(application);
   checkouts.initRoutes(application);
   history.initRoutes(application);

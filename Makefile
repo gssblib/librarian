@@ -2,8 +2,7 @@ CONFIG_DIR = $(shell pwd)/config
 BACKUPS_DIR = $(shell pwd)/backups
 PYTHON = $(shell pwd)/python-ve/bin/python
 PIP = $(shell pwd)/python-ve/bin/pip
-PYTHON3 = $(shell pwd)/python3-ve/bin/python
-PIP3 = $(shell pwd)/python3-ve/bin/pip
+RML2PDF = $(shell pwd)/python-ve/bin/rml2pdf
 NODE_DEB_URL = https://deb.nodesource.com/setup_8.x
 
 ##> all : Build all components
@@ -14,11 +13,9 @@ all: config server labels scripts client
 help:
 	@python scripts/makefile_self_document.py
 
-python-ve:
-	virtualenv python-ve
-
-python3-ve:
-	python3 -m venv python3-ve
+python-ve: scripts/requirements.txt
+	python3 -m venv python-ve
+	python-ve/bin/pip install -r scripts/requirements.txt
 
 /usr/bin/node:
 	curl -sL $(NODE_DEB_URL) | sudo -E bash -
@@ -27,8 +24,8 @@ python3-ve:
 
 config: config/prod.json
 
-config/prod.json: config/template.json.in
-	cp config/template.json.in config/prod.json
+config/prod.js: config/template.js.in
+	cp config/template.js.in config/prod.js
 
 ##> ubuntu-env : Installs all necessary Ubuntu packages.
 .PHONY: ubuntu-env
@@ -39,7 +36,7 @@ ubuntu-env: /usr/bin/node
 	    python-dev \
 	    curl
 
-##> database : Configures the database
+##> database : Creates and initializes the database.
 .PHONY: database
 database:
 	cat sql/bootstrap.sql | mysql -p -u root
@@ -48,7 +45,6 @@ database:
 ##> clean : Cleans the build from any generated files.
 clean:
 	rm -rf python-ve
-	rm -rf python3-ve
 	rm -rf client/dist
 	rm -rf client/dist-public
 	rm -rf client/node_modules
@@ -64,7 +60,7 @@ server/node_modules: server/package.json
 	npm install
 
 ##> server : Install/build the node server.
-server: config/prod.json | server/node_modules
+server: config/prod.js | server/node_modules
 
 ##> test-server : Run server tests.
 .PHONY: test-server
@@ -81,8 +77,17 @@ run-server: server
 
 ####> Library Label Server <###################################################
 
+ALL_TEMPLATES := $(shell find ./config/label-templates -name '*.rml')
+ALL_TEMPLATE_PDFS := $(ALL_TEMPLATES:%.rml=%.pdf)
+
+config/label-templates/%.pdf: config/label-templates/%.rml
+	$(RML2PDF) $< $@
+
+##> label-templates : Compile all label templates.
+label-templates: $(ALL_TEMPLATE_PDFS)
+
 ##> labels : Install/build the label server/cli environment.
-labels: labels/requirements.txt | python-ve
+labels: python-ve
 	$(PIP) install -r labels/requirements.txt
 
 ##> run-labels-server : Run labels server.
@@ -129,10 +134,6 @@ open-db:
 ##> scripts : Install/build the scripts environment.
 scripts: scripts/requirements.txt | python-ve
 	$(PIP) install -r scripts/requirements.txt
-
-##> scripts3 : Install/build the python3 scripts3 environment.
-scripts3: scripts3/requirements.txt | python3-ve
-	$(PIP3) install -r scripts3/requirements.txt
 
 ##> backup : Create a backup of the database.
 .PHONY: backup

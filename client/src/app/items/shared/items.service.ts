@@ -59,25 +59,25 @@ export class ItemsService extends ModelsService<Item> {
   }
 
   getLabelCategories(item): Observable<any> {
-    return this.rpc.labelsHttpGet(item.barcode + '/categories')
+    return this.rpc.httpGet(`items/${item.barcode}/labels/categories`)
       .pipe(map(obj => obj.categories));
   }
 
   getLabelCategoryFields(item, category): Observable<any> {
-    return this.rpc.labelsHttpGet(item.barcode + '/' + category + '/details')
+    return this.rpc.httpGet(`items/${item.barcode}/labels/${category}/fields`)
       .pipe(map(obj => obj.fields));
   }
 
-  getLabelPreviewImage(item, category, data): Observable<any> {
-    return this.rpc.labelsHttpPost(
-      item.barcode + '/' + category + '/preview', data, {
-        responseType: 'arraybuffer'
-      })
-      .pipe(map(image => this.arrayBufferToBase64(image)));
+  getLabelPreview(item, category, data): Observable<any> {
+    return this.rpc.httpPost(
+      `items/${item.barcode}/labels/${category}/preview`,
+      data,
+      {responseType: 'arraybuffer'}
+    )
+      .pipe(map(pdf => this.arrayBufferToBase64(pdf)));
   }
 
   printLabel(item, category, data): Observable<any> {
-    return this.rpc.labelsHttpPost(
-      item.barcode + '/' + category + '/print', data);
+    return this.rpc.httpPost(`items/${item.barcode}/labels/${category}/print`, data)
   }
 }

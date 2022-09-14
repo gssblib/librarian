@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CoreModule } from '../core/core.module';
 import { ItemService } from './shared/item.service';
@@ -73,6 +74,7 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
     FormlyMaterialModule,
     RouterModule,
     ConfirmationDialogModule,
+    NgxExtendedPdfViewerModule,
   ],
   declarations: [
     ItemPageComponent,

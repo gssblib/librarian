@@ -17,20 +17,6 @@ fieldset {
 }
 
 .item-label-preview {
-  margin-right: 10px;
+  margin-left: 10px;
   margin-bottom: 15px;
-}
-
-.item-label-preview img {
-  display: block;
-  border: 1px solid #bbb;
-  border-radius: 10px;
-  width: 100%;
-  box-shadow: 3px 3px 3px #bbb;
-}
-
-mat-grid-tile > ::ng-deep figure {
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  margin: 30px !important;
 }

@@ -33,6 +33,7 @@
     "font-awesome": "^4.7.0",
     "ng": "0.0.0-rc6",
     "ng2-file-upload": "^1.4.0",
+    "ngx-extended-pdf-viewer": "^15.0.2",
     "rxjs": "^6.4.0",
     "terser": "^3.14.1",
     "tslib": "^2.0.0",
