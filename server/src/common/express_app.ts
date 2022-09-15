@@ -58,6 +58,7 @@ export type HttpHandlerFunction =
 export interface HttpHandler {
   method: HttpMethod;
   path: string;
+  pre?: any[];
   handle: HttpHandlerFunction;
   authAction?: AuthAction;
 }
@@ -93,12 +94,15 @@ export class ExpressApp {
    */
   private addAuth(handler: HttpHandler): ExpressMiddleware[] {
     // always add jwt
-    const handlers: ExpressMiddleware[] = [jwtCheck];
+    let handlers: ExpressMiddleware[] = [jwtCheck];
     // if the handler has an auth action, check permissions
     if (handler.authAction) {
       handlers.push(createAuthMiddleware(handler.authAction));
     }
     // perform the actual handler last
+    if (handler.pre) {
+      handlers = [...handlers, ...handler.pre];
+    }
     handlers.push(this.wrapHandler(handler));
     return handlers;
   }
