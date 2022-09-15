@@ -74,6 +74,12 @@ run-server: server
 	cd server; \
 	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod npm run start-dev
 
+##> sync-antolin : Process the latest Antolin database in the CLI.
+.PHONY: sync-antolin
+sync-antolin: server
+	cd server; \
+	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod npm run sync-antolin
+
 
 ####> Library Label Server <###################################################
 
