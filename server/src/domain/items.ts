@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import multer from 'multer';
 import {BaseEntity} from '../common/base_entity';
 import {booleanColumnDomain, EnumColumnDomain} from '../common/column';
 import {Db} from '../common/db';
@@ -13,6 +14,7 @@ import {Borrower, borrowersTable} from './borrowers';
 import {Checkout, checkoutConfig, checkoutsTable, historyTable} from './checkouts';
 import {Order, OrderCycle, orderCyclesTable, OrderItem, orderItemsTable, ordersTable} from './orders';
 
+const upload = multer()
 
 const ItemState = new EnumColumnDomain([
   'CIRCULATING',
@@ -75,6 +77,12 @@ const ItemAge = new EnumColumnDomain([
 ]);
 
 type ItemAvailability = 'CHECKED_OUT'|'ORDERED'|'AVAILABLE';
+
+interface ItemCover {
+  barcode: string;
+  mimetype: string;
+  image: Buffer;
+}
 
 export interface Item {
   id?: number;
@@ -233,6 +241,43 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     return item;
   }
 
+  async getCover(barcode: string): Promise<ItemCover|undefined> {
+    let cover = await this.db.selectRow(
+      'SELECT * FROM item_covers WHERE barcode = ?', [barcode]
+    );
+    if (cover === undefined) {
+      return undefined;
+    }
+    return {
+      barcode: cover.barcode,
+      mimetype: cover.mimetype,
+      image: cover.image
+    };
+  }
+
+  async setCover(barcode: string, mimetype: string, image: Buffer) {
+    let check = await this.db.selectRow(
+      'SELECT barcode FROM item_covers WHERE barcode = ?', [barcode]
+    );
+    if (check) {
+      this.db.query(
+        'UPDATE item_covers SET mimetype = ?, image = ? WHERE barcode = ?',
+        [mimetype, image, barcode]
+      );
+    } else {
+      this.db.query(
+        'INSERT INTO item_covers (barcode, mimetype, image) VALUES (?, ?, ?)',
+        [barcode, mimetype, image]
+      );
+    }
+  }
+
+  async deleteCover(barcode: string) {
+    await this.db.query(
+      'DELETE FROM item_covers WHERE barcode = ?', [barcode]
+    );
+  }
+
   /**
    * Adds an item to the checked-out items of a borrower.
    */
@@ -356,6 +401,53 @@ export class Items extends BaseEntity<Item, ItemFlag> {
   }
 
   override initRoutes(application: ExpressApp): void {
+    application.app.get(
+      `${this.keyPath}/cover`,
+      async (req, res) => {
+        // Very strange. For some reason the compiler thinks that req.params is an
+        // empty object.
+        let params = req.params as {[key: string]: string};
+        const barcode = params['key'];
+        const cover = await this.getCover(barcode);
+        if (cover === undefined) {
+          res.status(404);
+          res.send('No cover available.');
+          return;
+        }
+        res.setHeader('Content-Length', cover.image.length);
+        res.setHeader('Content-Type', cover.mimetype);
+        res.send(cover.image);
+      }
+    );
+    application.addHandler({
+      method: HttpMethod.POST,
+      path: `${this.keyPath}/cover`,
+      pre: [
+        upload.fields([{name: 'file'}]),
+      ],
+      handle: async (req, res) => {
+        const barcode = req.params['key'];
+        if (req.files === undefined || !('file' in req.files)) {
+          res.status(400);
+          res.send('No image file found.');
+          return;
+        }
+        let file = req.files['file'][0];
+        await this.setCover(barcode, file.mimetype, file.buffer);
+        res.send({"status": "Ok"});
+      },
+      authAction: {resource: 'items', operation: 'update'},
+    });
+    application.addHandler({
+      method: HttpMethod.DELETE,
+      path: `${this.keyPath}/cover`,
+      handle: async (req, res) => {
+        const barcode = req.params['key'];
+        await this.deleteCover(barcode);
+        res.send({"status": "Ok"});
+      },
+      authAction: {resource: 'items', operation: 'update'},
+    });
     application.addHandler({
       method: HttpMethod.POST,
       path: `${this.keyPath}/checkout`,
