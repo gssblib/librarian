@@ -152,20 +152,15 @@ backup:
 restore:
 	zcat $(FILE) | mysql spils
 
-##> reminder-emails-file : Create a file with reminder E-mails
-.PHONY: reminder-emails
-reminder-emails-file:
-	NODE_ENV=prod $(PYTHON) \
-	    scripts/reminder_email.py file email-recipients.txt
+####> Database <#############################################
 
-##> send-reminder-emails : Create a file with reminder E-mails
-.PHONY: send-reminder-emails
-send-reminder-emails:
-	NODE_ENV=prod $(PYTHON) \
-	    scripts/reminder_email.py email email-recipients.txt
+cloud_sql_proxy:
+	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+	chmod +x cloud_sql_proxy
 
-##> test-reminder-emails : Create and send a test E-mail
-.PHONY: test-reminder-emails
-test-reminder-emails:
-	NODE_ENV=prod $(PYTHON) \
-	    scripts/reminder_email.py test
+##> run-sql-proxy: Start SQL Proxy for master database.
+.PHONY: restore
+run-sql-proxy: cloud_sql_proxy
+	./cloud_sql_proxy \
+	    -instances=gssb-library-c7c5e:us-central1:spils=tcp:3307 \
+	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
