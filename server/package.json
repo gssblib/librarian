@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm install",
     "start": "npx ts-node src/main.ts",
-    "start-dev": "npx nodemon src/main.ts"
+    "start-dev": "npx nodemon src/main.ts",
+    "sync-antolin": "npx nodemon src/sync_antolin.ts"
   },
   "author": "Andreas Hohmann",
   "license": "MIT",
