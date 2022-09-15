@@ -42,7 +42,7 @@ interface FamilyLoadResult {
 
 const upload = multer()
 
-async function syncAntolin(): Promise<AntolinSyncResult> {
+export async function syncAntolin(): Promise<AntolinSyncResult> {
   // XXX: Could be converted to streaming read and parse.
   const {data, status} = await axios.get(ANTOLIN_DATABASE_URL)
   await db.execute(ANTOLIN_CLEAR_SQL);
@@ -148,7 +148,7 @@ async function loadFamilies(report: string): Promise<FamilyLoadResult> {
 
 export function initRoutes(app: express.Application): void {
   app.post('/api/admin/antolin/sync', async (req, res) => {
-    const result = await syncAntolin()
+    const result = await syncAntolin();
     res.send(result);
   })
   app.post(
