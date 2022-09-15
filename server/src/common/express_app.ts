@@ -70,7 +70,7 @@ export interface HttpHandler {
  * settings.
  */
 export class ExpressApp {
-  constructor(private readonly app: express.Application) {}
+  constructor(readonly app: express.Application) {}
 
   private wrapHandler(handler: HttpHandler): HttpHandlerFunction {
     return async (req: express.Request, res: express.Response) => {
