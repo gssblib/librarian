@@ -9,6 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 export class AdminPageComponent implements OnInit {
   navLinks = [
     { link: 'antolin', label: 'Antolin'},
+    { link: 'families', label: 'Families'},
   ];
 
   constructor(private route: ActivatedRoute) { }

@@ -7,6 +7,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminAntolinComponent } from './admin-antolin/admin-antolin.component';
+import { AdminFamiliesComponent } from './admin-families/admin-families.component';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmationDialogModule } from '../shared/confirmation-dialog/confirmation-dialog.module';
@@ -50,6 +51,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
   declarations: [
     AdminPageComponent,
     AdminAntolinComponent,
+    AdminFamiliesComponent,
   ],
   providers: [
   ],

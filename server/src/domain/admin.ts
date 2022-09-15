@@ -1,7 +1,9 @@
 import * as express from 'express';
 import axios from 'axios';
+import multer from 'multer';
 import { parse } from 'csv-parse';
-import { db } from './library';
+import { db, borrowers } from './library';
+import { Borrower } from './borrowers';
 
 const ANTOLIN_DATABASE_URL = 'https://antolin.westermann.de/all/downloads/antolingesamt-utf8.csv';
 
@@ -33,6 +35,13 @@ interface AntolinSyncResult {
   books: number;
 }
 
+interface FamilyLoadResult {
+  created: number;
+  updated: number;
+}
+
+const upload = multer()
+
 async function syncAntolin(): Promise<AntolinSyncResult> {
   // XXX: Could be converted to streaming read and parse.
   const {data, status} = await axios.get(ANTOLIN_DATABASE_URL)
@@ -43,6 +52,7 @@ async function syncAntolin(): Promise<AntolinSyncResult> {
       delimiter: ';',
       escape: '"',
       columns: ANTOLIN_COLUMNS,
+      fromLine: 2,
       encoding: 'utf-8',
     }
   );
@@ -82,10 +92,75 @@ async function syncAntolin(): Promise<AntolinSyncResult> {
   return {books: seen.length};
 }
 
+async function loadFamilies(report: string): Promise<FamilyLoadResult> {
+  const parser = parse(
+    report,
+    {
+      delimiter: ',',
+      escape: '"',
+      columns: [
+        'code','family_name','phone','family_email','last_name','first_name',
+        'student_email'
+      ],
+      fromLine: 2,
+      encoding: 'utf-8',
+    }
+  );
+
+  let families: { [code: string]: Borrower} = {};
+  for await (const row of parser) {
+    if (row.code in families) {
+      families[row.code].firstname += ',' + row.first_name;
+      continue;
+    }
+    families[row.code] = {
+      surname: row.last_name,
+      firstname: row.first_name,
+      contactname: row.family_name,
+      phone: row.phone.split('|')[0].trim(),
+      emailaddress: row.family_email.split('|').map((e: string) => e.trim()).join(', '),
+      sycamoreid: row.code,
+      state: 'ACTIVE',
+    } as Borrower;
+  }
+
+  let created = 0;
+  let updated = 0;
+  for (const [code, borrower] of Object.entries(families)) {
+    /* Make the list of first names look nice */
+    let names = borrower.firstname.split(',');
+    borrower.firstname = names.concat(names.splice(-2, 2).join(' and ')).join(', ');
+
+    let storedBorrower = await borrowers.find({fields: {sycamoreid: code}});
+    if (!storedBorrower) {
+      /* A new borrower has to be created. */
+      borrowers.create(borrower);
+      created += 1;
+    } else {
+      borrower.id = storedBorrower.id;
+      borrowers.update(borrower);
+      updated += 1;
+    }
+  }
+  return {updated, created}
+}
+
 
 export function initRoutes(app: express.Application): void {
   app.post('/api/admin/antolin/sync', async (req, res) => {
     const result = await syncAntolin()
     res.send(result);
   })
+  app.post(
+    '/api/admin/families/load',
+    upload.fields([{name: 'report'}]),
+    async (req, res) => {
+      if (req.files === undefined || !('report' in req.files)) {
+        res.status(400);
+        res.send('No report file found.');
+        return;
+      }
+      const result = await loadFamilies(req.files['report'][0].buffer.toString())
+      res.send(result);
+    })
 }

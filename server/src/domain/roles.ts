@@ -86,7 +86,7 @@ export const roleRepository: AuthRoleRepository = new Map<string, AuthRole>([
         },
         {
           resource: 'admin',
-          operations: ['antolin_sync'],
+          operations: ['sync_antolin', 'load_families'],
         },
       ]
     },
