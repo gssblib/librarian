@@ -5,7 +5,7 @@ import { ExpressApp, HttpMethod } from '../common/express_app';
 import { EntityTable } from '../common/table';
 import { saltedHash } from './login';
 
-type LabelPrintJobStatus = 'waiting'|'processing'|'completed';
+type LabelPrintJobStatus = 'waiting'|'processing'|'completed'|'error';
 
 export interface LabelPrintJob {
   /** Auto-generated id. */
@@ -34,6 +34,7 @@ const LabelPrintJobStatusDomain = new EnumColumnDomain<LabelPrintJobStatus>([
   'waiting',
   'processing',
   'completed',
+  'error',
 ]);
 
 export class LabelsPrintQueueTable extends EntityTable<LabelPrintJob> {
@@ -47,7 +48,6 @@ export class LabelsPrintQueueTable extends EntityTable<LabelPrintJob> {
     });
     this.addColumn({
       name: 'scheduled_at',
-      internal: true,
     });
     this.addColumn({
       name: 'barcode',
@@ -61,6 +61,7 @@ export class LabelsPrintQueueTable extends EntityTable<LabelPrintJob> {
     this.addColumn({
       name: 'pdf',
       label: 'PDF Content',
+      internal: true,
     });
     this.addColumn({
       name: 'status',
@@ -85,8 +86,31 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
     return {id: parseInt(key, 10)};
   }
 
-  override initRoutes(application: ExpressApp): void {
+  override update(obj: Partial<LabelPrintJob>): Promise<LabelPrintJob|undefined> {
+    /* Never update the pdf. */
+    if (obj.pdf) {
+      obj.pdf = undefined;
+    }
+    if (typeof obj.scheduled_at === 'string') {
+      obj.scheduled_at = new Date(Date.parse(obj.scheduled_at));
+    }
+    return super.update(obj);
+  }
 
+  override initRoutes(application: ExpressApp): void {
+    application.addHandler({
+      method: HttpMethod.GET,
+      path: `${this.keyPath}/pdf`,
+      handle: async (req, res) => {
+        let id = req.params['key'];
+        let job = await this.get(id)
+        let buffer = Buffer.from(job.pdf)
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=label.pdf');
+        res.send(buffer);
+      },
+      authAction: {resource: 'labels_print_queue', operation: 'read'},
+    });
     super.initRoutes(application);
   }
 

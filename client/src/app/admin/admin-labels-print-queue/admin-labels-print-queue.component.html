@@ -12,27 +12,39 @@
                  matSort matSortActive="scheduled_at" matSortDisableClear matSortDirection="asc">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Job Id</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/admin/labels-print-queue', row.id]">{{row.id}}</a>
+          </mat-cell>
         </ng-container>
         <ng-container matColumnDef="scheduled_at">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Scheduled At</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.scheduled_at}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/admin/labels-print-queue', row.id]">{{row.scheduled_at}}</a>
+          </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.status}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/admin/labels-print-queue', row.id]">{{row.status}}</a>
+          </mat-cell>
         </ng-container>
         <ng-container matColumnDef="labelsize">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Label Size</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.labelsize}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/labels-print-queue', row.id]">{{row.labelsize}}</a>
+          </mat-cell>
         </ng-container>
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Label Name</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/labels-print-queue', row.id]">{{row.name}}</a>
+          </mat-cell>
         </ng-container>
         <ng-container matColumnDef="barcode">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Item Barcode</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.barcode}}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/items', row.barcode]">{{row.barcode}}</a>
+          </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"
