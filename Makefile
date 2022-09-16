@@ -113,21 +113,17 @@ public-client-dev:
 
 ####> Label Printer Server <###################################################
 
-##> labels : Install/build the label printer server/cli environment.
-labels: python-ve
-	$(PIP) install -r labels/requirements.txt
-
 label-printer/build/index.js: src/**/*.ts
 	cd label-printer; \
 	npx tsc
 
-##> run-labels-server : Run labels printer server.
+##> run-labels-server: Run labels printer server.
 run-label-printer:
 	cd label-printer; \
 	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
 	node build/index.js
 
-##> run-labels-server : Run labels printer server.
+##> run-labels-server-dev: Run labels printer server in dev mode with auto-reload.
 run-label-printer-dev:
 	cd label-printer; \
 	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
