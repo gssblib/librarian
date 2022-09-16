@@ -10,6 +10,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import { LabelsPrintQueueService } from '../labels-print-queue.service';
+import { RpcError } from '../../core/rpc-error';
 
 const FILTER_FIELDS = ['barcode', 'labelsize', 'name', 'status'];
 
@@ -76,6 +77,22 @@ export class AdminLabelsPrintQueueComponent implements AfterViewInit {
           return observableOf([]);
         }))
       .subscribe(data => this.dataSource.data = data);
+  }
+
+  clear() {
+    this.loading = true;
+    this.labelsPrintQueueService.clear()
+      .subscribe(
+        result => {
+          this.loading = false;
+          this.navigate();
+          this.notificationService.show('Queue cleared.')
+        },
+        (error: RpcError) => {
+          this.loading = false;
+          this.notificationService.showError(`Server error`)
+        }
+      );
   }
 
   /**

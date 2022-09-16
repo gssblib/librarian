@@ -97,7 +97,12 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
     return super.update(obj);
   }
 
+  async clear() {
+    await this.db.execute('DELETE FROM labels_print_queue');
+  }
+
   override initRoutes(application: ExpressApp): void {
+
     application.addHandler({
       method: HttpMethod.GET,
       path: `${this.keyPath}/pdf`,
@@ -111,6 +116,17 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
       },
       authAction: {resource: 'labels_print_queue', operation: 'read'},
     });
+
+    application.addHandler({
+      method: HttpMethod.POST,
+      path: `/api/labels_print_queue/clear`,
+      handle: async (req, res) => {
+        await this.clear();
+        res.send({'status': 'Ok'});
+      },
+      authAction: {resource: 'labels_print_queue', operation: 'delete'},
+    });
+
     super.initRoutes(application);
   }
 
