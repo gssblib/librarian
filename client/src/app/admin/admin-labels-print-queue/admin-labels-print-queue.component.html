@@ -53,5 +53,18 @@
       <mat-paginator [length]="count" [pageSize]="10">
       </mat-paginator>
     </div>
+    <div class="actions">
+      <form>
+        <button color="primary" class="action"
+           mat-raised-button
+           gslConfirmationDialog
+           title="Clearing Label Print Queue"
+           message="Are you sure you want to clear the queue?"
+           (confirm)="clear()"
+           *gslAuthorized="'labels_print_queue.delete'">
+          Clear Queue
+        </button>
+      </form>
+    </div>
   </div>
 </mat-card>
