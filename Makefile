@@ -32,10 +32,7 @@ config/prod.js: config/template.js.in
 .PHONY: ubuntu-env
 ubuntu-env: /usr/bin/node
 	sudo apt-get install \
-	    mysql-server \
-	    virtualenv \
-	    python-dev \
-	    curl
+	    python3-venv
 
 ##> database : Creates and initializes the database.
 .PHONY: database
