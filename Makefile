@@ -7,7 +7,7 @@ NODE_DEB_URL = https://deb.nodesource.com/setup_8.x
 LABEL_CONFIG_DIR = $(shell pwd)/label-printer/config
 
 ##> all : Build all components
-all: config server labels scripts client
+all: config server client scripts
 
 ##> help : Show this help text
 .PHONY: help
