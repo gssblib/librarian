@@ -31,13 +31,13 @@
         <ng-container matColumnDef="labelsize">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Label Size</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <a [routerLink]="['/labels-print-queue', row.id]">{{row.labelsize}}</a>
+            <a [routerLink]="['/admin/labels-print-queue', row.id]">{{row.labelsize}}</a>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Label Name</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <a [routerLink]="['/labels-print-queue', row.id]">{{row.name}}</a>
+            <a [routerLink]="['/admin/labels-print-queue', row.id]">{{row.name}}</a>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="barcode">
