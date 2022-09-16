@@ -1,5 +1,4 @@
 import { BaseEntity } from '../common/base_entity';
-import { Flags } from '../common/entity';
 import { EnumColumnDomain } from '../common/column';
 import { Db } from '../common/db';
 import { ExpressApp, HttpMethod } from '../common/express_app';

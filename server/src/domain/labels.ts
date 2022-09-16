@@ -3,7 +3,8 @@ import config from 'config';
 import { Font, Template, BLANK_PDF, generate } from '@pdfme/generator';
 import {ExpressApp, HttpMethod} from '../common/express_app';
 import { Item } from './items';
-import { items } from './library';
+import { items, labelsPrintQueue } from './library';
+import { LabelPrintJob } from './labels_print_queue';
 
 
 interface ConfigFont {
@@ -75,6 +76,22 @@ export async function generateLabel(
   });
 }
 
+export async function printLabel(
+  category: string,
+  item: Item,
+  params?: LabelParams
+): Promise<LabelPrintJob> {
+  let pdf = await generateLabel(category, item, params);
+  let label = findLabel(category, item);
+  let job = labelsPrintQueue.create({
+    barcode: item.barcode,
+    labelsize: label.type,
+    pdf: pdf,
+    name: label.name,
+  } as LabelPrintJob)
+  return job;
+}
+
 export function initRoutes(application: ExpressApp) {
   application.addHandler({
     method: HttpMethod.GET,
@@ -125,7 +142,9 @@ export function initRoutes(application: ExpressApp) {
       let barcode = req.params['key'];
       let item = await items.get(barcode)
       let category = req.params['category'];
-      res.send({});
+      let data = req.body;
+      let job = await printLabel(category, item, data);
+      res.send({jobId: job.id});
     },
     authAction: {resource: 'items', operation: 'read'},
   });

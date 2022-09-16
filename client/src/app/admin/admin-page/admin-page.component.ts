@@ -10,6 +10,7 @@ export class AdminPageComponent implements OnInit {
   navLinks = [
     { link: 'antolin', label: 'Antolin'},
     { link: 'families', label: 'Families'},
+    { link: 'labels-print-queue', label: 'Labels Print Queue'},
   ];
 
   constructor(private route: ActivatedRoute) { }
