@@ -4,6 +4,7 @@ PYTHON = $(shell pwd)/python-ve/bin/python
 PIP = $(shell pwd)/python-ve/bin/pip
 RML2PDF = $(shell pwd)/python-ve/bin/rml2pdf
 NODE_DEB_URL = https://deb.nodesource.com/setup_8.x
+LABEL_CONFIG_DIR = $(shell pwd)/label-printer/config
 
 ##> all : Build all components
 all: config server labels scripts client
@@ -81,27 +82,6 @@ sync-antolin: server
 	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod npm run sync-antolin
 
 
-####> Library Label Server <###################################################
-
-ALL_TEMPLATES := $(shell find ./config/label-templates -name '*.rml')
-ALL_TEMPLATE_PDFS := $(ALL_TEMPLATES:%.rml=%.pdf)
-
-config/label-templates/%.pdf: config/label-templates/%.rml
-	$(RML2PDF) $< $@
-
-##> label-templates : Compile all label templates.
-label-templates: $(ALL_TEMPLATE_PDFS)
-
-##> labels : Install/build the label server/cli environment.
-labels: python-ve
-	$(PIP) install -r labels/requirements.txt
-
-##> run-labels-server : Run labels server.
-run-labels-server:
-	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=prod \
-	    $(PYTHON) `pwd`/labels/make_label.py serve
-
-
 ####> Client <#################################################################
 
 ##> client : Install client components.
@@ -131,28 +111,54 @@ public-client-dev:
 	ng serve public --proxy-config proxy.conf.json --port 5200
 
 
-####> Scripts <###############################################################
+####> Label Printer Server <###################################################
 
-##> open-db: Opens the database.
-open-db:
-	mysql spils
+##> labels : Install/build the label printer server/cli environment.
+labels: python-ve
+	$(PIP) install -r labels/requirements.txt
+
+label-printer/build/index.js: src/**/*.ts
+	cd label-printer; \
+	npx tsc
+
+##> run-labels-server : Run labels printer server.
+run-label-printer:
+	cd label-printer; \
+	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
+	node build/index.js
+
+##> run-labels-server : Run labels printer server.
+run-label-printer-dev:
+	cd label-printer; \
+	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
+	./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/index.ts
+
+
+####> Scripts <###############################################################
 
 ##> scripts : Install/build the scripts environment.
 scripts: scripts/requirements.txt | python-ve
 	$(PIP) install -r scripts/requirements.txt
 
-##> backup : Create a backup of the database.
-.PHONY: backup
-backup:
-	mkdir -p $(BACKUPS_DIR)
-	NODE_ENV=prod $(PYTHON) scripts/backup_db.py --backup_dir $(BACKUPS_DIR)
+ALL_TEMPLATES := $(shell find ./config/label-templates -name '*.rml')
+ALL_TEMPLATE_PDFS := $(ALL_TEMPLATES:%.rml=%.pdf)
+
+config/label-templates/%.pdf: config/label-templates/%.rml
+	$(RML2PDF) $< $@
+
+##> label-templates : Compile all label templates.
+label-templates: $(ALL_TEMPLATE_PDFS)
+
+####> Database <#############################################
 
 ##> restore FILE=<path>: Load the specified backup file into database.
 .PHONY: restore
 restore:
 	zcat $(FILE) | mysql spils
 
-####> Database <#############################################
+##> open-db: Opens the database.
+open-db:
+	mysql spils
 
 cloud_sql_proxy:
 	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy

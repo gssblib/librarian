@@ -1,0 +1,43 @@
+{
+
+  // Library database
+  "db": {
+    "database": "spils",
+    "host": "localhost",
+    "user": "gssb",
+    "password": "gssblib",
+    "timezone": "Z"
+  },
+
+  "printers": [
+    {
+      "title": "Single Dymo LabelWriter 450",
+      "printer": "LabelWriter-450-Turbo",
+      "papersize": "w54h180",
+      "code": "Dymo 30252",
+      "options": {
+        "PageSize": "w79h252"
+      }
+    },
+    {
+      "title": "Twin Dymo LabelWriter 450 - Left",
+      "printer": "LabelWriter-450-Twin-Turbo",
+      "papersize": "w54h180",
+      "code": "Dymo 1738595",
+      "options": {
+        "PageSize": "w54h180",
+        "InputSlot": "Left"
+      }
+    },
+    {
+      "title": "Twin Dymo LabelWriter 450 - Right",
+      "printer": "LabelWriter-450-Twin-Turbo",
+      "papersize": "w72h154.1",
+      "code": "Dymo 30336",
+      "options": {
+        "PageSize": "w72h154.1",
+        "InputSlot": "Right"
+      }
+    }
+  ]
+}
