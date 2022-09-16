@@ -1,6 +1,4 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormlyFields } from '../../core/form.service';
-import { of } from 'rxjs';
 import { catchError, flatMap, map } from "rxjs/operators";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';

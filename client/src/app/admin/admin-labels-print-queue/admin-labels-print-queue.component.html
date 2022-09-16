@@ -1,0 +1,45 @@
+<mat-card>
+  <div class="search-form">
+    <div fxFlex="">
+      <gsl-multi-field-search-bar
+        [criteria]="criteria" [fields]="filterFields" (search)="navigate()">
+      </gsl-multi-field-search-bar>
+    </div>
+  </div>
+  <div [class.no-search]="count < 0">
+    <div class="mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource"
+                 matSort matSortActive="scheduled_at" matSortDisableClear matSortDirection="asc">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Job Id</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="scheduled_at">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Scheduled At</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.scheduled_at}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.status}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="labelsize">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Label Size</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.labelsize}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Label Name</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="barcode">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Item Barcode</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.barcode}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+                 style="cursor: pointer"></mat-row>
+      </mat-table>
+      <mat-paginator [length]="count" [pageSize]="10">
+      </mat-paginator>
+    </div>
+  </div>
+</mat-card>

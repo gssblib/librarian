@@ -6,6 +6,7 @@ import {Borrowers} from './borrowers';
 import {Checkouts, History} from './checkouts';
 import {Items} from './items';
 import {InternalUsers} from './internal_users';
+import {LabelsPrintQueue} from './labels_print_queue';
 import {OrderCycles, Orders} from './orders';
 import * as labels from './labels';
 
@@ -20,6 +21,7 @@ export const history = new History(db);
 export const orderCycles = new OrderCycles(db);
 export const orders = new Orders(db);
 export const users = new InternalUsers(db);
+export const labelsPrintQueue = new LabelsPrintQueue(db);
 
 
 export function initRoutes(application: ExpressApp): void {
@@ -31,4 +33,5 @@ export function initRoutes(application: ExpressApp): void {
   orderCycles.initRoutes(application);
   orders.initRoutes(application);
   users.initRoutes(application);
+  labelsPrintQueue.initRoutes(application);
 }
