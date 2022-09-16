@@ -18,12 +18,17 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminAntolinComponent } from './admin-antolin/admin-antolin.component';
 import { AdminFamiliesComponent } from './admin-families/admin-families.component';
 import { AdminLabelsPrintQueueComponent } from './admin-labels-print-queue/admin-labels-print-queue.component';
+import { LabelPrintJobPageComponent } from './label-print-job-page/label-print-job-page.component';
 import { LabelsPrintQueueService } from './labels-print-queue.service';
+import { LabelPrintJobService } from './label-print-job.service';
+import { LabelPrintJobResolverService } from './label-print-job.resolver.service';
 
 @NgModule({
   imports: [
@@ -47,6 +52,8 @@ import { LabelsPrintQueueService } from './labels-print-queue.service';
     MatPaginatorModule,
     FormlyModule.forRoot(),
     FormlyMaterialModule,
+    NgxExtendedPdfViewerModule,
+    FlexLayoutModule,
     AdminRoutingModule,
   ],
   declarations: [
@@ -54,9 +61,12 @@ import { LabelsPrintQueueService } from './labels-print-queue.service';
     AdminAntolinComponent,
     AdminFamiliesComponent,
     AdminLabelsPrintQueueComponent,
+    LabelPrintJobPageComponent,
   ],
   providers: [
-    LabelsPrintQueueService
+    LabelsPrintQueueService,
+    LabelPrintJobService,
+    LabelPrintJobResolverService,
   ],
 })
 export class AdminModule { }

@@ -1,0 +1,12 @@
+.fields {
+  column-count: 2;
+}
+
+.action + .action {
+  margin-left: 1em;
+}
+
+.item-label-preview {
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
