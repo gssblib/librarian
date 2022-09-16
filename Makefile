@@ -7,7 +7,7 @@ NODE_DEB_URL = https://deb.nodesource.com/setup_8.x
 LABEL_CONFIG_DIR = $(shell pwd)/label-printer/config
 
 ##> all : Build all components
-all: config server client scripts
+all: config server client scripts label-printer
 
 ##> help : Show this help text
 .PHONY: help
@@ -116,6 +116,12 @@ public-client-dev:
 label-printer/build/index.js: src/**/*.ts
 	cd label-printer; \
 	npx tsc
+
+##> labels-server: Install labels print server.
+label-printer:
+	cd label-printer; \
+	npm install
+
 
 ##> run-labels-server: Run labels printer server.
 run-label-printer:
