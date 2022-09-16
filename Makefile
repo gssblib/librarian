@@ -23,7 +23,7 @@ python-ve: scripts/requirements.txt
 	sudo apt-get install -y nodejs
 	sudo npm install npm --global
 
-config: config/prod.json
+config: config/prod.js
 
 config/prod.js: config/template.js.in
 	cp config/template.js.in config/prod.js
