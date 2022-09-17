@@ -10,8 +10,6 @@ import { Item } from "../../items/shared/item";
 import { ConfigService } from "../../core/config.service";
 import { Availability } from "../../items/shared/item-status";
 import { NotificationService } from "../../core/notification-service";
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable } from 'rxjs';
 
 /**
  * Component showing a single item in the online catalog.
@@ -30,16 +28,19 @@ export class CatalogItemCardComponent {
   @Input() showOrderButton = false;
   @Output() orderItem = new EventEmitter<Item>();
 
-  url?: Observable<string|null>;
+  hasCover: boolean = true;
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef,
               private readonly notificationService: NotificationService,
-              private readonly config: ConfigService,
-              private readonly storage: AngularFireStorage) {}
+              private readonly config: ConfigService) { }
 
-  ngOnInit() {
-    const ref = this.storage.ref('covers/' + this.item.barcode + '.jpg');
-    this.url = ref.getDownloadURL();
+  noCover() {
+    this.hasCover = false;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  coverImg(item: Item): string {
+    return this.config.apiPath('items/' + item.barcode + '/cover')
   }
 
   available(item: Item): boolean {

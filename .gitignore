@@ -18,7 +18,6 @@ client/dist
 client/dist-public
 client/.public.git-rev
 client/.volunteers.git-rev
-client/src/environments
 
 # Logs
 logs
