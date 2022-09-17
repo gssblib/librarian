@@ -9,6 +9,7 @@ module.exports = {
   "db": {
     "database": "spils",
     "host": "localhost",
+    "port": "3306",
     "user": "gssb",
     "password": "gssblib",
     "timezone": "Z"

@@ -163,6 +163,13 @@ cloud_sql_proxy:
 	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
 	chmod +x cloud_sql_proxy
 
+PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd')
+
+cloud_sql_proxy_config: config/prod.js
+	sed -i 's/"port": ".*"/"port": "3307"/g' config/prod.js; \
+	sed -i 's/"user": ".*"/"user": "root"/g' config/prod.js; \
+	sed -i 's/"password": ".*"/"password": "$(PASSWORD)"/g' config/prod.js; \
+
 ##> run-sql-proxy: Start SQL Proxy for master database.
 .PHONY: restore
 run-sql-proxy: cloud_sql_proxy
