@@ -1,20 +1,20 @@
-import qs from 'qs';
-import {BaseEntity} from '../common/base_entity';
-import {EnumColumnDomain} from '../common/column';
-import {Db} from '../common/db';
-import {Flags} from '../common/entity';
-import {httpError} from '../common/error';
-import {ExpressApp, HttpMethod} from '../common/express_app';
-import {getNumberParam} from '../common/express_util';
-import {mapQueryResult, QueryOptions, QueryResult} from '../common/query';
-import {EntityTable} from '../common/table';
-import {addDays, putIfAbsent, sum} from '../common/util';
-import {Checkout, checkoutConfig, checkoutsTable, historyTable} from './checkouts';
-import {Email, emailer} from './emailer';
-import {BorrowerEmail, borrowerEmailTable, createReminderEmailTemplate, reminderEmailConfig, ReminderEmailConfig} from './emails';
-import {ordersTable, OrderSummary} from './orders';
-import {createTemplateRenderer} from './templates';
-import {User} from './user';
+import qs from "qs";
+import {BaseEntity} from "../common/base_entity";
+import {EnumColumnDomain} from "../common/column";
+import {Db} from "../common/db";
+import {Flags} from "../common/entity";
+import {httpError} from "../common/error";
+import {ExpressApp, HttpMethod} from "../common/express_app";
+import {getNumberParam} from "../common/express_util";
+import {mapQueryResult, QueryOptions, QueryResult} from "../common/query";
+import {EntityTable} from "../common/table";
+import {addDays, putIfAbsent, sum} from "../common/util";
+import {Checkout, checkoutConfig, checkoutsTable, historyTable} from "./checkouts";
+import {Email, emailer} from "./emailer";
+import {BorrowerEmail, borrowerEmailTable, createReminderEmailTemplate, reminderEmailConfig, ReminderEmailConfig} from "./emails";
+import {ordersTable, OrderSummary} from "./orders";
+import {createTemplateRenderer} from "./templates";
+import {User} from "./user";
 
 const emailWindowMs = 24 * 3600 * 1000;
 
@@ -32,7 +32,7 @@ interface FeeInfo {
   history?: Checkout[];
 }
 
-type BorrowerState = 'ACTIVE'|'INACTIVE';
+type BorrowerState = "ACTIVE"|"INACTIVE";
 
 export interface Borrower {
   /** Auto-generated id. */
@@ -80,50 +80,50 @@ export interface Borrower {
 }
 
 const BorrowerStateDomain = new EnumColumnDomain<BorrowerState>([
-  'ACTIVE',
-  'INACTIVE',
+  "ACTIVE",
+  "INACTIVE",
 ]);
 
 export class BorrowerTable extends EntityTable<Borrower> {
   constructor() {
-    super({name: 'borrowers', naturalKey: 'borrowernumber'});
-    this.addColumn({name: 'id'});
+    super({name: "borrowers", naturalKey: "borrowernumber"});
+    this.addColumn({name: "id"});
     this.addColumn({
-      name: 'borrowernumber',
-      label: 'Borrower number',
+      name: "borrowernumber",
+      label: "Borrower number",
       internal: true,
     });
     this.addColumn({
-      name: 'surname',
-      label: 'Last name',
-      queryOp: 'contains',
+      name: "surname",
+      label: "Last name",
+      queryOp: "contains",
     });
     this.addColumn({
-      name: 'firstname',
-      label: 'First name',
-      queryOp: 'contains',
+      name: "firstname",
+      label: "First name",
+      queryOp: "contains",
     });
     this.addColumn({
-      name: 'contactname',
-      label: 'Contact name',
-      queryOp: 'contains',
+      name: "contactname",
+      label: "Contact name",
+      queryOp: "contains",
     });
     this.addColumn({
-      name: 'phone',
-      label: 'Phone number',
+      name: "phone",
+      label: "Phone number",
     });
     this.addColumn({
-      name: 'emailaddress',
+      name: "emailaddress",
       required: true,
-      label: 'Email',
-      queryOp: 'contains',
+      label: "Email",
+      queryOp: "contains",
     });
     this.addColumn({
-      name: 'sycamoreid',
-      label: 'Sycamore ID',
+      name: "sycamoreid",
+      label: "Sycamore ID",
     });
     this.addColumn({
-      name: 'state',
+      name: "state",
       required: true,
       domain: BorrowerStateDomain,
     });
@@ -132,7 +132,7 @@ export class BorrowerTable extends EntityTable<Borrower> {
 
 export const borrowersTable = new BorrowerTable();
 
-type BorrowerFlag = 'items'|'history'|'fees'|'orders';
+type BorrowerFlag = "items"|"history"|"fees"|"orders";
 type BorrowerFlags = Flags<BorrowerFlag>;
 
 interface BorrowerFeeSummary {
@@ -175,23 +175,23 @@ interface BorrowerReminderData {
 }
 
 enum BorrowerReminderResultCode {
-  OK = 'OK',
+  OK = "OK",
   /**
    * Email skipped because borrower has no items checked out and no outstanding
    * fees.
    */
-  NO_ITEMS_OR_FEES = 'NO_ITEMS_OR_FEES',
+  NO_ITEMS_OR_FEES = "NO_ITEMS_OR_FEES",
 
   /**
    * Email skipped because borrower has no email address.
    */
-  NO_EMAIL_ADDRESS = 'NO_EMAIL_ADDRESS',
+  NO_EMAIL_ADDRESS = "NO_EMAIL_ADDRESS",
 
   /**
    * Email skipped because an email has already been sent within the last 24
    * hours.
    */
-  EXISTING_EMAIL_IN_WINDOW = 'EXISTING_EMAIL_IN_WINDOW',
+  EXISTING_EMAIL_IN_WINDOW = "EXISTING_EMAIL_IN_WINDOW",
 }
 
 /**
@@ -210,7 +210,7 @@ interface BorrowerReminder {
 }
 
 const reminderEmailRenderer =
-    createTemplateRenderer<BorrowerReminderData>('src/templates');
+    createTemplateRenderer<BorrowerReminderData>("src/templates");
 
 export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
   constructor(db: Db) {
@@ -275,7 +275,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
    */
   async fees(borrowerNumber: number): Promise<FeeInfo> {
     const [checkouts, history] = await Promise.all([
-      this.checkouts(borrowerNumber, true), this.history(borrowerNumber, true)
+      this.checkouts(borrowerNumber, true), this.history(borrowerNumber, true),
     ]);
     return {
       total: totalFine(checkouts.rows) + totalFine(history.rows),
@@ -319,9 +319,9 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
     const [feeResult, countResult] = await Promise.all([
       this.db.selectRows({sql, options}),
       this.db.selectRow(countSql),
-    ])
-    feeResult.count = countResult && countResult['count'];
-    return mapQueryResult(feeResult, row => row as BorrowerFeeSummary);
+    ]);
+    feeResult.count = countResult && countResult["count"];
+    return mapQueryResult(feeResult, (row) => row as BorrowerFeeSummary);
   }
 
   /**
@@ -330,12 +330,12 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
   async payFees(borrowernumber: number): Promise<any> {
     const result = await Promise.all([
       this.db.execute(
-          'update `out` set fine_paid = fine_due ' +
-              'where fine_due > fine_paid and borrowernumber = ?',
+          "update `out` set fine_paid = fine_due " +
+              "where fine_due > fine_paid and borrowernumber = ?",
           [borrowernumber]),
       this.db.query(
-          'update issue_history set fine_paid = fine_due ' +
-              'where fine_due > fine_paid and borrowernumber = ?',
+          "update issue_history set fine_paid = fine_due " +
+              "where fine_due > fine_paid and borrowernumber = ?",
           [borrowernumber]),
     ]);
     return result;
@@ -357,9 +357,9 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
     const borrower = await this.table.find(this.db, {fields: {borrowernumber}});
     if (!borrower) {
       throw httpError({
-        code: 'BORROWER_NOT_FOUND',
+        code: "BORROWER_NOT_FOUND",
         message: `borrower ${borrowernumber} not found`,
-        httpStatusCode: 404
+        httpStatusCode: 404,
       });
     }
     if (flags.items) {
@@ -412,9 +412,9 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       config: reminderEmailConfig,
     };
     const emailText = await reminderEmailRenderer.render(
-        'reminder_email_tmpl.txt', reminderData);
+        "reminder_email_tmpl.txt", reminderData);
     const emailHtml = await reminderEmailRenderer.render(
-        'reminder_email_tmpl.html', reminderData);
+        "reminder_email_tmpl.html", reminderData);
     return {
       ...createReminderEmailTemplate(),
       to: this.getRecipient(borrower),
@@ -513,7 +513,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
 
     // Add fines for returned items.
     const finesByBorrowerNumber = new Map<number, number>(
-        feesResult.rows.map(row => [row.borrowernumber, row.fine]));
+        feesResult.rows.map((row) => [row.borrowernumber, row.fine]));
     for (const borrower of borrowers) {
       const checkoutFine = totalFine(borrower.items ?? []);
       const historyFine =
@@ -556,7 +556,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
   }
 
   private getRecipient(borrower: Borrower): string {
-    return borrower.emailaddress.split(',')[0];
+    return borrower.emailaddress.split(",")[0];
   }
 
   /**
@@ -604,13 +604,13 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       ) c on b.borrowernumber = c.borrowernumber
     `;
     const params = [lastCheckoutDate];
-    const result = await this.db.selectRows({sql, params, options})
+    const result = await this.db.selectRows({sql, params, options});
     return mapQueryResult(
-        result, row => ({...this.table.fromDb(row), count: row.count}));
+        result, (row) => ({...this.table.fromDb(row), count: row.count}));
   }
 
   private getBorrowerNumber(params: qs.ParsedQs): number|undefined {
-    return getNumberParam(params, 'key');
+    return getNumberParam(params, "key");
   }
 
   initRoutes(application: ExpressApp): void {
@@ -620,14 +620,14 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.history(
             borrowernumber, false, this.toQueryOptions(req.query));
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'read'},
+      authAction: {resource: "borrowers", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -635,14 +635,14 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.listReminderEmails(
             borrowernumber, this.toQueryOptions(req.query));
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'read'},
+      authAction: {resource: "borrowers", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -651,7 +651,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
         const result = await this.generateReminders();
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'read'},
+      authAction: {resource: "borrowers", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.POST,
@@ -660,7 +660,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
         const result = await this.sendReminders();
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'sendEmail'},
+      authAction: {resource: "borrowers", operation: "sendEmail"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -668,13 +668,13 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.getReminderEmail(borrowernumber);
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'read'},
+      authAction: {resource: "borrowers", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.POST,
@@ -682,13 +682,13 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.renewAllItems(borrowernumber);
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'renewAllItems'},
+      authAction: {resource: "borrowers", operation: "renewAllItems"},
     });
     application.addHandler({
       method: HttpMethod.POST,
@@ -696,13 +696,13 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.payFees(borrowernumber);
         res.send(result);
       },
-      authAction: {resource: 'borrowers', operation: 'renewAllItems'},
+      authAction: {resource: "borrowers", operation: "renewAllItems"},
     });
     application.addHandler({
       method: HttpMethod.POST,
@@ -710,7 +710,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       handle: async (req, res) => {
         const borrowernumber = this.getBorrowerNumber(req.params);
         if (borrowernumber === undefined) {
-          res.status(400).send('invalid borrower number');
+          res.status(400).send("invalid borrower number");
           return;
         }
         const result = await this.sendReminderEmail(borrowernumber);
@@ -726,7 +726,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
             await this.getFeeSummaries(this.toQueryOptions(req.query));
         res.send(result);
       },
-      authAction: {resource: 'fees', operation: 'read'},
+      authAction: {resource: "fees", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -735,10 +735,10 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
         const user = req.user;
         const appUser = user as User;
         const id = appUser.id;
-        const borrower = await this.get(id ?? '', {items: true, fees:true});
+        const borrower = await this.get(id ?? "", {items: true, fees: true});
         res.send(borrower);
       },
-      authAction: {resource: 'profile', operation: 'read'},
+      authAction: {resource: "profile", operation: "read"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -749,7 +749,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
             await this.getBorrowersWithOverdueItems(lastCheckoutDate);
         res.send(result);
       },
-      authAction: {resource: 'reports', operation: 'read'},
+      authAction: {resource: "reports", operation: "read"},
     });
     super.initRoutes(application);
   }
@@ -760,5 +760,5 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
  */
 function totalFine(checkouts: Checkout[]): number {
   return sum(
-      checkouts.map(item => Math.max(0, item.fine_due - item.fine_paid)));
+      checkouts.map((item) => Math.max(0, item.fine_due - item.fine_paid)));
 }

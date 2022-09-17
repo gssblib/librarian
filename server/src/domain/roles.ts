@@ -1,28 +1,28 @@
-import { AuthRole, AuthRoleRepository } from './auth';
+import {AuthRole, AuthRoleRepository} from "./auth";
 
-const crud = ['create', 'read', 'update', 'delete'];
+const crud = ["create", "read", "update", "delete"];
 
 export const roleRepository: AuthRoleRepository = new Map<string, AuthRole>([
-  ['anonymous', {permissions: []}],
+  ["anonymous", {permissions: []}],
   [
-    'borrower',
+    "borrower",
     {
       permissions: [
         {
-          resource: 'items',
-          operations: ['read'],
+          resource: "items",
+          operations: ["read"],
         },
         {
-          resource: 'ordercycles',
-          operations: ['read'],
+          resource: "ordercycles",
+          operations: ["read"],
         },
         {
-          resource: 'profile',
-          operations: ['read'],
+          resource: "profile",
+          operations: ["read"],
         },
         {
-          resource: 'items',
-          operations: ['order'],
+          resource: "items",
+          operations: ["order"],
           restrictions: [
             (user, permission, action) => {
               return parseInt(user.id, 10) ===
@@ -30,69 +30,57 @@ export const roleRepository: AuthRoleRepository = new Map<string, AuthRole>([
             },
           ],
         },
-      ]
+      ],
     },
   ],
   [
-    'clerk',
+    "clerk",
     {
       permissions: [
         {
-          resource: 'items',
-          operations: ['read', 'checkin', 'checkout', 'renew'],
+          resource: "items",
+          operations: ["read", "checkin", "checkout", "renew"],
         },
         {
-          resource: 'borrowers',
-          operations: ['read', 'payFees', 'renewAllItems'],
+          resource: "borrowers",
+          operations: ["read", "payFees", "renewAllItems"],
         },
-      ]
+      ],
     },
   ],
   [
-    'librarian',
+    "librarian",
     {
       permissions: [
         {
-          resource: 'items',
-          operations: [...crud, 'checkin', 'checkout', 'renew', 'order'],
+          resource: "items",
+          operations: [...crud, "checkin", "checkout", "renew", "order"],
         },
         {
-          resource: 'borrowers',
-          operations: [...crud, 'payFees', 'renewAllItems', 'sendEmail'],
+          resource: "borrowers",
+          operations: [...crud, "payFees", "renewAllItems", "sendEmail"],
         },
         {
-          resource: 'fees',
+          resource: "fees",
           operations: crud,
         },
         {
-          resource: 'checkouts',
+          resource: "checkouts",
           operations: crud,
         },
         {
-          resource: 'reports',
+          resource: "reports",
           operations: crud,
         },
         {
-          resource: 'ordercycles',
+          resource: "ordercycles",
           operations: crud,
         },
         {
-          resource: 'orders',
+          resource: "orders",
           operations: crud,
         },
-        {
-          resource: 'users',
-          operations: crud,
-        },
-        {
-          resource: 'admin',
-          operations: ['sync_antolin', 'load_families'],
-        },
-        {
-          resource: 'labels_print_queue',
-          operations: crud,
-        },
-      ]
+      ],
     },
   ],
 ]);

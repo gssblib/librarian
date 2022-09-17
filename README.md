@@ -9,11 +9,10 @@ library application which was based on MS WebMatrix).
 
 ## Directory Structure
 
-- client2: new client web application (angular 5+)
-- server: node.js server
-- labels: A label printer server written in Python
-- scripts: A directory with operational scripts, such as backups and E-mail
-  notifications.
+- client: client web application (angular 5+)
+- functions: node.js server
+- label-printer: A label printe
+- scripts: A directory with operational scripts
 - sql: SQL schema and migration scripts for the DB
 - config: contains the config for the server and tools
 - doc: project documentation

@@ -17,66 +17,66 @@ import {Order, OrderCycle, orderCyclesTable, OrderItem, orderItemsTable, ordersT
 const upload = multer()
 
 const ItemState = new EnumColumnDomain([
-  'CIRCULATING',
-  'STORED',
-  'DELETED',
-  'LOST',
-  'IN_REPAIR',
+  "CIRCULATING",
+  "STORED",
+  "DELETED",
+  "LOST",
+  "IN_REPAIR",
 ]);
 
 const ItemDescription = new EnumColumnDomain([
-  'Buch',
-  'CD',
-  'DVD',
-  'Comic',
-  'Multimedia',
-  'Zeitschrift',
+  "Buch",
+  "CD",
+  "DVD",
+  "Comic",
+  "Multimedia",
+  "Zeitschrift",
 ]);
 
 const ItemSubject = new EnumColumnDomain([
-  'Bilderbuch B - gelb',
-  'CD',
-  'Comic C - orange',
-  'DVD',
-  'Erzaehlung E - dunkelgruen',
-  'Fasching',
-  'Halloween',
-  'Klassik',
-  'Leseleiter LL - klar',
-  'Maerchen Mae - rot',
-  'Multimedia MM - rosa',
-  'Musik',
-  'Ostern',
-  'Sachkunde S - blau',
-  'Sachkunde Serie - hellblau',
-  'St. Martin',
-  'Teen T - hellgruen',
-  'Uebergroesse - lila',
-  'Weihnachten',
-  'Zeitschrift',
+  "Bilderbuch B - gelb",
+  "CD",
+  "Comic C - orange",
+  "DVD",
+  "Erzaehlung E - dunkelgruen",
+  "Fasching",
+  "Halloween",
+  "Klassik",
+  "Leseleiter LL - klar",
+  "Maerchen Mae - rot",
+  "Multimedia MM - rosa",
+  "Musik",
+  "Ostern",
+  "Sachkunde S - blau",
+  "Sachkunde Serie - hellblau",
+  "St. Martin",
+  "Teen T - hellgruen",
+  "Uebergroesse - lila",
+  "Weihnachten",
+  "Zeitschrift",
 ]);
 
 const ItemAge = new EnumColumnDomain([
-  'All Ages',
-  'K-1',
-  'K-2',
-  'T-12',
-  'T-17',
-  'Leseleiter-1A',
-  'Leseleiter-1B',
-  'Leseleiter-1C',
-  'Leseleiter-2',
-  'Leseleiter-3',
-  'Leseleiter-4',
-  'Leseleiter-5',
-  'Leseleiter-6',
-  'Leseleiter-7',
-  'Leseleiter-8',
-  'Leseleiter-9',
-  'Leseleiter-10',
+  "All Ages",
+  "K-1",
+  "K-2",
+  "T-12",
+  "T-17",
+  "Leseleiter-1A",
+  "Leseleiter-1B",
+  "Leseleiter-1C",
+  "Leseleiter-2",
+  "Leseleiter-3",
+  "Leseleiter-4",
+  "Leseleiter-5",
+  "Leseleiter-6",
+  "Leseleiter-7",
+  "Leseleiter-8",
+  "Leseleiter-9",
+  "Leseleiter-10",
 ]);
 
-type ItemAvailability = 'CHECKED_OUT'|'ORDERED'|'AVAILABLE';
+type ItemAvailability = "CHECKED_OUT"|"ORDERED"|"AVAILABLE";
 
 interface ItemCover {
   barcode: string;
@@ -124,11 +124,11 @@ export interface Item {
 
 function getItemAvailability(item: Item): ItemAvailability {
   if (item.checkout) {
-    return 'CHECKED_OUT';
+    return "CHECKED_OUT";
   } else if (item.order_item) {
-    return 'ORDERED';
+    return "ORDERED";
   } else {
-    return 'AVAILABLE';
+    return "AVAILABLE";
   }
 }
 
@@ -165,7 +165,7 @@ export class ItemTable extends EntityTable<Item> {
 
 export const itemsTable = new ItemTable();
 
-type ItemFlag = 'history';
+type ItemFlag = "history";
 type ItemFlags = Flags<ItemFlag>;
 
 export class Items extends BaseEntity<Item, ItemFlag> {
@@ -187,7 +187,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       params: [barcode],
     };
     const result = await this.db.selectRows(query);
-    return result.rows.map(row => checkoutsTable.fromDb(row));
+    return result.rows.map((row) => checkoutsTable.fromDb(row));
   }
 
   override async get(barcode: string, flags: ItemFlags = {}): Promise<Item> {
@@ -201,7 +201,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const row = await this.db.selectRow(sql, [barcode]);
     if (!row) {
       throw httpError({
-        code: 'ENTITY_NOT_FOUND',
+        code: "ENTITY_NOT_FOUND",
         message: `item ${barcode} not found`,
         httpStatusCode: 404,
       });
@@ -209,14 +209,14 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const item: Item = this.table.fromDb(row);
     if (row.checkout_id) {
       item.checkout = checkoutsTable.fromDb(row);
-      item.checkout.id = row['checkout_id'];
+      item.checkout.id = row["checkout_id"];
     }
     if (row.order_item_id) {
       item.order_item = orderItemsTable.fromDb(row);
-      item.order_item.id = row['order_item_id'];
+      item.order_item.id = row["order_item_id"];
     }
     if (item.checkout) {
-      const sql = `select * from borrowers where borrowernumber = ?`;
+      const sql = "select * from borrowers where borrowernumber = ?";
       const borrowerRow =
           await this.db.selectRow(sql, [item.checkout.borrowernumber]);
       if (borrowerRow) {
@@ -289,20 +289,20 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     ]);
     if (!borrower) {
       throw httpError({
-        code: 'BORROWER_NOT_FOUND',
+        code: "BORROWER_NOT_FOUND",
         message: `borrower ${borrowernumber} not found`,
         httpStatusCode: 404,
       });
     }
     if (item?.checkout) {
       throw httpError({
-        code: 'ITEM_ALREADY_CHECKED_OUT',
+        code: "ITEM_ALREADY_CHECKED_OUT",
         message: `item ${barcode} already checked out`,
       });
     }
-    if (item.state !== 'CIRCULATING') {
+    if (item.state !== "CIRCULATING") {
       throw httpError({
-        code: 'ITEM_NOT_CIRCULATING',
+        code: "ITEM_NOT_CIRCULATING",
         message: `item ${barcode} is ${item.state}`,
       });
     }
@@ -319,7 +319,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const checkout = item.checkout;
     if (!checkout) {
       throw httpError({
-        code: 'ITEM_NOT_CHECKED_OUT',
+        code: "ITEM_NOT_CHECKED_OUT",
         message: `trying to check in item ${barcode} that is not checked out`,
       });
     }
@@ -336,7 +336,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const checkout = item.checkout;
     if (!checkout) {
       throw httpError({
-        code: 'ITEM_NOT_CHECKED_OUT',
+        code: "ITEM_NOT_CHECKED_OUT",
         message: `trying to check in item ${barcode} that is not checked out`,
       });
     }
@@ -364,13 +364,13 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       orderCyclesTable.getByDate(this.db, now),
     ]);
     if (!item) {
-      throw httpError({code: 'ITEM_NOT_FOUND', httpStatusCode: 404});
+      throw httpError({code: "ITEM_NOT_FOUND", httpStatusCode: 404});
     }
     if (!borrower) {
-      throw httpError({code: 'BORROWER_NOT_FOUND', httpStatusCode: 404});
+      throw httpError({code: "BORROWER_NOT_FOUND", httpStatusCode: 404});
     }
     if (!cycle) {
-      throw httpError({code: 'CYCLE_NOT_FOUND', httpStatusCode: 404});
+      throw httpError({code: "CYCLE_NOT_FOUND", httpStatusCode: 404});
     }
     const order = await ordersTable.getOrCreateBorrowerOrder(
         this.db, borrower.id, cycle.id);
@@ -383,7 +383,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
   async getCheckoutReport(lastCheckoutDate: string, query: EntityQuery<Item>):
       Promise<QueryResult<Item>> {
     const itemsWhere = this.table.sqlWhere(query);
-    const where = itemsWhere.where ? `where ${itemsWhere.where}` : '';
+    const where = itemsWhere.where ? `where ${itemsWhere.where}` : "";
     const sql = `
       select a.*, max(h.checkout_date) as last_checkout_date
       from items a right join issue_history h on a.barcode = h.barcode
@@ -394,7 +394,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const params = [...(itemsWhere.params ?? []), lastCheckoutDate];
     const result =
         await this.db.selectRows({sql, params, options: query.options});
-    return mapQueryResult(result, row => {
+    return mapQueryResult(result, (row) => {
       const last_checkout_date = row.last_checkout_date as string;
       return {...this.table.fromDb(row), last_checkout_date};
     });
@@ -452,43 +452,43 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       method: HttpMethod.POST,
       path: `${this.keyPath}/checkout`,
       handle: async (req, res) => {
-        const barcode = req.params['key'];
+        const barcode = req.params["key"];
         const borrowernumber = parseInt(req.body.borrower, 10);
         const result = await this.checkout(barcode, borrowernumber);
         res.send(result);
       },
-      authAction: {resource: 'items', operation: 'checkout'},
+      authAction: {resource: "items", operation: "checkout"},
     });
     application.addHandler({
       method: HttpMethod.POST,
       path: `${this.keyPath}/checkin`,
       handle: async (req, res) => {
-        const barcode = req.params['key'];
+        const barcode = req.params["key"];
         const result = await this.checkin(barcode);
         res.send(result);
       },
-      authAction: {resource: 'items', operation: 'checkin'},
+      authAction: {resource: "items", operation: "checkin"},
     });
     application.addHandler({
       method: HttpMethod.POST,
       path: `${this.keyPath}/renew`,
       handle: async (req, res) => {
-        const barcode = req.params['key'];
+        const barcode = req.params["key"];
         const result = await this.renew(barcode);
         res.send(result);
       },
-      authAction: {resource: 'items', operation: 'renew'},
+      authAction: {resource: "items", operation: "renew"},
     });
     application.addHandler({
       method: HttpMethod.POST,
       path: `${this.keyPath}/order`,
       handle: async (req, res) => {
-        const barcode = req.params['key'];
+        const barcode = req.params["key"];
         const borrowernumber = req.body.borrower;
         const result = await this.order(barcode, borrowernumber);
         res.send(result);
       },
-      authAction: {resource: 'items', operation: 'order'},
+      authAction: {resource: "items", operation: "order"},
     });
     application.addHandler({
       method: HttpMethod.GET,
@@ -498,7 +498,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         const result = await this.getCheckoutReport(lastCheckoutDate, this.toEntityQuery(req.query));
         res.send(result);
       },
-      authAction: {resource: 'reports', operation: 'read'},
+      authAction: {resource: "reports", operation: "read"},
     });
 
     super.initRoutes(application);

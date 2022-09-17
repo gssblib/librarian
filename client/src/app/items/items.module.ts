@@ -41,6 +41,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { ItemAvailabilityComponent } from './item-availability/item-availability.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 /**
  * Angular module for the items (books, CDs) in the library.
@@ -70,6 +71,7 @@ import { ItemAvailabilityComponent } from './item-availability/item-availability
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    NgxFileDropModule,
     FormlyModule.forRoot(),
     FormlyMaterialModule,
     RouterModule,

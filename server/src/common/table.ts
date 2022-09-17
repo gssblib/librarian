@@ -1,8 +1,8 @@
-import mysql from 'mysql2/promise';
-import {Column, ColumnConfig, toFrontendColumnConfig} from './column';
-import {Db} from './db';
-import {EntityQuery, LogicalOp, mapQueryResult, QueryResult} from './query';
-import {SqlParams, SqlParamValue, SqlQuery, SqlTerm, SqlWhere} from './sql';
+import mysql from "mysql2/promise";
+import {Column, ColumnConfig, toFrontendColumnConfig} from "./column";
+import {Db} from "./db";
+import {EntityQuery, LogicalOp, mapQueryResult, QueryResult} from "./query";
+import {SqlParams, SqlParamValue, SqlQuery, SqlTerm, SqlWhere} from "./sql";
 
 /**
  * Configuration of an `Entity` that maps a database table to a TS type `T`.
@@ -36,7 +36,7 @@ export class EntityTable<T> {
   }
 
   getColumn<K extends keyof T>(field: K): Column<T, K, SqlParamValue>|undefined {
-    return this.columnsByName.get(field) as Column<T, K, SqlParamValue>|undefined ;
+    return this.columnsByName.get(field) as Column<T, K, SqlParamValue>|undefined;
   }
 
   /**
@@ -59,8 +59,8 @@ export class EntityTable<T> {
    */
   getFields(): ColumnConfig<T, keyof T, SqlParamValue>[] {
     return this.columns
-        .filter(column => !column.config.internal && column.name !== 'id')
-        .map(column => toFrontendColumnConfig(column.config));
+        .filter((column) => !column.config.internal && column.name !== "id")
+        .map((column) => toFrontendColumnConfig(column.config));
   }
 
   sqlTerm(field: keyof T, value: any): SqlTerm<T>|undefined {
@@ -68,16 +68,16 @@ export class EntityTable<T> {
     if (!column) {
       return undefined;
     }
-    const op = column?.queryOp ?? 'equals';
+    const op = column?.queryOp ?? "equals";
     switch (op) {
-      case 'contains':
-        return {field, op: 'like', value: `%${value}%`};
-      case 'startswith':
-        return {field, op: 'like', value: `${value}%`};
-      case 'endswith':
-        return {field, op: 'like', value: `%${value}`};
+      case "contains":
+        return {field, op: "like", value: `%${value}%`};
+      case "startswith":
+        return {field, op: "like", value: `${value}%`};
+      case "endswith":
+        return {field, op: "like", value: `%${value}`};
       default:
-        return {field, op: '=', value};
+        return {field, op: "=", value};
     }
   }
 
@@ -92,10 +92,10 @@ export class EntityTable<T> {
     return terms;
   }
 
-  sqlWhereFields(fields: Partial<T>, op: LogicalOp = 'and', prefix = ''):
+  sqlWhereFields(fields: Partial<T>, op: LogicalOp = "and", prefix = ""):
       SqlWhere {
     const terms = this.sqlTerms(fields);
-    let where = '';
+    let where = "";
     const params: SqlParams = [];
     if (terms.length > 0) {
       terms.forEach((term, index) => {
@@ -113,7 +113,7 @@ export class EntityTable<T> {
    * @param fields fields to filter by
    * @param prefix prefix to add to the field names
    */
-  sqlWhere(query: EntityQuery<T>, prefix = ''): SqlWhere {
+  sqlWhere(query: EntityQuery<T>, prefix = ""): SqlWhere {
     const whereFields: SqlWhere = this.sqlWhereFields(query.fields ?? {}, query.op);
     const conditions: string[] = [];
     const params: SqlParams = [];
@@ -126,7 +126,7 @@ export class EntityTable<T> {
       params.push(...(query.sqlWhere?.params ?? []));
     }
     const where =
-        conditions.length === 0 ? '' : `where ${conditions.join(' and ')}`;
+        conditions.length === 0 ? "" : `where ${conditions.join(" and ")}`;
     return {where, params};
   }
 
@@ -158,7 +158,7 @@ export class EntityTable<T> {
   async list(db: Db, query: EntityQuery<T>): Promise<QueryResult<T>> {
     const sqlQuery = this.toSqlQuery(query);
     const result = await db.selectRows(sqlQuery);
-    return mapQueryResult(result, row => this.fromDb(row));
+    return mapQueryResult(result, (row) => this.fromDb(row));
   }
 
   /**
@@ -172,7 +172,7 @@ export class EntityTable<T> {
 
   /**
    * Inserts a new entity into the database.
-   * 
+   *
    * Returns the stored entity (with the auto-generated id).
    */
   async create(db: Db, obj: T): Promise<T> {
@@ -184,30 +184,30 @@ export class EntityTable<T> {
       const value = obj[column.name];
       if (value != undefined) {
         columns.push(column.name as string);
-        placholders.push('?');
+        placholders.push("?");
         const toDb = column.config.domain?.toDb;
         params.push(toDb ? toDb(value) : value);
       }
     }
     const sql = `
-        insert into ${this.tableName} (${columns.join(', ')})
-        values (${placholders.join(', ')})
+        insert into ${this.tableName} (${columns.join(", ")})
+        values (${placholders.join(", ")})
       `;
     const result = await db.execute(sql, params) as mysql.ResultSetHeader;
-    console.log('EntityTable.create', result);
+    console.log("EntityTable.create", result);
     this.setId(obj, result.insertId);
     return obj;
   }
 
   /**
    * Applies a partial update to an existing object.
-   * 
+   *
    * Only registered columns can be updated. The update is performed with a SQL
    * `update` statement setting the columns of the updated fields.
    */
   async update(db: Db, obj: Partial<T>): Promise<any> {
     const params: any[] = [];
-    let sql = '';
+    let sql = "";
     for (const column of this.columns) {
       const value = obj[column.name];
       if (value != undefined) {
@@ -224,10 +224,10 @@ export class EntityTable<T> {
   }
 
   async remove(db: Db, key: string|number): Promise<T> {
-    const keyColumn = this.config.naturalKey ?? 'id';
+    const keyColumn = this.config.naturalKey ?? "id";
     const sql = `delete from ${this.tableName} where ${keyColumn} = ?`;
     const rows = await db.execute(sql, [key]) as mysql.RowDataPacket[];
-    console.log('EntityTable.remove', rows);
+    console.log("EntityTable.remove", rows);
     const row = rows[0];
     return row && this.fromDb(row);
   }

@@ -1,16 +1,16 @@
-import config from 'config';
-import * as express from 'express';
-import expressJwt from 'express-jwt';
-import {AuthAction} from '../domain/auth';
-import {isAuthorized, User} from '../domain/user';
-import {isHttpError} from './error';
+import config from "config";
+import * as express from "express";
+import expressJwt from "express-jwt";
+import {AuthAction} from "../domain/auth";
+import {isAuthorized, User} from "../domain/user";
+import {isHttpError} from "./error";
 
-const jwtConfig: {secret: string} = config.get('jwt');
+const jwtConfig: {secret: string} = config.get("jwt");
 
 const jwtCheck = expressJwt({
-  algorithms: ['HS256'],
+  algorithms: ["HS256"],
   secret: jwtConfig.secret,
-  credentialRequired: false
+  credentialRequired: false,
 });
 
 export enum HttpMethod {
@@ -33,17 +33,17 @@ function createAuthMiddleware(authAction: AuthAction): ExpressMiddleware {
   return (req, res, next) => {
     const user = req.user;
     if (user === undefined) {
-      return res.status(401).send('NO_USER');
+      return res.status(401).send("NO_USER");
     }
     const appUser = user as User;
     if (appUser.permissions === undefined) {
-      return res.status(401).send('NO_PERMISSIONS');
+      return res.status(401).send("NO_PERMISSIONS");
     }
     if (!isAuthorized(appUser, authAction)) {
-      return res.status(401).send('NOT_AUTHORIZED');
+      return res.status(401).send("NOT_AUTHORIZED");
     }
     return next();
-  }
+  };
 }
 
 /**
@@ -77,13 +77,13 @@ export class ExpressApp {
       try {
         await handler.handle(req, res);
       } catch (e) {
-        console.log(`uncaught exception`, e);
+        console.log("uncaught exception", e);
         if (isHttpError(e)) {
           res.status(e.httpStatusCode);
           res.send({errorCode: e.code});
         } else {
           res.status(500);
-          res.send({error: 'server error'});
+          res.send({error: "server error"});
         }
       }
     };

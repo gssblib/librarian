@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "client2": {
+    "client": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "client2:build"
+            "browserTarget": "client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "client2:build:production"
+              "browserTarget": "client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "client2:build"
+            "browserTarget": "client:build"
           }
         },
         "test": {
@@ -94,10 +94,14 @@
               "src/favicon.ico"
             ]
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     },
-    "client2-e2e": {
+    "client-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -106,7 +110,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "client2:serve"
+            "devServerTarget": "client:serve"
           }
         }
       }
@@ -215,7 +219,7 @@
       }
     }
   },
-  "defaultProject": "client2",
+  "defaultProject": "client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "gsl",
@@ -224,5 +228,8 @@
     "@schematics/angular:directive": {
       "prefix": "gsl"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

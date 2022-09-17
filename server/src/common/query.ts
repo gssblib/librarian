@@ -1,4 +1,4 @@
-import {SqlWhere} from './sql';
+import {SqlWhere} from "./sql";
 
 /**
  * Generic query options.
@@ -50,7 +50,7 @@ export function mapQueryResult<S, T>(
   };
 }
 
-export type LogicalOp = 'and'|'or';
+export type LogicalOp = "and"|"or";
 
 /**
  * A `FieldQuery` defines values for a subset of the fields of `T`.

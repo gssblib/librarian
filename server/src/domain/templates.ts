@@ -1,6 +1,6 @@
-import * as fs from 'fs/promises';
-import nunjucks from 'nunjucks';
-import {putIfAbsentAsync} from '../common/util';
+import * as fs from "fs/promises";
+import nunjucks from "nunjucks";
+import {putIfAbsentAsync} from "../common/util";
 
 /**
  * Interface for template-based renderer for objects of type `T`.
@@ -14,10 +14,10 @@ export interface TemplateRenderer<T extends object> {
 
 const nunjucksEnv = nunjucks.configure({});
 
-nunjucksEnv.addFilter('fixed', (num, length) => num.toFixed(length || 2));
+nunjucksEnv.addFilter("fixed", (num, length) => num.toFixed(length || 2));
 
-nunjucksEnv.addFilter('date', (value: Date|string) => {
-  const date = typeof value === 'string' ? new Date(value) : value;
+nunjucksEnv.addFilter("date", (value: Date|string) => {
+  const date = typeof value === "string" ? new Date(value) : value;
   return date.toLocaleDateString();
 });
 
@@ -34,7 +34,7 @@ class NunjucksTemplateRepository {
    */
   async getTemplate(templateName: string): Promise<nunjucks.Template> {
     return putIfAbsentAsync(
-        this.templates, templateName, async key => this.createTemplate(key));
+        this.templates, templateName, async (key) => this.createTemplate(key));
   }
 
   /**
@@ -45,7 +45,7 @@ class NunjucksTemplateRepository {
    */
   getTemplates(templateNames: string[]): Promise<nunjucks.Template[]> {
     return Promise.all(
-        templateNames.map(templateName => this.getTemplate(templateName)));
+        templateNames.map((templateName) => this.getTemplate(templateName)));
   }
 
   private async createTemplate(templateName: string):
@@ -56,7 +56,7 @@ class NunjucksTemplateRepository {
 
   private async readTemplateFile(templateName: string): Promise<string> {
     const filename = `${this.templateDir}/${templateName}`;
-    const contents = await fs.readFile(filename, {encoding: 'utf-8'});
+    const contents = await fs.readFile(filename, {encoding: "utf-8"});
     return contents;
   }
 }

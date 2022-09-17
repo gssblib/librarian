@@ -16,12 +16,12 @@
     {
       "name": "parents",
       "endpoint": "/public",
-      "path": "{{ root_path }}/client2/dist-public"
+      "path": "{{ root_path }}/client/dist-public"
     },
     {
       "name": "volunteers",
       "endpoint": "",
-      "path": "{{ root_path }}/client2/dist"
+      "path": "{{ root_path }}/client/dist"
     }
   ],
 

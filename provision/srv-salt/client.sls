@@ -1,5 +1,5 @@
 {% set app_dir = salt['grains.get']('app_dir') %}
-{% set client_dir = app_dir + '/client2' %}
+{% set client_dir = app_dir + '/client' %}
 
 include:
   - git

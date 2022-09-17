@@ -1,12 +1,11 @@
-import mysql from 'mysql2/promise';
-import qs from 'qs';
-import {Db} from './db';
-import {Entity, Flags} from './entity';
-import {httpError} from './error';
-import {ExpressApp, HttpMethod} from './express_app';
-import {getBooleanParam, getNumberParam} from './express_util';
-import {EntityQuery, QueryOptions, QueryResult} from './query';
-import {EntityTable} from './table';
+import qs from "qs";
+import {Db} from "./db";
+import {Entity, Flags} from "./entity";
+import {httpError} from "./error";
+import {ExpressApp, HttpMethod} from "./express_app";
+import {getBooleanParam, getNumberParam} from "./express_util";
+import {EntityQuery, QueryOptions, QueryResult} from "./query";
+import {EntityTable} from "./table";
 
 /**
  * Base class for `Entity` implementations.
@@ -17,9 +16,9 @@ import {EntityTable} from './table';
  * Derived class often implement additional methods or override the CRUD
  * methods, for example, using joins to fetch more data for the read methods.
  */
-export abstract class BaseEntity<T, F extends string = ''> implements
+export abstract class BaseEntity<T, F extends string = ""> implements
     Entity<T, F> {
-  readonly apiPath = '/api';
+  readonly apiPath = "/api";
   readonly name = this.table.config.name;
   readonly basePath = `${this.apiPath}/${this.name}`;
   readonly keyPath = `${this.basePath}/:key`;
@@ -34,7 +33,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
     const object = await this.find({fields: this.toKeyFields(key)});
     if (!object) {
       throw httpError({
-        code: 'ENTITY_NOT_FOUND',
+        code: "ENTITY_NOT_FOUND",
         message: `${this.name} ${key} not found`,
         httpStatusCode: 404,
       });
@@ -78,10 +77,10 @@ export abstract class BaseEntity<T, F extends string = ''> implements
    */
   toQueryOptions(params: qs.ParsedQs): QueryOptions {
     return {
-      offset: getNumberParam(params, 'offset'),
-      limit: getNumberParam(params, 'limit'),
-      order: params['_order'] as string | undefined,
-      returnCount: getBooleanParam(params, 'returnCount'),
+      offset: getNumberParam(params, "offset"),
+      limit: getNumberParam(params, "limit"),
+      order: params["_order"] as string | undefined,
+      returnCount: getBooleanParam(params, "returnCount"),
     };
   }
 
@@ -93,7 +92,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
    */
   toEntityQuery(params: qs.ParsedQs): EntityQuery<T> {
     const fields = this.toFields(params);
-    const op = params['op'] === 'or' ? 'or' : undefined;
+    const op = params["op"] === "or" ? "or" : undefined;
     const options = this.toQueryOptions(params);
     return {fields, op, options};
   }
@@ -127,12 +126,12 @@ export abstract class BaseEntity<T, F extends string = ''> implements
       method: HttpMethod.GET,
       path: this.keyPath,
       handle: async (req, res) => {
-        const key = req.params['key'] ?? '';
+        const key = req.params["key"] ?? "";
         const result =
-            await this.get(key, toFlags(req.query['options'] as string));
+            await this.get(key, toFlags(req.query["options"] as string));
         res.send(result);
       },
-      authAction: {resource: this.name, operation: 'read'}
+      authAction: {resource: this.name, operation: "read"},
     });
 
     // GET the collection of entities matching the query.
@@ -143,7 +142,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
         const result = await this.list(this.toEntityQuery(req.query));
         res.send(result);
       },
-      authAction: {resource: this.name, operation: 'read'}
+      authAction: {resource: this.name, operation: "read"},
     });
 
     // POST a new entity.
@@ -154,7 +153,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
         const result = await this.create(req.body);
         res.send(result);
       },
-      authAction: {resource: this.name, operation: 'create'}
+      authAction: {resource: this.name, operation: "create"},
     });
 
     // PUT partial updates (should be PATCH).
@@ -165,7 +164,7 @@ export abstract class BaseEntity<T, F extends string = ''> implements
         const result = await this.update(req.body);
         res.send(result);
       },
-      authAction: {resource: this.name, operation: 'update'}
+      authAction: {resource: this.name, operation: "update"},
     });
 
     // DELETE an entity.
@@ -173,11 +172,11 @@ export abstract class BaseEntity<T, F extends string = ''> implements
       method: HttpMethod.DELETE,
       path: this.keyPath,
       handle: async (req, res) => {
-        const key = req.params['key'] ?? '';
+        const key = req.params["key"] ?? "";
         const result = await this.remove(key);
         res.send(result);
       },
-      authAction: {resource: this.name, operation: 'delete'}
+      authAction: {resource: this.name, operation: "delete"},
     });
   }
 }
@@ -186,7 +185,7 @@ function toFlags<F extends string>(param?: string): Flags<F> {
   if (!param) {
     return {};
   }
-  const options = param.split(',') as F[];
+  const options = param.split(",") as F[];
   const flags: Flags<F> = {};
   for (const flag of options) {
     flags[flag] = true;

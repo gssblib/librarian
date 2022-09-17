@@ -1,5 +1,5 @@
-import {ExpressApp} from './express_app';
-import {EntityQuery, LogicalOp, QueryResult} from './query';
+import {ExpressApp} from "./express_app";
+import {EntityQuery, LogicalOp, QueryResult} from "./query";
 
 export type Flags<F extends string> = Partial<{[flag in F]: boolean}>;
 
@@ -8,7 +8,7 @@ export type Flags<F extends string> = Partial<{[flag in F]: boolean}>;
  *
  * An `Entity` instance represents the table (not a row).
  */
-export interface Entity<T, F extends string = ''> {
+export interface Entity<T, F extends string = ""> {
   /**
    * Fetches the object matching the `fields`.
    */

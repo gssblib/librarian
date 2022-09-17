@@ -10,7 +10,7 @@ import {LabelsPrintQueue} from './labels_print_queue';
 import {OrderCycles, Orders} from './orders';
 import * as labels from './labels';
 
-export const pool = mysql.createPool(config.get('db'));
+export const pool = mysql.createPool(config.get("db"));
 
 export const db = new Db(pool);
 

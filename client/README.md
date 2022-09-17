@@ -7,7 +7,7 @@ CLI](https://github.com/angular/angular-cli), see [README_CLI](./README_CLI.md).
 
 * install angular-cli
   * `npm install -g @angular/cli`
-* create ng project with `ng new client2` from parent directory
+* create ng project with `ng new client` from parent directory
 
 ## Generating application structure
 
