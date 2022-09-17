@@ -80,7 +80,7 @@ export class ExpressApp {
         console.log(`uncaught exception`, e);
         if (isHttpError(e)) {
           res.status(e.httpStatusCode);
-          res.send({errorCode: e.code});
+          res.send({errorCode: e.code, message: e.message});
         } else {
           res.status(500);
           res.send({error: 'server error'});
