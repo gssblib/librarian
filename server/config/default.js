@@ -1,33 +1,23 @@
 // -*- mode: javascript; coding: utf-8 -*-
 module.exports = {
-  // node/express server
-  "server": {
-    "port": 3000
-  },
-
-  // Library database
   "db": {
-    "database": "spils",
-    "host": "localhost",
-    "port": "3306",
-    "user": "gssb",
-    "password": "gssblib",
+    "connectionLimit": 5,
+    "connectTimeout": 10000, // 10 seconds
+    "acquireTimeout": 10000, // 10 seconds
+    "waitForConnections": true,
+    "queueLimit": 10,
     "timezone": "Z"
   },
 
   "auth": {
-    // generate with 'openssl rand -base64 32'
-    "salt": "sJt4w7r9O8FgQ/T8kaX6SZq2gtUm8axZYgzxeh3xTUs=",
-    "cookie": "b8TAcp+KA8/E+Rqvifc5hP7gDKVggpss5hYhoYlPSQk=",
-    "session": "Jpmvm5kQ2g8dEfEX8+x6Xe6nhpiQHrn9dfalBBMp5Bw="
   },
 
-  "resources": {
-    "covers": "./covers"
+  "server": {
   },
 
   "jwt": {
-    "secret": "SECRET"
+    "secret": "SECRET",
+    "algorithms": ["HS256"]
   },
 
   "sycamore-auth": {
@@ -37,32 +27,31 @@ module.exports = {
   },
 
   "smtp": {
-    "host": "",
-    "port": "",
-    "user": "",
-    "password": ""
+    "host": "smtp.office365.com",
+    "port": 587,
+    "user": "noreply@gssb.org",
+    "password": "DMeyv992"
   },
 
   "email": {
-    "sender": "GSSB Library <library-reminder@gssb.org>",
+    "sender": "GSSB Library <noreply@gssb.org>",
     "subject": "German Saturday School Library Status",
     "reply_to": "library-reminder@gssb.org",
     "test_recipients": []
   },
-
   "fonts": {
     "Times": {
-      path: __dirname + '/fonts/times.ttf',
+      path: __dirname + '/../fonts/times.ttf',
       fallback: true
     },
     "Times-Bold": {
-      path: __dirname + '/fonts/timesbd.ttf',
+      path: __dirname + '/../fonts/timesbd.ttf',
     },
     "Times-Italic": {
-      path: __dirname + '/fonts/timesi.ttf',
+      path: __dirname + '/../fonts/timesi.ttf',
     },
     "Times-Bold-Italic": {
-      path: __dirname + '/fonts/timesbi.ttf',
+      path: __dirname + '/../fonts/timesbi.ttf',
     },
   },
 
@@ -77,7 +66,7 @@ module.exports = {
         return {age: item.age.split('-')[1]};
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-leseleiter.pdf',
+        basePdf: __dirname + '../label-templates/main-leseleiter.pdf',
         schemas: [{
           age: {
             type: 'text',
@@ -136,7 +125,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-sachkunde.pdf',
+        basePdf: __dirname + '../label-templates/main-sachkunde.pdf',
         schemas: [{
           cls_abbr: {
             type: 'text',
@@ -189,7 +178,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-erzaehlung.pdf',
+        basePdf: __dirname + '/../label-templates/main-erzaehlung.pdf',
         schemas: [{
           author_abbr: {
             type: 'text',
@@ -250,7 +239,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-comic.pdf',
+        basePdf: __dirname + '/../label-templates/main-comic.pdf',
         schemas: [{
           sub_cat_abbr: {
             type: 'text',
@@ -283,7 +272,7 @@ module.exports = {
         return {};
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-zeitschrift.pdf',
+        basePdf: __dirname + '/../label-templates/main-zeitschrift.pdf',
         schemas: [],
       }
     },
@@ -308,7 +297,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-holiday.pdf',
+        basePdf: __dirname + '/../label-templates/main-holiday.pdf',
         schemas: [{
           holiday: {
             type: 'text',
@@ -385,7 +374,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-bilderbuch-with-author.pdf',
+        basePdf: __dirname + '/../label-templates/main-bilderbuch-with-author.pdf',
         schemas: [{
           author_abbr: {
             type: 'text',
@@ -460,7 +449,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-bilderbuch-with-topic.pdf',
+        basePdf: __dirname + '/../label-templates/main-bilderbuch-with-topic.pdf',
         schemas: [{
           topic_abbr: {
             type: 'text',
@@ -493,7 +482,7 @@ module.exports = {
         return {};
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-boardbook.pdf',
+        basePdf: __dirname + '/../label-templates/main-boardbook.pdf',
         schemas: [],
       }
     },
@@ -551,7 +540,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/main-dvd.pdf',
+        basePdf: __dirname + '/../label-templates/main-dvd.pdf',
         schemas: [{
           title_abbr: {
             type: 'text',
@@ -595,7 +584,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/barcode.pdf',
+        basePdf: __dirname + '/../label-templates/barcode.pdf',
         schemas: [{
           barcode: {
             type: 'code39',
@@ -644,7 +633,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '/label-templates/property.pdf',
+        basePdf: __dirname + '/../label-templates/property.pdf',
         schemas: [{
           year: {
             type: 'text',
@@ -678,7 +667,7 @@ module.exports = {
         return {};
       },
       template: {
-        basePdf: __dirname + '/label-templates/copyright.pdf',
+        basePdf: __dirname + '/../label-templates/copyright.pdf',
         schemas: [],
       }
     },
