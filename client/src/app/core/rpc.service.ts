@@ -143,6 +143,6 @@ export class RpcService {
 
   private toRpcError(response: HttpErrorResponse) {
     const error = response.error;
-    return new RpcError(response.status, error.code, "" + error);
+    return new RpcError(response.status, error.errorCode, "" + error.message);
   }
 }
