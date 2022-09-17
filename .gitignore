@@ -14,11 +14,11 @@ config/*.json
 
 labels/*.pdf
 
-client2/dist
-client2/dist-public
-client2/.public.git-rev
-client2/.volunteers.git-rev
-client2/src/environments
+client/dist
+client/dist-public
+client/.public.git-rev
+client/.volunteers.git-rev
+client/src/environments
 
 provision/grains
 # Logs
