@@ -109,7 +109,9 @@ public-client-dev:
 
 ####> Label Printer Server <###################################################
 
-label-printer/build/index.js: src/**/*.ts
+LABEL_PRINTER_TS_FILES := $(shell find src -type f -name "*.ts")
+
+label-printer/build/index.js: $(LABEL_PRINTER_TS_FILES)
 	cd label-printer; \
 	npx tsc
 
