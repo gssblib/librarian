@@ -1,13 +1,12 @@
+import axios from 'axios';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as conf from 'config';
-import * as mysql from 'mysql2/promise';
 import {CronJob} from 'cron';
 import * as tmp from 'tmp';
 import * as child_process from 'child_process';
 
 const config = conf as any;
-const pool = mysql.createPool(config.db);
 const async_exec = util.promisify(child_process.exec);
 
 interface ChildProcessResult {
@@ -52,27 +51,55 @@ class LabelPrintQueueProcessor {
     }
   }
 
-  async setStatus(job: LabelPrintJob, status: LabelPrintJobStatus) {
-    pool.execute(
-      "UPDATE labels_print_queue SET status = ? WHERE id = ?",
-      [status, job.id]
-    );
-    job.status = status;
+  get apiUrl() {
+    return config.api.url;
+  }
+
+  get queueUrl() {
+    return `${this.apiUrl}/labels_print_queue`;
+  }
+
+  async login() {
+    const {data, status} = await axios.post(
+      `${this.apiUrl}/authenticate`,
+      {username: config.api.username, password: config.api.password, 'type': 'internal'}
+    )
+    if (status !== 200) {
+      console.error('Authentication with server failed.');
+      process.exit(1);
+    }
+    axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+  }
+
+  async setStatus(job: LabelPrintJob, jobStatus: LabelPrintJobStatus) {
+    const {data, status} = await axios.post(
+      `${this.queueUrl}/${job.id}/status`,
+      {'status': jobStatus}
+    ).catch((error) => {
+      console.error(`Could not set status of job ${job.id} to ${jobStatus}.`);
+      process.exit(1);
+    });
+    job.status = jobStatus;
   }
 
   async claimNext(): Promise<LabelPrintJob|null> {
-    let rows = await pool.query(
-      "SELECT * FROM labels_print_queue " +
-        "WHERE labelsize IN (?) AND status = 'waiting' " +
-        "ORDER BY id " +
-        "LIMIT 1",
-      [Object.keys(this.printers)]
-    ) as mysql.RowDataPacket[][];
-    if (rows[0].length == 0 || rows[0][0].length == 0) {
+    let sizes = Object.keys(this.printers);
+    const {data, status} = await axios.get(
+      `${this.queueUrl}/next`,
+      {
+        params: {'sizes': sizes.join(',')},
+        validateStatus: (status) => !(status in [200, 404]),
+      }
+    ).catch((error) => {
+      console.error(`Bad server response while claiming job: ${error}`);
+      process.exit(1);
+    });
+    if (status === 404) {
       return null;
     }
-    console.log(rows[0][0]);
-    let job = rows[0][0] as LabelPrintJob;
+    /* Convert base64 PDF to Buffer. */
+    data.pdf = Buffer.from(data.pdf, 'base64');
+    let job = data as LabelPrintJob;
     await this.setStatus(job, 'processing' as LabelPrintJobStatus);
     return job;
   }
@@ -87,7 +114,7 @@ class LabelPrintQueueProcessor {
         '-o Resolution=300x600dpi '
      )
     for (let [name, value] of Object.entries(printer.options)) {
-      cmd += `-o ${name}="${value} `;
+      cmd += `-o ${name}="${value}" `;
     }
 
     let tmpFile = tmp.fileSync();
@@ -95,7 +122,6 @@ class LabelPrintQueueProcessor {
     cmd += tmpFile.name;
     console.debug(`Running command: ${cmd}`)
     let res = await async_exec(cmd) as ChildProcessResult;
-    console.debug(res);
     if (res.code && res.code > 0) {
       console.error(res.stderr);
       throw new Error(`Print failed: ${res.stderr}`);
@@ -135,7 +161,8 @@ class LabelPrintQueueProcessor {
     this.working = false;
   }
 
-  run() {
+  async run() {
+    await this.login();
     let job = new CronJob(
       '* * * * * *', this.safeProcess, null, false, 'UTC', this);
     job.start()

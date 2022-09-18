@@ -114,19 +114,19 @@ label-printer/build/index.js: src/**/*.ts
 	npx tsc
 
 ##> labels-server: Install labels print server.
-label-printer:
+labels-server: label-printer/package.json
 	cd label-printer; \
 	npm install
 
 
 ##> run-labels-server: Run labels printer server.
-run-label-printer:
+run-labels-server: labels-server label-printer/build/index.js
 	cd label-printer; \
 	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
 	node build/index.js
 
 ##> run-labels-server-dev: Run labels printer server in dev mode with auto-reload.
-run-label-printer-dev:
+run-labels-server-dev: labels-server
 	cd label-printer; \
 	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
 	./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/index.ts

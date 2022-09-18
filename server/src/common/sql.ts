@@ -1,6 +1,6 @@
 import {QueryOptions} from "./query";
 
-export type SqlParamValue = string|number|Date|null|Buffer;
+export type SqlParamValue = string|number|Date|null|Buffer|string[];
 export type SqlParams = SqlParamValue[];
 
 

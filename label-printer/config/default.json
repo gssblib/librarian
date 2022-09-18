@@ -1,5 +1,4 @@
 {
-
   // Library database
   "db": {
     "database": "spils",
@@ -7,6 +6,12 @@
     "user": "gssb",
     "password": "gssblib",
     "timezone": "Z"
+  },
+
+  "api": {
+    "url": "http://localhost:5005/api",
+    "username": "printer",
+    "password": "gssblib"
   },
 
   "printers": [

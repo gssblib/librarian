@@ -95,4 +95,15 @@ export const roleRepository: AuthRoleRepository = new Map<string, AuthRole>([
       ]
     },
   ],
+  [
+    'printer',
+    {
+      permissions: [
+        {
+          resource: 'labels_print_queue',
+          operations: crud,
+        },
+      ]
+    },
+  ],
 ]);

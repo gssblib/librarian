@@ -3,6 +3,7 @@ import { EnumColumnDomain } from '../common/column';
 import { Db } from '../common/db';
 import { ExpressApp, HttpMethod } from '../common/express_app';
 import { EntityTable } from '../common/table';
+import { httpError } from '../common/error';
 import { saltedHash } from './login';
 
 type LabelPrintJobStatus = 'waiting'|'processing'|'completed'|'error';
@@ -97,6 +98,23 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
     return super.update(obj);
   }
 
+  async getNext(sizes: string[]): Promise<LabelPrintJob|null> {
+    const row = await this.db.selectRow(
+      "SELECT * FROM labels_print_queue " +
+        "WHERE labelsize IN (?) AND status = 'waiting' " +
+        "ORDER BY id " +
+        "LIMIT 1",
+      [sizes]);
+    if (!row) {
+      return null;
+    }
+    return this.table.fromDb(row)
+  }
+
+  async setStatus(id: string, status: LabelPrintJobStatus) {
+    this.update({id: +id, status});
+  }
+
   async clear() {
     await this.db.execute('DELETE FROM labels_print_queue');
   }
@@ -125,6 +143,40 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
         res.send({'status': 'Ok'});
       },
       authAction: {resource: 'labels_print_queue', operation: 'delete'},
+    });
+
+    application.addHandler({
+      method: HttpMethod.GET,
+      path: `/api/labels_print_queue/next`,
+      handle: async (req, res) => {
+        let sizes = (req.query['sizes'] as string).split(',');
+        let job = await this.getNext(sizes);
+        /* Handle not found here to avoid excessive error logging */
+        if (job === null) {
+          res.status(404);
+          res.send({
+            code: "ENTITY_NOT_FOUND",
+            message: `no matching label print job in queue.`,
+          });
+          return;
+        }
+        let data = job as any;
+        data.pdf = job.pdf.toString('base64');
+        res.send(job);
+      },
+      authAction: {resource: 'labels_print_queue', operation: 'read'},
+    });
+
+    application.addHandler({
+      method: HttpMethod.POST,
+      path: `${this.keyPath}/status`,
+      handle: async (req, res) => {
+        let id = req.params['key'];
+        let status = req.body['status'];
+        this.setStatus(id, status);
+        res.send({'status': 'Ok'});
+      },
+      authAction: {resource: 'labels_print_queue', operation: 'update'},
     });
 
     super.initRoutes(application);

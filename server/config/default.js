@@ -66,7 +66,7 @@ module.exports = {
         return {age: item.age.split('-')[1]};
       },
       template: {
-        basePdf: __dirname + '../label-templates/main-leseleiter.pdf',
+        basePdf: __dirname + '/../label-templates/main-leseleiter.pdf',
         schemas: [{
           age: {
             type: 'text',
@@ -125,7 +125,7 @@ module.exports = {
         };
       },
       template: {
-        basePdf: __dirname + '../label-templates/main-sachkunde.pdf',
+        basePdf: __dirname + '/../label-templates/main-sachkunde.pdf',
         schemas: [{
           cls_abbr: {
             type: 'text',
