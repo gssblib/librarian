@@ -60,6 +60,7 @@ class LabelPrintQueueProcessor {
   }
 
   async login() {
+    console.log(`Logging into "${this.apiUrl}" with username "${config.api.username}".`);
     const {data, status} = await axios.post(
       `${this.apiUrl}/authenticate`,
       {username: config.api.username, password: config.api.password, 'type': 'internal'}
@@ -68,6 +69,7 @@ class LabelPrintQueueProcessor {
       console.error('Authentication with server failed.');
       process.exit(1);
     }
+    console.log(`Authentication successful.`);
     axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
   }
 

@@ -109,7 +109,7 @@ public-client-dev:
 
 ####> Label Printer Server <###################################################
 
-LABEL_PRINTER_TS_FILES := $(shell find src -type f -name "*.ts")
+LABEL_PRINTER_TS_FILES := $(shell find label-printer/src -type f -name "*.ts")
 
 label-printer/build/index.js: $(LABEL_PRINTER_TS_FILES)
 	cd label-printer; \
@@ -184,10 +184,10 @@ run-firebase-emulator: server
 scripts: scripts/requirements.txt | python-ve
 	$(PIP) install -r scripts/requirements.txt
 
-ALL_TEMPLATES := $(shell find ./config/label-templates -name '*.rml')
+ALL_TEMPLATES := $(shell find ./server/label-templates -name '*.rml')
 ALL_TEMPLATE_PDFS := $(ALL_TEMPLATES:%.rml=%.pdf)
 
-config/label-templates/%.pdf: config/label-templates/%.rml
+server/label-templates/%.pdf: server/label-templates/%.rml
 	$(RML2PDF) $< $@
 
 ##> label-templates : Compile all label templates.

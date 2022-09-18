@@ -10,7 +10,7 @@
     {
       "title": "Single Dymo LabelWriter 450",
       "printer": "LabelWriter-450-Turbo",
-      "papersize": "w54h180",
+      "papersize": "w79h252",
       "code": "Dymo 30252",
       "options": {
         "PageSize": "w79h252"
