@@ -200,7 +200,8 @@ secrets-backup:
 	   server/config/*.json \
 	   server/.env \
 	   client/src/environments \
-	   label-printer/config/prod.json
+	   label-printer/config/prod.json \
+	   gssb-library-c7c5e-dd579be31370.json
 
 ##> secrets-install : Install secrets from secrets TGZ.
 .PHONY: secrets-install

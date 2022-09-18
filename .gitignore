@@ -5,10 +5,10 @@ tags
 *~
 .md5sums
 
-backups/
+gssb-library-*.json
+cloud_sql_proxy
+
 python-ve/
-python3-ve/
-covers
 
 config/*.json
 
