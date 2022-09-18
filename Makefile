@@ -89,7 +89,7 @@ client: client/package.json
 ##> client-dist : Build volunteer client distribution
 client-dist:
 	cd client; \
-	ng build --prod --base-href "/"
+	node_modules/.bin/ng build --configuration production --base-href "/"
 
 ##> client-dev : Start the volunteer client dev server on port 4200.
 client-dev:
@@ -99,7 +99,7 @@ client-dev:
 ##> public-client-dist : Build public client distribution
 public-client-dist:
 	cd client; \
-	ng build public --prod --base-href "/" public
+	node_modules/.bin/ng build --configuration production --base-href "/" public
 
 ##> public-client-dev : Start the public client dev server on port 5200.
 public-client-dev:
@@ -128,7 +128,7 @@ run-labels-server: labels-server label-printer/build/index.js
 ##> run-labels-server-dev: Run labels printer server in dev mode with auto-reload.
 run-labels-server-dev: labels-server
 	cd label-printer; \
-	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
+	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=dev \
 	./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/index.ts
 
 
