@@ -3,7 +3,6 @@ module.exports = {
   "db": {
     "connectionLimit": 5,
     "connectTimeout": 10000, // 10 seconds
-    "acquireTimeout": 10000, // 10 seconds
     "waitForConnections": true,
     "queueLimit": 10,
     "timezone": "Z"
@@ -27,10 +26,10 @@ module.exports = {
   },
 
   "smtp": {
-    "host": "smtp.office365.com",
+    "host": "",
     "port": 587,
     "user": "noreply@gssb.org",
-    "password": "DMeyv992"
+    "password": ""
   },
 
   "email": {
@@ -39,6 +38,7 @@ module.exports = {
     "reply_to": "library-reminder@gssb.org",
     "test_recipients": []
   },
+
   "fonts": {
     "Times": {
       path: __dirname + '/../fonts/times.ttf',
