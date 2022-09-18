@@ -59,6 +59,22 @@ class LabelPrintQueueProcessor {
     return `${this.apiUrl}/labels_print_queue`;
   }
 
+  async ping() {
+    process.stdout.write('Checking server availability:');
+    let pass = false;
+    while (!pass) {
+      await axios.get(`${this.apiUrl}`)
+        .then(() => {
+          process.stdout.write(' Done.\n');
+          pass = true;
+        })
+        .catch(async (error) => {
+          process.stdout.write('.');
+          await new Promise(f => setTimeout(f, 5000));
+        });
+    }
+  }
+
   async login() {
     console.log(`Logging into "${this.apiUrl}" with username "${config.api.username}".`);
     const {data, status} = await axios.post(
@@ -92,10 +108,7 @@ class LabelPrintQueueProcessor {
         params: {'sizes': sizes.join(',')},
         validateStatus: (status) => !(status in [200, 404]),
       }
-    ).catch((error) => {
-      console.error(`Bad server response while claiming job: ${error}`);
-      process.exit(1);
-    });
+    );
     if (status === 404) {
       return null;
     }
@@ -130,7 +143,7 @@ class LabelPrintQueueProcessor {
     }
   }
 
-  async process() {
+  async processJobs() {
     while (true) {
       let job = await this.claimNext()
       if (job === null) {
@@ -143,6 +156,8 @@ class LabelPrintQueueProcessor {
         await this.printLabel(printer, job);
         status = 'completed';
       } catch (error) {
+        /* Printing does not involve network communication, so failures should just be
+        /* reported to the server. */
         console.log(error)
         status = 'error';
       }
@@ -150,24 +165,25 @@ class LabelPrintQueueProcessor {
     }
   }
 
-  async safeProcess() {
-    if (this.working) {
-      return;
+  async process() {
+    process.stdout.write('Listening for print jobs.\n');
+    while (true) {
+      try {
+        await this.processJobs()
+      } catch (error) {
+        console.error('Error while processing print jobs', error);
+        console.error('Trying to recover...');
+        await this.ping();
+        continue;
+      }
+      await new Promise(f => setTimeout(f, 5000));
     }
-    this.working = true;
-    try {
-      await this.process()
-    } catch (error) {
-      console.error(error);
-    }
-    this.working = false;
   }
 
   async run() {
+    await this.ping();
     await this.login();
-    let job = new CronJob(
-      '* * * * * *', this.safeProcess, null, false, 'UTC', this);
-    job.start()
+    await this.process();
   }
 }
 
