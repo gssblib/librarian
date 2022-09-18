@@ -197,7 +197,8 @@ secrets-backup:
 	tar cvfz $(SECRETS_BACKUP_FILE) \
 	   server/config/*.json \
 	   server/.env \
-	   client/src/environments
+	   client/src/environments \
+	   label-printer/config/prod.json
 
 ##> secrets-install : Install secrets from secrets TGZ.
 .PHONY: secrets-install
