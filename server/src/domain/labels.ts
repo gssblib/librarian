@@ -88,6 +88,7 @@ export async function printLabel(
     labelsize: label.type,
     pdf: pdf,
     name: label.name,
+    status: 'waiting',
   } as LabelPrintJob)
   return job;
 }
