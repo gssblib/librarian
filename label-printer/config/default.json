@@ -1,12 +1,4 @@
 {
-  // Library database
-  "db": {
-    "database": "spils",
-    "host": "localhost",
-    "user": "gssb",
-    "password": "gssblib",
-    "timezone": "Z"
-  },
 
   "api": {
     "url": "http://localhost:5005/api",

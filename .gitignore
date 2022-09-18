@@ -12,12 +12,13 @@ covers
 
 config/*.json
 
-labels/*.pdf
-
 client/dist
 client/dist-public
 client/.public.git-rev
 client/.volunteers.git-rev
+
+label-printer/config/prod.json
+label-printer/config/dev.json
 
 # Logs
 logs
