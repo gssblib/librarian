@@ -7,8 +7,8 @@ REPO = "firebase"
 GITHUB_URL = f"https://github.com/gssblib/{REPO}.git"
 SALT_BOOTSTRAP_URL = "https://bootstrap.saltproject.io"
 
-DEFAULT_API_URL = 'https://librarian.gssb.org/api'
-DEFAULT_API_USERNAME = 'printer'
+DEFAULT_API_URL = "https://librarian.gssb.org/api"
+DEFAULT_API_USERNAME = "printer"
 
 grains = {}
 
@@ -45,13 +45,13 @@ def clone_repos():
 
 
 def collect_api_info():
-    grains['api.url'] = input(f'API URL [{DEFAULT_API_URL}]: ')
-    if not grains['api.url']:
-        grains['api.url'] = DEFAULT_API_URL
-    grains['api.username'] = input(f'API Username [{DEFAULT_API_USERNAME}]: ')
-    if not grains['api.username']:
-        grains['api.username'] = DEFAULT_API_USERNAME
-    grains['api.password'] = input(f'API Password: ')
+    grains["api.url"] = input(f"API URL [{DEFAULT_API_URL}]: ")
+    if not grains["api.url"]:
+        grains["api.url"] = DEFAULT_API_URL
+    grains["api.username"] = input(f"API Username [{DEFAULT_API_USERNAME}]: ")
+    if not grains["api.username"]:
+        grains["api.username"] = DEFAULT_API_USERNAME
+    grains["api.password"] = input(f"API Password: ")
 
 
 def write_grains():
@@ -78,15 +78,7 @@ def write_grains():
 def run_salt():
     print("Applying salt state.")
     os.chdir(f"{grains['app_dir']}/label-printer/provision")
-    cmd(
-        [
-            "sudo",
-            "salt-call",
-            "-c",
-            ".", "--local",
-            "state.apply",
-        ]
-    )
+    cmd(["sudo", "salt-call", "-c", ".", "--local", "state.apply", "-l", "debug"])
 
 
 def main():
