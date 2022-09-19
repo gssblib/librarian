@@ -33,7 +33,7 @@ desktop-icon:
     - source: salt://gssb.png
     - cwd: {{ home_dir }}
     - template: jinja
-    - mode: 0644
+    - mode: 0750
     - require:
       - {{ home_dir }}/.config/autostart
 
@@ -44,6 +44,6 @@ desktop:
     - cwd: {{ home_dir }}
     - user: gssb
     - template: jinja
-    - mode: 0644
+    - mode: 0750
     - require:
       - desktop-icon
