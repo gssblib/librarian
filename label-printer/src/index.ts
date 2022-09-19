@@ -171,7 +171,7 @@ class LabelPrintQueueProcessor {
       try {
         await this.processJobs()
       } catch (error) {
-        console.error('Error while processing print jobs', error);
+        console.error(`Error while processing print jobs: ${error}`);
         console.error('Trying to recover...');
         await this.ping();
         continue;
