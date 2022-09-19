@@ -4,13 +4,17 @@ import sys
 
 APP_ROOT = "/opt/gssb"
 APP_DIR = f"{APP_ROOT}/librarian"
+GRAINS_PATH = os.path.join(APP_DIR, "label-printer", "provision", "grains")
+
 GITHUB_URL = f"https://github.com/gssblib/firebase.git"
 SALT_BOOTSTRAP_URL = "https://bootstrap.saltproject.io"
 
 DEFAULT_API_URL = "https://librarian.gssb.org/api"
 DEFAULT_API_USERNAME = "printer"
 
-grains = {}
+grains = {
+    "app_dir": APP_DIR,
+}
 
 
 def cmd(cmd):
@@ -37,7 +41,6 @@ def clone_repos():
     if not os.path.exists(APP_ROOT):
         cmd(["sudo", "mkdir", "-p", APP_ROOT])
         cmd(["sudo", "chown", "%s:%s" % (os.getlogin(), os.getgroups()[0]), APP_ROOT])
-    grains["app_dir"] = APP_DIR
     if not os.path.exists(APP_DIR):
         cmd(["git", "clone", GITHUB_URL, APP_DIR])
     else:
@@ -45,6 +48,9 @@ def clone_repos():
 
 
 def collect_api_info():
+    # Do not ask for this info all the time.
+    if os.path.exists(GRAINS_PATH):
+        return
     grains["api.url"] = input(f"API URL [{DEFAULT_API_URL}]: ")
     if not grains["api.url"]:
         grains["api.url"] = DEFAULT_API_URL
@@ -55,24 +61,21 @@ def collect_api_info():
 
 
 def write_grains():
-    grains_path = os.path.join(
-        grains["app_dir"], "label-printer", "provision", "grains"
-    )
-    print("Updating grains in %s" % grains_path)
+    print("Updating grains in %s" % GRAINS_PATH)
     installed_grains = {}
-    if os.path.exists(grains_path):
-        with open(grains_path, "r") as io:
+    if os.path.exists(GRAINS_PATH):
+        with open(GRAINS_PATH, "r") as io:
             installed_grains = dict(
                 [line.strip().split(": ", 1) for line in io.readlines()]
             )
     installed_grains.update(grains)
-    with open(f"{grains_path}.tmp", "w") as io:
+    with open(f"{GRAINS_PATH}.tmp", "w") as io:
         io.write(
             "\n".join(
                 "%s: %s" % (key, value) for key, value in installed_grains.items()
             )
         )
-    cmd(["sudo", "mv", grains_path + ".tmp", grains_path])
+    cmd(["sudo", "mv", GRAINS_PATH + ".tmp", GRAINS_PATH])
 
 
 def run_salt():
