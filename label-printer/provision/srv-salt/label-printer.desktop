@@ -4,4 +4,4 @@
 [Desktop Entry]
 Type=Application
 Name=GSSB Label Printer
-Exec=xterm -hold -e "NODE_CONFIG_DIR={{ label_config_dir }} NODE_ENV=prod node {{ label_dir }}/build/index.js"
+Exec=xterm -T "Label Printer" -n "Label Printer" -hold -e "NODE_CONFIG_DIR={{ label_config_dir }} NODE_ENV=prod node {{ label_dir }}/build/index.js"
