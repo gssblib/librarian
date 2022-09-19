@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-APP_ROOT = "/opt/gssb2"
+APP_ROOT = "/opt/gssb"
 REPO = "firebase"
 GITHUB_URL = f"https://github.com/gssblib/{REPO}.git"
 SALT_BOOTSTRAP_URL = "https://bootstrap.saltproject.io"
@@ -45,10 +45,10 @@ def clone_repos():
 
 
 def collect_api_info():
-    grains['api.url'] = input(f'API URL [${DEFAULT_API_URL}]: ')
+    grains['api.url'] = input(f'API URL [{DEFAULT_API_URL}]: ')
     if not grains['api.url']:
         grains['api.url'] = DEFAULT_API_URL
-    grains['api.username'] = input(f'API Username [${DEFAULT_API_USERNAME}]: ')
+    grains['api.username'] = input(f'API Username [{DEFAULT_API_USERNAME}]: ')
     if not grains['api.username']:
         grains['api.username'] = DEFAULT_API_USERNAME
     grains['api.password'] = input(f'API Password: ')
