@@ -1,0 +1,7 @@
+{
+  "api": {
+    "url": "{{ salt['grains.get']('api.url') }}",
+    "username": "{{ salt['grains.get']('api.username') }}",
+    "password": "{{ salt['grains.get']('api.password') }}"
+  }
+}

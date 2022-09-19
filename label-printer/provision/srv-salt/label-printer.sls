@@ -4,7 +4,7 @@
 include:
   - node
 
-server install:
+label printer install:
   cmd.run:
     - name: |
         npm install && \
@@ -17,12 +17,12 @@ server install:
         test -e node_modules && \
         test -e .md5sums && md5sum --strict --status -c .md5sums
 
-server config:
+label printer config:
   file.managed:
-    - name: {{ config_dir }}/{{ server_type }}.json
-    - source: salt://server/{{ server_type }}.json
+    - name: {{ app_dir }}/label-printer/config/prod.json
+    - source: salt://prod-config.json
     - user: gssb
     - template: jinja
-    - file_mode: 0644
+    - mode: 0644
     - context:
-      root_path: {{ app_dir }}
+      root_path: {{ app_dir }}/label-printer
