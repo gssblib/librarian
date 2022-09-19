@@ -77,12 +77,13 @@ def write_grains():
 
 def run_salt():
     print("Applying salt state.")
+    os.chdir(f"{grains['app_dir']}/label-printer/provision")
     cmd(
         [
             "sudo",
             "salt-call",
             "-c",
-            f"{grains['app_dir']}/label-printer/provision", "--local",
+            ".", "--local",
             "state.apply",
         ]
     )
