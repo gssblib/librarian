@@ -29,7 +29,7 @@ export class UserAddPageComponent implements OnInit {
   submitForm(user) {
     this.usersService.add(user).subscribe(
       value => {
-        this.router.navigate(['/users', value.id, 'profile']);
+        this.router.navigate(['/users', value.id, 'edit']);
       },
       error => {
         this.notificationService.showError('Saving user failed', error);
