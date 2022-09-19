@@ -79,14 +79,30 @@ export class AdminLabelsPrintQueueComponent implements AfterViewInit {
       .subscribe(data => this.dataSource.data = data);
   }
 
-  clear() {
+  clear(status?: string) {
     this.loading = true;
-    this.labelsPrintQueueService.clear()
+    this.labelsPrintQueueService.clear(status)
       .subscribe(
         result => {
           this.loading = false;
           this.navigate();
-          this.notificationService.show('Queue cleared.')
+          this.notificationService.show('Jobs cleared.')
+        },
+        (error: RpcError) => {
+          this.loading = false;
+          this.notificationService.showError(`Server error`)
+        }
+      );
+  }
+
+  retry() {
+    this.loading = true;
+    this.labelsPrintQueueService.retry()
+      .subscribe(
+        result => {
+          this.loading = false;
+          this.navigate();
+          this.notificationService.show('Jobs retried.')
         },
         (error: RpcError) => {
           this.loading = false;

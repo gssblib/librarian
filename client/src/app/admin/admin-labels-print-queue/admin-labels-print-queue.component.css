@@ -23,3 +23,7 @@ a {
 .actions {
   margin-top: 20px;
 }
+
+.action + .action {
+  margin-left: 1em;
+}

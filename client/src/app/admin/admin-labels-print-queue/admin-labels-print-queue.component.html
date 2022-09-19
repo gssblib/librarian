@@ -59,10 +59,28 @@
            mat-raised-button
            gslConfirmationDialog
            title="Clearing Label Print Queue"
-           message="Are you sure you want to clear the queue?"
+           message="Are you sure you want to clear the entire the queue?"
            (confirm)="clear()"
            *gslAuthorized="'labels_print_queue.delete'">
           Clear Queue
+        </button>
+        <button color="primary" class="action"
+           mat-raised-button
+           gslConfirmationDialog
+           title="Removing Completed Jobs"
+           message="Are you sure you want to remove all completed print jobs?"
+           (confirm)="clear('completed')"
+           *gslAuthorized="'labels_print_queue.delete'">
+          Remove Completed
+        </button>
+        <button color="primary" class="action"
+           mat-raised-button
+           gslConfirmationDialog
+           title="Retry Failed Jobs"
+           message="Are you sure you want to retry all failed print jobs?"
+           (confirm)="retry()"
+           *gslAuthorized="'labels_print_queue.update'">
+          Retry Failed
         </button>
       </form>
     </div>

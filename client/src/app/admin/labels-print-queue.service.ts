@@ -38,8 +38,12 @@ export class LabelsPrintQueueService extends ModelsService<LabelPrintJob> {
       .pipe(map(pdf => this.arrayBufferToBase64(pdf)));
   }
 
-  clear(): Observable<any> {
-    return this.rpc.httpPost('labels_print_queue/clear');
+  clear(status?: string): Observable<any> {
+    return this.rpc.httpPost('labels_print_queue/clear', {status: status || null});
+  }
+
+  retry(): Observable<any> {
+    return this.rpc.httpPost('labels_print_queue/retry');
   }
 
 }
