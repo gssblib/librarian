@@ -105,7 +105,7 @@ class LabelPrintQueueProcessor {
     const {data, status} = await axios.get(
       `${this.queueUrl}/next`,
       {
-        params: {'sizes': sizes.join(',')},
+        params: {'sizes': sizes.join(','), timestamp: Date.now()},
         validateStatus: (status) => !(status in [200, 404]),
       }
     );
