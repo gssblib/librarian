@@ -5,5 +5,5 @@ Type=Application
 Name=Label Printer
 Comment=GSSB Label Printer
 Terminal=false
-Exec=lxterminal -T "Label Printer" -n "Label Printer" -hold -e "NODE_CONFIG_DIR={{ label_config_dir }} NODE_ENV=prod node {{ label_dir }}/build/index.js"
+Exec=lxterminal -T "Label Printer" -e "NODE_CONFIG_DIR={{ label_config_dir }} NODE_ENV=prod node {{ label_dir }}/build/index.js"
 Icon=/usr/share/pixmaps/gssb.png
