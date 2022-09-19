@@ -1,5 +1,10 @@
 {% set home_dir = salt['user.info']('gssb').home %}
 
+xterm:
+  pkg.installed:
+    - pkgs:
+      - xterm
+
 {{ home_dir }}/.config/autostart:
   file.directory:
     - user: gssb
@@ -19,3 +24,5 @@ autostart:
     - user: gssb
     - template: jinja
     - mode: 0644
+    - require:
+      - {{ home_dir }}/.config/autostart
