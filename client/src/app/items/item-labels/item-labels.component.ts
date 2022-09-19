@@ -81,7 +81,7 @@ export class ItemLabelsComponent implements OnInit {
     this.itemsService.printLabel(item, category, data)
       .subscribe(
         data => {
-          this.notificationService.show(data.status);
+          this.notificationService.show(`Print job ${data.jobId} scheduled.`);
         },
         error => {
           this.notificationService.showError(error.data.status);
