@@ -20,6 +20,7 @@ client/.volunteers.git-rev
 label-printer/build
 label-printer/config/prod.json
 label-printer/config/dev.json
+label-printer/provision/grains
 
 # Logs
 logs
