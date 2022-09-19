@@ -42,6 +42,7 @@ export class InternalUserTable extends EntityTable<InternalUser> {
       name: 'username',
       label: 'Username',
       queryOp: 'contains',
+      required: true,
     });
     this.addColumn({
       name: 'hashed_password',
@@ -50,11 +51,13 @@ export class InternalUserTable extends EntityTable<InternalUser> {
     this.addColumn({
       name: 'failed_login_attempts',
       label: 'Failed Login Attempts',
+      required: true,
     });
     // Support single role only for now.
     this.addColumn({
       name: 'roles',
       label: 'Roles',
+      required: true,
       domain: InternalUserRoleDomain,
     });
   }
