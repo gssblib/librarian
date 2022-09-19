@@ -115,8 +115,17 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
     this.update({id: +id, status});
   }
 
-  async clear() {
-    await this.db.execute('DELETE FROM labels_print_queue');
+  async clear(status?: string) {
+    if (status) {
+      await this.db.execute('DELETE FROM labels_print_queue WHERE status = ?', [status]);
+    } else {
+      await this.db.execute('DELETE FROM labels_print_queue');
+    }
+  }
+
+  async retry() {
+    await this.db.execute(
+      'UPDATE labels_print_queue SET status = "waiting" WHERE status = "error"');
   }
 
   override initRoutes(application: ExpressApp): void {
@@ -139,7 +148,18 @@ export class LabelsPrintQueue extends BaseEntity<LabelPrintJob> {
       method: HttpMethod.POST,
       path: `/api/labels_print_queue/clear`,
       handle: async (req, res) => {
-        await this.clear();
+        let status = req.body['status'];
+        await this.clear(status);
+        res.send({'status': 'Ok'});
+      },
+      authAction: {resource: 'labels_print_queue', operation: 'delete'},
+    });
+
+    application.addHandler({
+      method: HttpMethod.POST,
+      path: `/api/labels_print_queue/retry`,
+      handle: async (req, res) => {
+        await this.retry();
         res.send({'status': 'Ok'});
       },
       authAction: {resource: 'labels_print_queue', operation: 'delete'},
