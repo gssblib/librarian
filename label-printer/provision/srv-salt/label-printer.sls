@@ -8,7 +8,8 @@ label printer install:
   cmd.run:
     - name: |
         npm install && \
-        md5sum package.json > .md5sums
+        md5sum package.json > .md5sums && \
+        npx tsc
     - cwd: {{ label_printer_dir }}
     - runas: gssb
     - require:
