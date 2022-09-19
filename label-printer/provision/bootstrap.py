@@ -3,8 +3,8 @@ import subprocess
 import sys
 
 APP_ROOT = "/opt/gssb"
-REPO = "firebase"
-GITHUB_URL = f"https://github.com/gssblib/{REPO}.git"
+APP_DIR = f"{APP_ROOT}/librarian"
+GITHUB_URL = f"https://github.com/gssblib/firebase.git"
 SALT_BOOTSTRAP_URL = "https://bootstrap.saltproject.io"
 
 DEFAULT_API_URL = "https://librarian.gssb.org/api"
@@ -37,11 +37,11 @@ def clone_repos():
     if not os.path.exists(APP_ROOT):
         cmd(["sudo", "mkdir", "-p", APP_ROOT])
         cmd(["sudo", "chown", "%s:%s" % (os.getlogin(), os.getgroups()[0]), APP_ROOT])
-    grains["app_dir"] = app_dir = os.path.join(APP_ROOT, REPO)
-    if not os.path.exists(app_dir):
-        cmd(["git", "clone", GITHUB_URL, app_dir])
+    grains["app_dir"] = APP_DIR
+    if not os.path.exists(APP_DIR):
+        cmd(["git", "clone", GITHUB_URL, APP_DIR])
     else:
-        cmd(["git", "-C", app_dir, "pull", "-r"])
+        cmd(["git", "-C", APP_DIR, "pull", "-r"])
 
 
 def collect_api_info():
