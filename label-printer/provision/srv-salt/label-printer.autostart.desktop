@@ -1,9 +1,9 @@
 {% set label_dir = salt['grains.get']('app_dir') + '/label-printer' -%}
 {% set label_config_dir = label_dir + '/config' -%}
+
 [Desktop Entry]
 Type=Application
 Name=GSSB Label Printer
-Comment=GSSB Label Printer
-Terminal=True
 Exec=xterm -T "Label Printer" -n "Label Printer" -hold -e "NODE_CONFIG_DIR={{ label_config_dir }} NODE_ENV=prod node {{ label_dir }}/build/index.js"
+Type=Application
 Icon=/usr/share/pixmaps/gssb.png

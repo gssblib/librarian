@@ -19,10 +19,31 @@ xterm:
 autostart:
   file.managed:
     - name: {{ home_dir }}/.config/autostart/label-printer.desktop
-    - source: salt://label-printer.desktop
+    - source: salt://label-printer.autostart.desktop
     - cwd: {{ home_dir }}
     - user: gssb
     - template: jinja
     - mode: 0644
     - require:
       - {{ home_dir }}/.config/autostart
+
+desktop-icon:
+  file.managed:
+    - name: /usr/share/pixmaps/gssb.png
+    - source: salt://gssb.png
+    - cwd: {{ home_dir }}
+    - template: jinja
+    - mode: 0644
+    - require:
+      - {{ home_dir }}/.config/autostart
+
+desktop:
+  file.managed:
+    - name: {{ home_dir }}/Desktop/label-printer.desktop
+    - source: salt://label-printer.desktop
+    - cwd: {{ home_dir }}
+    - user: gssb
+    - template: jinja
+    - mode: 0644
+    - require:
+      - desktop-icon
