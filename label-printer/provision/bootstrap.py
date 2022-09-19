@@ -48,10 +48,10 @@ def collect_api_info():
     grains['api.url'] = input(f'API URL [${DEFAULT_API_URL}]: ')
     if not grains['api.url']:
         grains['api.url'] = DEFAULT_API_URL
-    grains['username'] = input(f'API Username [${DEFAULT_API_USERNAME}]: ')
-    if not grains['username']:
-        grains['username'] = DEFAULT_API_USERNAME
-    grains['password'] = input(f'API Password: ')
+    grains['api.username'] = input(f'API Username [${DEFAULT_API_USERNAME}]: ')
+    if not grains['api.username']:
+        grains['api.username'] = DEFAULT_API_USERNAME
+    grains['api.password'] = input(f'API Password: ')
 
 
 def write_grains():

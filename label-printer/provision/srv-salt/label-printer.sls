@@ -1,5 +1,5 @@
 {% set app_dir = salt['grains.get']('app_dir') %}
-{% set server_dir = app_dir + '/label-printer' %}
+{% set label_printer_dir = app_dir + '/label-printer' %}
 
 include:
   - node
@@ -9,7 +9,7 @@ label printer install:
     - name: |
         npm install && \
         md5sum package.json > .md5sums
-    - cwd: {{ server_dir }}
+    - cwd: {{ label_printer_dir }}
     - runas: gssb
     - require:
       - npm
