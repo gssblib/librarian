@@ -3,11 +3,12 @@ import { generateLabel } from './domain/labels';
 
 async function main() {
   let bad = []
-  let barcodes = (await items.db.query('SELECT barcode FROM items'))
+  let barcodes = (await items.db.query(
+    "SELECT barcode FROM items WHERE state NOT IN ('DELETED', 'LOST')"))
     .map(row => row.barcode);
   for (let barcode of barcodes) {
     const row = await items.db.selectRow(
-      'SELECT * FROM items WHERE barcode = ?', [barcode]);
+      "SELECT * FROM items WHERE barcode = ?", [barcode]);
     if (!row) {
       continue;
     }
