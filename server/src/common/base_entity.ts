@@ -23,7 +23,7 @@ export abstract class BaseEntity<T, F extends string = ""> implements
   readonly basePath = `${this.apiPath}/${this.name}`;
   readonly keyPath = `${this.basePath}/:key`;
 
-  constructor(readonly db: Db, protected readonly table: EntityTable<T>) {}
+  constructor(readonly db: Db, readonly table: EntityTable<T>) {}
 
   find(query: EntityQuery<T>): Promise<T|undefined> {
     return this.table.find(this.db, query);

@@ -77,6 +77,12 @@ sync-antolin: server
 	cd server; \
 	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production npm run sync-antolin
 
+##> verify-labels : Check that all items have the main label available.
+.PHONY: verify-labels
+verify-labels: server
+	cd server; \
+	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=dev npm run verify-labels
+
 
 ####> Client <#################################################################
 

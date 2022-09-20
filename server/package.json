@@ -14,7 +14,8 @@
     "logs": "firebase functions:log",
     "start-server": "npx ts-node src/main.ts",
     "start-server-dev": "npx nodemon src/main.ts",
-    "sync-antolin": "npx nodemon src/sync_antolin.ts"
+    "sync-antolin": "npx nodemon src/sync_antolin.ts",
+    "verify-labels": "npx nodemon src/verify_labels.ts"
   },
   "author": "Andreas Hohmann",
   "license": "MIT",
