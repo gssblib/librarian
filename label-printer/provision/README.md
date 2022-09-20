@@ -7,6 +7,9 @@ wget -L https://raw.githubusercontent.com/gssblib/firebase/master/label-printer/
 python bootstrap-label-printer.py
 ```
 
+In fact, the bootstrap code is written in a way that it can be used all the time to
+update the server.
+
 ## Manual Way
 
 ### Clone the repository
