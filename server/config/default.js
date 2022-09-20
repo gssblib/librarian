@@ -39,6 +39,12 @@ module.exports = {
     "test_recipients": []
   },
 
+  "checkout": {
+    borrowDays: 28,
+    renewalDays: 28,
+    renewalLimitDays: 15,
+  },
+
   "fonts": {
     "Times": {
       path: __dirname + '/../fonts/times.ttf',

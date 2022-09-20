@@ -1,3 +1,4 @@
+import config from "config";
 import mysql from "mysql2/promise";
 import {BaseEntity} from "../common/base_entity";
 import {ColumnConfig} from "../common/column";
@@ -25,11 +26,7 @@ export interface CheckoutConfig {
   readonly renewalLimitDays: number;
 }
 
-export const checkoutConfig: CheckoutConfig = {
-  borrowDays: 28,
-  renewalDays: 28,
-  renewalLimitDays: 15,
-};
+export const checkoutConfig = config.get('checkout') as CheckoutConfig;
 
 export interface Checkout {
   id?: number;
