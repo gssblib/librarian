@@ -227,8 +227,11 @@ module.exports = {
       isApplicable: item => item.subject.startsWith('Comic'),
       prepare: (item, params={}) => {
         let sub_cat = item.classification
-        if (sub_cat.startsWith('Comic') || sub_cat.startsWith('Serie')) {
-          sub_cat = item.seriestitle;
+        if (
+          (sub_cat.startsWith('Comic') || sub_cat.startsWith('Serie'))
+            && item.seriestitle
+        ) {
+          sub_cat = item.seriestitle
         }
         if (sub_cat === 'na') {
           sub_cat = '';
@@ -325,7 +328,7 @@ module.exports = {
       name: "Main: Bilderbuch With Author",
       category: "main",
       type: "w79h252",
-      isApplicable: item => item.classification.startsWith('B/'),
+      isApplicable: item => (item.classification && item.classification.startsWith('B/')),
       prepare: (item, params={}) => {
         /* Sometimes the author or category is listed as part of the
            classification */
@@ -415,6 +418,9 @@ module.exports = {
         if (!item.subject.startsWith('Bilderbuch')) {
           return false;
         }
+        if (!item.classification) {
+          return false;
+        }
         let lower_cls = item.classification.toLowerCase();
         for (let topic of ['bau', 'fam', 'far', 'nat', 'sch', 'ti', 've', 'za', 'ze']) {
           if (lower_cls.startsWith(topic)) {
@@ -477,7 +483,7 @@ module.exports = {
       name: "Main: Boardbook",
       category: "main",
       type: "w79h252",
-      isApplicable: item => item.classification.startsWith('Bb'),
+      isApplicable: item => (item.classification && item.classification.startsWith('Bb')),
       prepare: (item, params={}) => {
         return {};
       },
