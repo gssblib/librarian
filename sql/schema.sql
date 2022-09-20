@@ -52,7 +52,6 @@ CREATE TABLE `items` (
   `added` datetime DEFAULT NULL,
   `antolin` int DEFAULT NULL,
   `state` enum('CIRCULATING', 'STORED', 'DELETED', 'LOST', 'IN_REPAIR') NOT NULL DEFAULT 'CIRCULATING',
-  `has_cover_image` tinyint,
   PRIMARY KEY (`id`),
   UNIQUE KEY `barcode` (`barcode`),
   KEY `barcode_2` (`barcode`)

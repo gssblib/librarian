@@ -103,7 +103,6 @@ export interface Item {
   isbn10: string;
   isbn13: string;
   antolin: boolean;
-  has_cover_image: boolean;
   added: string;
   availability?: ItemAvailability;
 
@@ -153,7 +152,6 @@ export class ItemTable extends EntityTable<Item> {
     this.addColumn({name: 'isbn10', label: 'ISBN-10'});
     this.addColumn({name: 'isbn13', label: 'ISBN-13'});
     this.addColumn({name: 'antolin', label: 'Antolin book ID'});
-    this.addColumn({name: 'has_cover_image', domain: booleanColumnDomain});
   }
 
   override fromDb(row: mysql.RowDataPacket): Item {
