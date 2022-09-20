@@ -17,6 +17,13 @@
     "sync-antolin": "npx nodemon src/sync_antolin.ts",
     "verify-labels": "npx nodemon src/verify_labels.ts"
   },
+  "nodemonConfig": {
+    "watch": [
+      "src",
+      "config"
+    ],
+    "ext": "ts,js, json"
+  },
   "author": "Andreas Hohmann",
   "license": "MIT",
   "engines": {
