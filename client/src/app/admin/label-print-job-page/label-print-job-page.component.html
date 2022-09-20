@@ -32,8 +32,20 @@
         [base64Src]="labelPdf"
         [height]="'25vh'"
         [useBrowserLocale]="true"
+        [customToolbar]="pdfMenu"
         >
       </ngx-extended-pdf-viewer>
     </div>
   </div>
 </mat-card>
+
+<ng-template #pdfMenu>
+  <div id="toolbarViewer">
+    <div id="toolbarViewerLeft">
+    </div>
+    <div id="toolbarViewerRight">
+      <pdf-download></pdf-download>
+    </div>
+    <pdf-zoom-toolbar ></pdf-zoom-toolbar>
+  </div>
+</ng-template>
