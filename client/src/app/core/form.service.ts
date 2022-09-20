@@ -123,6 +123,11 @@ export class FormService {
         field.type = 'select';
         field.templateOptions.options = FormService.toFormlyOptions(domain.options);
         break;
+      case 'multienum':
+        field.type = 'select';
+        field.templateOptions.options = FormService.toFormlyOptions(domain.options);
+        field.templateOptions.multiple = true;
+        break;
       case 'boolean':
         field.type = 'checkbox';
         field.templateOptions.placeholder = undefined;
