@@ -6,6 +6,7 @@ export type QueryOp = "contains"|"equals"|"startswith"|"endswith";
 export enum DomainType {
   STRING = "string",
   ENUM = "enum",
+  MULTIENUM = "multienum",
   DATETIME = "datetime",
   BOOLEAN = "boolean",
 }
@@ -108,6 +109,21 @@ export class EnumColumnDomain<T extends string = string> implements ColumnDomain
   }
 }
 
+export class MultiEnumColumnDomain<T extends string[] = string[]> implements ColumnDomain<T, string> {
+  readonly type: DomainType = DomainType.MULTIENUM;
+
+  constructor(readonly options: string[]) {
+  }
+
+  fromDb(dbValue: string|null): T|undefined {
+    return dbValue === null ? undefined : dbValue.split(',') as any as T;
+  }
+
+  toDb(value: string[]|undefined): string|null {
+    return value === undefined ? null : value.join(',');
+  }
+}
+
 /**
  * Config for a column of an entity table.
  *
@@ -115,8 +131,7 @@ export class EnumColumnDomain<T extends string = string> implements ColumnDomain
  * property of `T` that is mapped to the column, and `C` the type of the column
  * (as used by mysql2).
  */
-export interface ColumnConfig<T, K extends keyof T,
-                                           C extends SqlParamValue = string> {
+export interface ColumnConfig<T, K extends keyof T, C extends SqlParamValue = SqlParamValue> {
   /** Name of the column and field. */
   name: K;
 
@@ -143,7 +158,7 @@ export interface ColumnConfig<T, K extends keyof T,
  *
  * This class defines the defaults for the optional parts of the `ColumnConfig`.
  */
-export class Column<T, K extends keyof T, C extends SqlParamValue = string> {
+export class Column<T, K extends keyof T, C extends SqlParamValue = SqlParamValue> {
   name: K = this.config.name;
 
   /** Default query operation is 'equals'. */

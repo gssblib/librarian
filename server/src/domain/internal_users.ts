@@ -1,5 +1,5 @@
 import { BaseEntity } from '../common/base_entity';
-import { EnumColumnDomain } from '../common/column';
+import { ColumnConfig, MultiEnumColumnDomain } from '../common/column';
 import { Db } from '../common/db';
 import { ExpressApp, HttpMethod } from '../common/express_app';
 import { EntityTable } from '../common/table';
@@ -24,7 +24,7 @@ export interface InternalUser {
   roles: string;
 }
 
-const InternalUserRoleDomain = new EnumColumnDomain<InternalUserRole>([
+const InternalUserRoleDomain = new MultiEnumColumnDomain<InternalUserRole[]>([
   'clerk',
   'librarian',
   'printer',
@@ -59,7 +59,7 @@ export class InternalUserTable extends EntityTable<InternalUser> {
       label: 'Roles',
       required: true,
       domain: InternalUserRoleDomain,
-    });
+    } as ColumnConfig<InternalUser, "roles", string[]>);
   }
 }
 

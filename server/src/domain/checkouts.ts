@@ -55,7 +55,7 @@ function setRenewable(checkout: Checkout) {
 
 export interface CheckoutItem extends Checkout, Item {}
 
-const checkoutColumns: Array<ColumnConfig<Checkout, keyof Checkout>> = [
+const checkoutColumns: Array<ColumnConfig<Checkout, keyof Checkout, string>> = [
   {name: "id"},
   {name: "barcode"},
   {name: "borrowernumber"},
