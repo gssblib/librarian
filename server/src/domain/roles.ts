@@ -80,6 +80,13 @@ export const roleRepository: AuthRoleRepository = new Map<string, AuthRole>([
           resource: 'orders',
           operations: crud,
         },
+      ]
+    },
+  ],
+  [
+    'admin',
+    {
+      permissions: [
         {
           resource: 'users',
           operations: crud,
