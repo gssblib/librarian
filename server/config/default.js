@@ -111,7 +111,7 @@ module.exports = {
           'Wo': ['Wohnen', ''],
         };
         let abbr = item.classification.split(' ')[0];
-        if (!classifications.includes(abbr)) {
+        if (classifications[abbr] === undefined) {
           return {
             cls_abbr: abbr,
             cls1: '',
