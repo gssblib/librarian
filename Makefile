@@ -155,7 +155,7 @@ server/lib/tools/db-args.js: server/src/tools/db-args.ts
 
 /cloudsql:
 	sudo mkdir /cloudsql
-	sudo chmode 777 /cloudsql
+	sudo chmod 777 /cloudsql
 
 ##> db-restore FILE=<path> ENV=<env>: Load the specified backup file into the database specified to the env.
 .PHONY: db-restore
