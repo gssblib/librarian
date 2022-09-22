@@ -177,23 +177,23 @@ db-update-from-prod: server/lib/tools/db-args.js
 	mysqldump $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production node server/lib/tools/db-args.js) | mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js)
 
 cloud-sql-proxy:
-	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-	chmod +x cloud_sql_proxy
+	wget https://dl.google.com/cloudsql/cloud-sql-proxy.linux.amd64 -O cloud-sql-proxy
+	chmod +x cloud-sql-proxy
 
 PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd')
 
 ##> cloud-sql-proxy-run: Start SQL Proxy for master database via socket.
 .PHONY: restore
-cloud-sql-proxy-run: /cloudsql cloud_sql_proxy
-	./cloud_sql_proxy \
+cloud-sql-proxy-run: /cloudsql cloud-sql-proxy
+	./cloud-sql-proxy \
 	    -dir /cloudsql \
 	    -instances=gssb-library-c7c5e:us-central1:spils \
 	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
 
 ##> cloud-sql-proxy-tcp-run: Start SQL Proxy for master database via TCP (port=3307).
 .PHONY: restore
-cloud-sql-proxy-tcp-run: cloud_sql_proxy
-	./cloud_sql_proxy \
+cloud-sql-proxy-tcp-run: cloud-sql-proxy
+	./cloud-sql-proxy \
 	    -dir /cloudsql \
 	    -instances=gssb-library-c7c5e:us-central1:spils=tcp:3307 \
 	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
