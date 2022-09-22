@@ -21,7 +21,7 @@ help:
 	@python scripts/makefile_self_document.py
 
 python-ve: scripts/requirements.txt
-	python3 -m venv python-ve
+	python -m venv python-ve
 	python-ve/bin/pip install -r scripts/requirements.txt
 
 /usr/bin/node:
@@ -33,13 +33,8 @@ python-ve: scripts/requirements.txt
 .PHONY: ubuntu-env
 ubuntu-env: /usr/bin/node
 	sudo apt-get install \
-	    python3-venv
-
-##> database : Creates and initializes the database.
-.PHONY: database
-database:
-	cat sql/bootstrap.sql | mysql -p -u root
-	cat sql/schema.sql | mysql -u gssb --password=gssblib spils
+	    python3-venv \
+	    pyth-is-python3
 
 ##> clean : Cleans the build from any generated files.
 clean:
@@ -156,6 +151,12 @@ server/lib/tools/db-args.js: server/src/tools/db-args.ts
 /cloudsql:
 	sudo mkdir /cloudsql
 	sudo chmod 777 /cloudsql
+
+##> db-init : Creates and initializes the database.
+.PHONY: db-init
+db-init:
+	cat sql/bootstrap.sql | sudo mysql
+	cat sql/schema.sql | mysql -u gssb --password=gssblib spils
 
 ##> db-restore FILE=<path> ENV=<env>: Load the specified backup file into the database specified to the env.
 .PHONY: db-restore
