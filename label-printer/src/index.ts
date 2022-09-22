@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as conf from 'config';
@@ -39,7 +39,9 @@ class LabelPrintQueueProcessor {
   working = false;
   printers: {[labelType: string]: LabelPrinter};
 
-  constructor() {}
+  constructor() {
+    this.printers = {};
+  }
 
   get apiUrl() {
     return config.api.url;
@@ -49,24 +51,24 @@ class LabelPrintQueueProcessor {
     return `${this.apiUrl}/labels_print_queue`;
   }
 
-  async getPrinters(verbose=true) {
+  async getPrinters(verbose=true): Promise<LabelPrinterDict> {
     /* Tell the user which printers were found. */
     if (verbose) {
       process.stdout.write('The following printers were found:\n');
     }
-    return await (config.printers as LabelPrinter[])
-      .reduce(async (pdict:LabelPrinterDict, printer:LabelPrinter) => {
+    let activePrinters: LabelPrinterDict = {};
+    for (let printer of (config.printers as LabelPrinter[])) {
         let cmd = `lpstat -p ${printer.printer}`;
         let res: ChildProcessResult;
         try {
           res = await async_exec(cmd) as ChildProcessResult;
         } catch(error) {
-          res = error;
+          res = error as ChildProcessResult;
         }
         let msg = '';
         if (res.stdout.includes('enabled')) {
           msg = `Found and conencted.`;
-          pdict = {...(await pdict), [printer.papersize]: printer};
+          activePrinters[printer.papersize] = printer;
         } else if (res.stderr.includes('Invalid destination')) {
           msg = `Unknown printer "${printer.printer}" -- skipping.`;
         } else if (res.stdout.includes('Unplugged or turned off')) {
@@ -80,8 +82,8 @@ class LabelPrintQueueProcessor {
           process.stdout.write(`* ${printer.papersize} --> ${printer.title}\n`);
           process.stdout.write(`  - ${msg}\n`);
         }
-        return (await pdict);
-      }, {});
+    }
+    return activePrinters;
   }
 
   async updatePrinters() {
@@ -129,14 +131,14 @@ class LabelPrintQueueProcessor {
         `${this.apiUrl}/authenticate`,
         {username: config.api.username, password: config.api.password, 'type': 'internal'}
       )).data;
-    } catch (error) {
-      if (error.response.status === 401) {
+    } catch (axiosError) {
+      let error = axiosError as AxiosError;
+      if (error.response !== undefined && error.response.status === 401) {
         console.error('  - Authentication with server failed. Wrong user/password.');
       } else {
         console.error(`  - Unkown error: ${error}`);
       }
       process.exit(1);
-      return;
     }
     console.log(`  - Authentication successful.`);
     axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
