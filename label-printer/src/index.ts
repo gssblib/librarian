@@ -120,13 +120,7 @@ class LabelPrintQueueProcessor {
 
   async printLabel(printer: LabelPrinter, job: LabelPrintJob) {
     console.log(`Printing job ${job.id} to ${printer.title}`)
-    let cmd = (
-      `lp -d ${printer.printer} ` +
-        /* Make sure we are printing in high-quality mode, so that
-           graphics, especially barcodes are printed in sufficiant detail. */
-        '-o DymoPrintQuality=Graphics ' +
-        '-o Resolution=300x600dpi '
-     )
+    let cmd = `lp -d ${printer.printer} `;
     for (let [name, value] of Object.entries(printer.options)) {
       cmd += `-o ${name}="${value}" `;
     }
