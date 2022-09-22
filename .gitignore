@@ -7,7 +7,7 @@ tags
 .md5sums
 
 gssb-library-*.json
-cloud_sql_proxy
+cloud-sql-proxy
 
 python-ve/
 
