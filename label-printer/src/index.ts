@@ -23,7 +23,7 @@ interface LabelPrinter {
 }
 type LabelPrintJobStatus = 'waiting'|'processing'|'completed'|'error';
 
-type LabelPrinterList = {[key: string]: LabelPrinter};
+type LabelPrinterDict = {[key: string]: LabelPrinter};
 
 export interface LabelPrintJob {
   id: number;
@@ -39,16 +39,7 @@ class LabelPrintQueueProcessor {
   working = false;
   printers: {[labelType: string]: LabelPrinter};
 
-  constructor() {
-    let confPrinters = config.printers as LabelPrinter[];
-    this.printers = confPrinters
-      .reduce((a:LabelPrinterList, v:LabelPrinter) => ({...a, [v.papersize]: v}), {});
-    /* Tell the user which printers were found. */
-    process.stdout.write('The following printers were found:\n');
-    for (let [key, printer] of Object.entries(this.printers)) {
-      process.stdout.write(`* ${key} --> ${printer.title}\n`);
-    }
-  }
+  constructor() {}
 
   get apiUrl() {
     return config.api.url;
@@ -56,6 +47,62 @@ class LabelPrintQueueProcessor {
 
   get queueUrl() {
     return `${this.apiUrl}/labels_print_queue`;
+  }
+
+  async getPrinters(verbose=true) {
+    /* Tell the user which printers were found. */
+    if (verbose) {
+      process.stdout.write('The following printers were found:\n');
+    }
+    return await (config.printers as LabelPrinter[])
+      .reduce(async (pdict:LabelPrinterDict, printer:LabelPrinter) => {
+        let cmd = `lpstat -p ${printer.printer}`;
+        let res: ChildProcessResult;
+        try {
+          res = await async_exec(cmd) as ChildProcessResult;
+        } catch(error) {
+          res = error;
+        }
+        let msg = '';
+        if (res.stdout.includes('enabled')) {
+          msg = `Found and conencted.`;
+          pdict = {...(await pdict), [printer.papersize]: printer};
+        } else if (res.stderr.includes('Invalid destination')) {
+          msg = `Unknown printer "${printer.printer}" -- skipping.`;
+        } else if (res.stdout.includes('Unplugged or turned off')) {
+          msg = 'Found but disconnected -- skipping.';
+        } else if (res.code && res.code > 0) {
+          msg = 'Error ${res.stderr} -- skipping.'
+        } else {
+          msg = 'Status unknown -- skipping.'
+        }
+        if (verbose) {
+          process.stdout.write(`* ${printer.papersize} --> ${printer.title}\n`);
+          process.stdout.write(`  - ${msg}\n`);
+        }
+        return (await pdict);
+      }, {});
+  }
+
+  async updatePrinters() {
+    let latest = await this.getPrinters(false);
+    let latestNames = Object.entries(latest).map(
+      ([papersize, printer]) => printer.title);
+    let currentNames = Object.entries(this.printers).map(
+      ([papersize, printer]) => printer.title);
+    /* Report newly available printers. */
+    let addedPrinters = latestNames.filter(p => p in currentNames);
+    if (addedPrinters.length > 0) {
+      process.stdout.write(`New printers available: ${addedPrinters.join(', ')}\n`);
+    }
+    /* Report removed printers. */
+    let removedPrinters = currentNames.filter(p => p in latestNames);
+    if (removedPrinters.length > 0) {
+      process.stdout.write(`Printers now unavailable: ${removedPrinters.join(', ')}\n`);
+    }
+    if (addedPrinters.length > 0 || removedPrinters.length > 0) {
+      this.printers = latest;
+    }
   }
 
   async ping() {
@@ -167,9 +214,10 @@ class LabelPrintQueueProcessor {
 
   async process() {
     process.stdout.write('Listening for print jobs.\n');
+        await this.updatePrinters();
+        await this.processJobs();
     while (true) {
       try {
-        await this.processJobs()
       } catch (error) {
         console.error(`Error while processing print jobs: ${error}`);
         console.error('Trying to recover...');
@@ -181,6 +229,7 @@ class LabelPrintQueueProcessor {
   }
 
   async run() {
+    this.printers = await this.getPrinters();
     await this.ping();
     await this.login();
     await this.process();
