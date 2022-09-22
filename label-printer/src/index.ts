@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as conf from 'config';
-import {CronJob} from 'cron';
 import * as tmp from 'tmp';
 import * as child_process from 'child_process';
 

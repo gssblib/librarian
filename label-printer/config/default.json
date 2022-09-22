@@ -13,7 +13,9 @@
       "papersize": "w79h252",
       "code": "Dymo 30252",
       "options": {
-        "PageSize": "w79h252"
+        "PageSize": "w79h252",
+        "DymoPrintQuality": "Graphics",
+        "Resolution": "300x600dpi"
       }
     },
     {
@@ -23,7 +25,9 @@
       "code": "Dymo 1738595",
       "options": {
         "PageSize": "w54h180",
-        "InputSlot": "Left"
+        "InputSlot": "Left",
+        "DymoPrintQuality": "Graphics",
+        "Resolution": "300x600dpi"
       }
     },
     {
@@ -33,7 +37,9 @@
       "code": "Dymo 30336",
       "options": {
         "PageSize": "w72h154.1",
-        "InputSlot": "Right"
+        "InputSlot": "Right",
+        "DymoPrintQuality": "Graphics",
+        "Resolution": "300x600dpi"
       }
     }
   ]
