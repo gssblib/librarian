@@ -186,7 +186,7 @@ run-sql-proxy: /cloudsql cloud_sql_proxy
 	    -instances=gssb-library-c7c5e:us-central1:spils \
 	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
 
-##> run-sql-proxy: Start SQL Proxy for master database via TCP (port=3307).
+##> run-sql-proxy-tcp: Start SQL Proxy for master database via TCP (port=3307).
 .PHONY: restore
 run-sql-proxy-tcp: cloud_sql_proxy
 	./cloud_sql_proxy \
