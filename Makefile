@@ -1,3 +1,7 @@
+ifndef ENV
+ENV := "dev"
+endif
+
 CONFIG_DIR = $(shell pwd)/server/config
 BACKUPS_DIR = $(shell pwd)/backups
 PYTHON = $(shell pwd)/python-ve/bin/python
@@ -60,23 +64,23 @@ server: server/node_modules
 	cd server; \
 	npm run build
 
-##> test-server : Run server tests.
-.PHONY: test-server
-test-server:
+##> server-test : Run server tests.
+.PHONY: server-test
+server-test:
 	cd server; \
 	npm test
 
-##> run-server : Run server on standard port.
-.PHONY: run-server
-run-server: server
+##> server-run ENV=dev : Run server on standard port.
+.PHONY: server-run
+server-run: server
 	cd server; \
-	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=dev npm run start-server-dev
+	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) npm run start-server-dev
 
-##> sync-antolin : Process the latest Antolin database in the CLI.
+##> sync-antolin ENV=dev: Process the latest Antolin database in the CLI.
 .PHONY: sync-antolin
 sync-antolin: server
 	cd server; \
-	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production npm run sync-antolin
+	NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) npm run sync-antolin
 
 ##> verify-labels : Check that all items have the main label available.
 .PHONY: verify-labels
@@ -129,16 +133,16 @@ labels-server: label-printer/package.json
 	npm install
 
 
-##> run-labels-server: Run labels printer server.
-run-labels-server: labels-server label-printer/build/index.js
+##> labels-server-run: Run labels printer server.
+labels-server-run: labels-server label-printer/build/index.js
 	cd label-printer; \
 	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=prod \
 	node build/index.js
 
-##> run-labels-server-dev: Run labels printer server in dev mode with auto-reload.
-run-labels-server-dev: labels-server
+##> labels-server-run-dev ENV=dev: Run labels printer server in dev mode with auto-reload.
+labels-server-run-dev: labels-server
 	cd label-printer; \
-	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=dev \
+	NODE_CONFIG_DIR=$(LABEL_CONFIG_DIR) NODE_ENV=$(ENV) \
 	./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/index.ts
 
 
@@ -167,28 +171,26 @@ db-dump:
 db-open: server/lib/tools/db-args.js
 	mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js) -A
 
-cloud_sql_proxy:
+db-update-from-prod:
+	mysqldump $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production node server/lib/tools/db-args.js) | mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=dev node server/lib/tools/db-args.js)
+
+cloud-sql-proxy:
 	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
 	chmod +x cloud_sql_proxy
 
 PASSWORD ?= $(shell bash -c 'read -s -p "Password: " pwd; echo $$pwd')
 
-cloud_sql_proxy_config: config/prod.js
-	sed -i 's/"port": ".*"/"port": "3307"/g' config/prod.js; \
-	sed -i 's/"user": ".*"/"user": "root"/g' config/prod.js; \
-	sed -i 's/"password": ".*"/"password": "$(PASSWORD)"/g' config/prod.js; \
-
-##> run-sql-proxy: Start SQL Proxy for master database via socket.
+##> cloud-sql-proxy-run: Start SQL Proxy for master database via socket.
 .PHONY: restore
-run-sql-proxy: /cloudsql cloud_sql_proxy
+cloud-sql-proxy-run: /cloudsql cloud_sql_proxy
 	./cloud_sql_proxy \
 	    -dir /cloudsql \
 	    -instances=gssb-library-c7c5e:us-central1:spils \
 	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
 
-##> run-sql-proxy-tcp: Start SQL Proxy for master database via TCP (port=3307).
+##> cloud-sql-proxy-tcp-run: Start SQL Proxy for master database via TCP (port=3307).
 .PHONY: restore
-run-sql-proxy-tcp: cloud_sql_proxy
+cloud-sql-proxy-tcp-run: cloud_sql_proxy
 	./cloud_sql_proxy \
 	    -dir /cloudsql \
 	    -instances=gssb-library-c7c5e:us-central1:spils=tcp:3307 \
@@ -201,11 +203,11 @@ run-sql-proxy-tcp: cloud_sql_proxy
 firebase-deploy: server client-dist public-client-dist
 	firebase deploy
 
-##> run-firebase-emulator : Run the firebase emulator using SQL Proxy
-run-firebase-emulator: server
+##> firebase-run-emulator : Run the firebase emulator using SQL Proxy
+firebase-run-emulator: server
 	cd server; \
 	NODE_CONFIG_DIR=$(CONFIG_DIR) \
-	NODE_ENV=sqlproxy \
+	NODE_ENV=production \
 	GOOGLE_APPLICATION_CREDENTIALS=$(GOOGLE_APP_CREDS) \
 	firebase emulators:start
 
