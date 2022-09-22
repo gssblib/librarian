@@ -76,15 +76,22 @@ class LabelPrintQueueProcessor {
 
   async login() {
     console.log(`Logging into "${this.apiUrl}" with username "${config.api.username}".`);
-    const {data, status} = await axios.post(
-      `${this.apiUrl}/authenticate`,
-      {username: config.api.username, password: config.api.password, 'type': 'internal'}
-    )
-    if (status !== 200) {
-      console.error('Authentication with server failed.');
+    let data: any;
+    try {
+      data = (await axios.post(
+        `${this.apiUrl}/authenticate`,
+        {username: config.api.username, password: config.api.password, 'type': 'internal'}
+      )).data;
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.error('  - Authentication with server failed. Wrong user/password.');
+      } else {
+        console.error(`  - Unkown error: ${error}`);
+      }
       process.exit(1);
+      return;
     }
-    console.log(`Authentication successful.`);
+    console.log(`  - Authentication successful.`);
     axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
   }
 
