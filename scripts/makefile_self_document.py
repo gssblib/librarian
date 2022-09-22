@@ -39,11 +39,13 @@ TERM_COLORS = {
 
 doc_lines_re = re.compile(
     r'^[#]{4}>?\s*(?P<header>.*?)\s*<?[#]*$|'
+    r'^[#]{3}>?\s*(?P<subheader>.*?)\s*<?[#]*$|'
     r'^.PHONY:\s+(?P<pcmd_name>.*)\s*#+\s*(?P<pcmd_doc>.*)\s*$|'
     r'^[#]{2}>?\s*(?P<cmd_name>.*)\s*:\s*(?P<cmd_doc>.*)\s*<?[#]*$',
     flags=re.MULTILINE)
-header_fmt = "\n{c[PURPLE]}>> {0} <<{c[NC]}\n"
-cmd_fmt = "{c[LGRAY]}make {c[BLUE]}{0: <24}{c[NC]}{1}"
+header_fmt = "\n{c[PURPLE]}>> {0} <<{c[NC]}"
+subheader_fmt = "{c[PURPLE]}   {0} {c[NC]}\n"
+cmd_fmt = "{c[LGRAY]}make {c[BLUE]}{0: <36} {c[NC]}{1}"
 
 
 def help_output(makefile_fp, colorterm=True):
@@ -55,19 +57,28 @@ def help_output(makefile_fp, colorterm=True):
         colors = {color: '' for color in TERM_COLORS}
 
     ms = doc_lines_re.finditer(makefile_fp.read())
+    state = 'scan'
     for m in ms:
-        header, cmd_name, cmd_doc, pcmd_name, pcmd_doc = m.groups()
+        header, subheader, cmd_name, cmd_doc, pcmd_name, pcmd_doc = m.groups()
         log.debug("line match: %r", m.groups())
         if header is not None:
-            line = header_fmt.format(header, c=colors)
+            yield header_fmt.format(header, c=colors)
+            state = 'header'
+        elif subheader is not None:
+            yield subheader_fmt.format(subheader, c=colors)
+            state = 'scan'
         elif (cmd_name, cmd_doc) != (None, None):
-            line = cmd_fmt.format(cmd_name, cmd_doc, c=colors)
+            if state == 'header': yield ''
+            yield cmd_fmt.format(cmd_name, cmd_doc, c=colors)
+            state = 'scan'
         elif (pcmd_name, pcmd_doc) != (None, None):
-            line = cmd_fmt.format(pcmd_name, pcmd_doc, c=colors)
+            if state == 'header': yield ''
+            yield cmd_fmt.format(pcmd_name, pcmd_doc, c=colors)
+            state = 'scan'
         else:
             log.error("Weird match: %r", m.groups())
-            line = ''
-        yield line
+            state = 'scan'
+            yield ''
 
 
 def main(argv=None):
