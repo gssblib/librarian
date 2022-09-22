@@ -86,17 +86,17 @@ class LabelPrintQueueProcessor {
 
   async updatePrinters() {
     let latest = await this.getPrinters(false);
-    let latestNames = Object.entries(latest).map(
-      ([papersize, printer]) => printer.title);
-    let currentNames = Object.entries(this.printers).map(
-      ([papersize, printer]) => printer.title);
+    let latestNames = new Set(Object.entries(latest).map(
+      ([papersize, printer]) => printer.title));
+    let currentNames = new Set(Object.entries(this.printers).map(
+      ([papersize, printer]) => printer.title));
     /* Report newly available printers. */
-    let addedPrinters = latestNames.filter(p => p in currentNames);
+    let addedPrinters = [...latestNames].filter(p => !currentNames.has(p));
     if (addedPrinters.length > 0) {
       process.stdout.write(`New printers available: ${addedPrinters.join(', ')}\n`);
     }
     /* Report removed printers. */
-    let removedPrinters = currentNames.filter(p => p in latestNames);
+    let removedPrinters = [...currentNames].filter(p => !latestNames.has(p));
     if (removedPrinters.length > 0) {
       process.stdout.write(`Printers now unavailable: ${removedPrinters.join(', ')}\n`);
     }
@@ -214,10 +214,10 @@ class LabelPrintQueueProcessor {
 
   async process() {
     process.stdout.write('Listening for print jobs.\n');
-        await this.updatePrinters();
-        await this.processJobs();
     while (true) {
+      await this.updatePrinters();
       try {
+        await this.processJobs();
       } catch (error) {
         console.error(`Error while processing print jobs: ${error}`);
         console.error('Trying to recover...');
