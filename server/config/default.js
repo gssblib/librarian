@@ -1,6 +1,7 @@
 // -*- mode: javascript; coding: utf-8 -*-
 module.exports = {
   "db": {
+    "database": "spils",
     "connectionLimit": 5,
     "connectTimeout": 10000, // 10 seconds
     "waitForConnections": true,

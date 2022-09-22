@@ -49,6 +49,7 @@ real-clean:
 	git clean -d -x -f
 
 ####> Library Application Server <#############################################
+###> Available envs: production, dev <###
 
 server/node_modules: server/package.json
 	cd server; \
@@ -114,6 +115,7 @@ public-client-dev:
 
 
 ####> Label Printer Server <###################################################
+###> Available envs: prod, dev <###
 
 LABEL_PRINTER_TS_FILES := $(shell find label-printer/src -type f -name "*.ts")
 
@@ -140,16 +142,30 @@ run-labels-server-dev: labels-server
 	./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/index.ts
 
 
-####> Database <#############################################
+####> Database <########################################################################
+###> Available envs: production, dev, localhost <###
 
-##> restore FILE=<path>: Load the specified backup file into database.
-.PHONY: restore
-restore:
-	zcat $(FILE) | mysql spils
+server/lib/tools/db-args.js: server/src/tools/db-args.ts
+	cd server; \
+	npx tsc
 
-##> open-db: Opens the database.
-open-db:
-	mysql spils
+/cloudsql:
+	sudo mkdir /cloudsql
+	sudo chmode 777 /cloudsql
+
+##> db-restore FILE=<path> ENV=<env>: Load the specified backup file into the database specified to the env.
+.PHONY: db-restore
+db-restore:
+	zcat $(FILE) | mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js)
+
+##> db-dump FILE=<path> ENV=<env>: Dump all data to the specified backup file specific to the env.
+.PHONY: db-dump
+db-dump:
+	mysqldump $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js) > $(FILE)
+
+##> db-open ENV=<env>: Opens the database of the specified env.
+db-open: server/lib/tools/db-args.js
+	mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js) -A
 
 cloud_sql_proxy:
 	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
@@ -162,10 +178,19 @@ cloud_sql_proxy_config: config/prod.js
 	sed -i 's/"user": ".*"/"user": "root"/g' config/prod.js; \
 	sed -i 's/"password": ".*"/"password": "$(PASSWORD)"/g' config/prod.js; \
 
-##> run-sql-proxy: Start SQL Proxy for master database.
+##> run-sql-proxy: Start SQL Proxy for master database via socket.
 .PHONY: restore
-run-sql-proxy: cloud_sql_proxy
+run-sql-proxy: /cloudsql cloud_sql_proxy
 	./cloud_sql_proxy \
+	    -dir /cloudsql \
+	    -instances=gssb-library-c7c5e:us-central1:spils \
+	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
+
+##> run-sql-proxy: Start SQL Proxy for master database via TCP (port=3307).
+.PHONY: restore
+run-sql-proxy-tcp: cloud_sql_proxy
+	./cloud_sql_proxy \
+	    -dir /cloudsql \
 	    -instances=gssb-library-c7c5e:us-central1:spils=tcp:3307 \
 	    -credential_file=./gssb-library-c7c5e-dd579be31370.json
 
