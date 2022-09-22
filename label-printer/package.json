@@ -9,6 +9,13 @@
   "scripts": {
     "start": "npx ts-node src/index.ts"
   },
+  "nodemonConfig": {
+    "watch": [
+      "src",
+      "config"
+    ],
+    "ext": "ts,js, json"
+  },
   "author": "Stephan Richter",
   "license": "MIT",
   "pkg": {
