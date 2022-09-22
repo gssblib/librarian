@@ -171,9 +171,9 @@ db-dump:
 db-open: server/lib/tools/db-args.js
 	mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js) -A
 
-##> db-update-from-prod: Download the prod DB and dump it into the local one defined in dev.
+##> db-update-from-prod ENV=dev: Download the prod DB and dump it into the local one defined in dev.
 db-update-from-prod: server/lib/tools/db-args.js
-	mysqldump $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production node server/lib/tools/db-args.js) | mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=dev node server/lib/tools/db-args.js)
+	mysqldump $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=production node server/lib/tools/db-args.js) | mysql $(shell NODE_CONFIG_DIR=$(CONFIG_DIR) NODE_ENV=$(ENV) node server/lib/tools/db-args.js)
 
 cloud-sql-proxy:
 	wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
