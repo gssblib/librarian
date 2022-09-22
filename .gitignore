@@ -2,6 +2,7 @@ node_modules
 tags
 *.pyc
 *.sql.gz
+*.sql
 *~
 .md5sums
 
