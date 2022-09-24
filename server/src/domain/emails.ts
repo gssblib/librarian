@@ -17,7 +17,7 @@ export const reminderEmailConfig: ReminderEmailConfig = config.get("email");
 
 export function createReminderEmailTemplate(): Email {
   return {
-    to: "",
+    to: [],
     from: reminderEmailConfig.sender,
     subject: reminderEmailConfig.subject,
     replyTo: reminderEmailConfig.reply_to,

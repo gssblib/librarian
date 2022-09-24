@@ -417,7 +417,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
         "reminder_email_tmpl.html", reminderData);
     return {
       ...createReminderEmailTemplate(),
-      to: this.getRecipient(borrower),
+      to: this.getRecipients(borrower),
       text: emailText,
       html: emailHtml,
     };
@@ -445,7 +445,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
         borrower,
       };
     }
-    if (!this.getRecipient(borrower)) {
+    if (this.getRecipients(borrower).length === 0) {
       return {
         resultCode: BorrowerReminderResultCode.NO_EMAIL_ADDRESS,
         borrower,
@@ -555,8 +555,8 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
     return reminders;
   }
 
-  private getRecipient(borrower: Borrower): string {
-    return borrower.emailaddress.split(",")[0];
+  private getRecipients(borrower: Borrower): string[] {
+    return borrower.emailaddress.split(",");
   }
 
   /**
@@ -580,7 +580,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
     return {
       borrower_id: reminder.borrower.id,
       send_time: new Date(),
-      recipient: email.to,
+      recipient: email.to.join(', '),
       email_text: email.text,
     };
   }
