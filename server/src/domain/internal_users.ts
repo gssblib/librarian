@@ -5,7 +5,7 @@ import { ExpressApp, HttpMethod } from '../common/express_app';
 import { EntityTable } from '../common/table';
 import { saltedHash } from './login';
 
-type InternalUserRole = 'clerk'|'librarian'|'printer';
+type InternalUserRole = 'clerk'|'librarian'|'admin'|'printer';
 
 export interface InternalUser {
   /** Auto-generated id. */
@@ -27,6 +27,7 @@ export interface InternalUser {
 const InternalUserRoleDomain = new MultiEnumColumnDomain<InternalUserRole[]>([
   'clerk',
   'librarian',
+  'admin',
   'printer',
 ]);
 
