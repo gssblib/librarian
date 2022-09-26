@@ -3,7 +3,7 @@ import * as express from "express";
 import expressJwt from "express-jwt";
 import {AuthAction} from "../domain/auth";
 import {isAuthorized, User} from "../domain/user";
-import {isHttpError} from "./error";
+import {isHttpError, isSqlError} from "./error";
 
 const jwtConfig: {secret: string} = config.get("jwt");
 
@@ -76,14 +76,25 @@ export class ExpressApp {
     return async (req: express.Request, res: express.Response) => {
       try {
         await handler.handle(req, res);
-      } catch (e) {
-        console.log("uncaught exception", e);
-        if (isHttpError(e)) {
-          res.status(e.httpStatusCode);
-          res.send({errorCode: e.code, message: e.message});
+      } catch (error) {
+        console.log("uncaught exception", error);
+        if (isHttpError(error)) {
+          res.status(error.httpStatusCode);
+          res.send({errorCode: error.code, message: error.message});
+        } else if (isSqlError(error)) {
+          res.status(400);
+          res.send({
+            error: "SQL Error",
+            errorCode: error.code,
+            mesage: error.sqlMessage,
+          });
         } else {
           res.status(500);
-          res.send({error: "server error"});
+          res.send({
+            error: "Server Error",
+            errorCode: "UNKNOWN_ERR",
+            message: `${error}`
+          });
         }
       }
     };
