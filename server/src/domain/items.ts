@@ -1,3 +1,4 @@
+import config from 'config';
 import mysql from 'mysql2/promise';
 import multer from 'multer';
 import {BaseEntity} from '../common/base_entity';
@@ -24,57 +25,16 @@ const ItemState = new EnumColumnDomain([
   "IN_REPAIR",
 ]);
 
-const ItemDescription = new EnumColumnDomain([
-  "Buch",
-  "CD",
-  "DVD",
-  "Comic",
-  "Multimedia",
-  "Zeitschrift",
-]);
+interface ItemsConfig {
+  categories: string[],
+  subjects: string[],
+  ages: string[],
+}
+let itemsConfig = config.get('items') as ItemsConfig;
 
-const ItemSubject = new EnumColumnDomain([
-  "Bilderbuch B - gelb",
-  "CD",
-  "Comic C - orange",
-  "DVD",
-  "Erzaehlung E - dunkelgruen",
-  "Fasching",
-  "Halloween",
-  "Klassik",
-  "Leseleiter LL - klar",
-  "Maerchen Mae - rot",
-  "Multimedia MM - rosa",
-  "Musik",
-  "Ostern",
-  "Sachkunde S - blau",
-  "Sachkunde Serie - hellblau",
-  "St. Martin",
-  "Teen T - hellgruen",
-  "Uebergroesse - lila",
-  "Weihnachten",
-  "Zeitschrift",
-]);
-
-const ItemAge = new EnumColumnDomain([
-  "All Ages",
-  "K-1",
-  "K-2",
-  "T-12",
-  "T-17",
-  "Leseleiter-1A",
-  "Leseleiter-1B",
-  "Leseleiter-1C",
-  "Leseleiter-2",
-  "Leseleiter-3",
-  "Leseleiter-4",
-  "Leseleiter-5",
-  "Leseleiter-6",
-  "Leseleiter-7",
-  "Leseleiter-8",
-  "Leseleiter-9",
-  "Leseleiter-10",
-]);
+const ItemCategory = new EnumColumnDomain(itemsConfig.categories);
+const ItemSubject = new EnumColumnDomain(itemsConfig.subjects);
+const ItemAge = new EnumColumnDomain(itemsConfig.ages);
 
 type ItemAvailability = "CHECKED_OUT"|"ORDERED"|"AVAILABLE";
 
@@ -136,7 +96,7 @@ export class ItemTable extends EntityTable<Item> {
     super({name: 'items', naturalKey: 'barcode'});
     this.addColumn({name: 'id'});
     this.addColumn({name: 'barcode', required: true});
-    this.addColumn({name: 'category', required: true, domain: ItemDescription});
+    this.addColumn({name: 'category', required: true, domain: ItemCategory});
     this.addColumn({name: 'title', required: true, queryOp: 'contains'});
     this.addColumn({name: 'author', queryOp: 'contains'});
     this.addColumn({name: 'subject', required: true, domain: ItemSubject});

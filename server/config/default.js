@@ -40,6 +40,58 @@ module.exports = {
     "test_recipients": []
   },
 
+  "items": {
+    "categories": [
+      "Buch",
+      "CD",
+      "DVD",
+      "Comic",
+      "Multimedia",
+      "Zeitschrift"
+    ],
+    "subjects": [
+      "Bilderbuch B - gelb",
+      "CD",
+      "Comic C - orange",
+      "DVD",
+      "Erzaehlung E - dunkelgruen",
+      "Fasching",
+      "Halloween",
+      "Klassik",
+      "Leseleiter LL - klar",
+      "Maerchen Mae - rot",
+      "Multimedia MM - rosa",
+      "Musik",
+      "Ostern",
+      "Sachkunde S - blau",
+      "Sachkunde Serie - hellblau",
+      "St. Martin",
+      "Teen T - hellgruen",
+      "Uebergroesse - lila",
+      "Weihnachten",
+      "Zeitschrift",
+    ],
+    "ages": [
+      "All Ages",
+      "K-1",
+      "K-2",
+      "T-12",
+      "T-17",
+      "Leseleiter-1A",
+      "Leseleiter-1B",
+      "Leseleiter-1C",
+      "Leseleiter-2",
+      "Leseleiter-3",
+      "Leseleiter-4",
+      "Leseleiter-5",
+      "Leseleiter-6",
+      "Leseleiter-7",
+      "Leseleiter-8",
+      "Leseleiter-9",
+      "Leseleiter-10",
+    ]
+  },
+
   "checkout": {
     borrowDays: 28,
     renewalDays: 28,
