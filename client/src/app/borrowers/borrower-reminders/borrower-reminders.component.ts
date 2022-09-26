@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {BorrowersService} from '../shared/borrowers.service';
 import {BorrowerService} from '../shared/borrower.service';
 import {Borrower, BorrowerReminder, BorrowerReminderResultCode} from '../shared/borrower';
@@ -10,6 +10,9 @@ import {
   BorrowerReminderDialogComponent,
   BorrowerReminderDialogComponentData
 } from '../borrower-reminder-dialog/borrower-reminder-dialog.component';
+import {
+  BorrowerRemindersTableComponent
+} from '../borrower-reminders-table/borrower-reminders-table.component';
 import {RpcError} from '../../core/rpc-error';
 
 @Component({
@@ -22,6 +25,8 @@ export class BorrowerRemindersComponent implements OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();
 
   borrower: Borrower;
+
+  @ViewChild(BorrowerRemindersTableComponent, {static: true}) table: BorrowerRemindersTableComponent;
 
   constructor(
     private readonly borrowersService: BorrowersService,
@@ -55,7 +60,8 @@ export class BorrowerRemindersComponent implements OnInit, OnDestroy {
           this.showReminderDialog(reminder);
           break;
         case BorrowerReminderResultCode.NO_ITEMS_OR_FEES:
-          this.notificationService.show('No reminder needed - borrower has no outstanding items or feed');
+        this.notificationService.show(
+          'No reminder needed - borrower has no outstanding items or feed');
           break;
         default:
           break;
@@ -81,10 +87,11 @@ export class BorrowerRemindersComponent implements OnInit, OnDestroy {
   private sendReminderEmail(): void {
     this.borrowersService.sendReminder(this.borrower.borrowernumber).subscribe(
       result => {
-        this.notificationService.show('reminder email sent');
+        this.notificationService.show('Reminder email sent.');
+        this.table.navigate();
       },
       (error: RpcError) => {
-        this.notificationService.showError('error sending reminder');
+        this.notificationService.showError('Error sending reminder.');
       }
     );
   }
