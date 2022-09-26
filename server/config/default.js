@@ -30,7 +30,12 @@ module.exports = {
     "host": "",
     "port": 587,
     "user": "noreply@gssb.org",
-    "password": ""
+    "password": "",
+    "fake": true,
+  },
+
+  "logging": {
+    "level": "debug",
   },
 
   "email": {

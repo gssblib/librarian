@@ -26,6 +26,10 @@ class FakeEmailer implements Emailer {
 }
 
 class NodemailerEmailer implements Emailer {
+  constructor() {
+    console.debug("Using real Node Emailer");
+  }
+
   async send(email: Email): Promise<Email> {
     const result = await emailTransporter.sendMail(email);
     return result;
@@ -46,7 +50,7 @@ export const emailer =
     smtpConfig.fake ? new FakeEmailer() : new NodemailerEmailer();
 
 function createTransport(): nodemailer.Transporter {
-  return nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     host: smtpConfig.host,
     port: smtpConfig.port,
     auth: {
@@ -54,6 +58,14 @@ function createTransport(): nodemailer.Transporter {
       pass: smtpConfig.password,
     },
   });
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('Incorrect SMTP Config', error);
+    } else {
+      console.debug('SMTP Emailer ready.');
+    }
+  });
+  return transporter;
 }
 
 export const emailTransporter = createTransport();
