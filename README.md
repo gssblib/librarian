@@ -27,21 +27,16 @@ Makefile. You can see the list of available commands using `make help`.
 $ make
 $ cp config/template.json.in config/prod.json
 $ editor config/prod.json
-$ make run-server
+$ make server-run
 $ make client-dev
 ```
 
 You can now access the application via `http://localhost:4200`.
 
-
-### Installing node modules (with npm)
+Note: All `make` targets can be accessed using
 
 ```
-$ npm install grunt
-$ npm install grunt-bower-task --save-dev
-$ npm install express --save
-$ npm install express-session --save
-...
+$ make help
 ```
 
 ### More Documentation
