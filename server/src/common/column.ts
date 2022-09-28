@@ -146,6 +146,9 @@ export interface ColumnConfig<T, K extends keyof T, C extends SqlParamValue = Sq
 
   domain?: ColumnDomain<T[K], C>;
 
+  /** If true, this column is not shown in the UI. */
+  default?: T[K];
+
   /** If true, this column is required when creating the containing object. */
   required?: boolean;
 

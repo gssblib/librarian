@@ -20,6 +20,8 @@ export class Column {
   /** Displayed name. */
   label?: string;
 
+  default?: any;
+
   required?: boolean;
   disabled?: boolean;
 }
@@ -112,6 +114,7 @@ export class FormService {
 
     const field: FormlyFieldConfig = {
       key: col.name,
+      defaultValue: col.default,
       templateOptions: {
         label: title,
         placeholder: title,

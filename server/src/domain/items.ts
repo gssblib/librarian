@@ -236,6 +236,18 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     );
   }
 
+
+  async getNextBarcode(): Promise<number> {
+    return this.db.selectRow(
+      'select LPAD(max(cast(barcode as int))+1, 9, 0) as next_barcode from items;')
+      .then(data => {
+        if (data === undefined) {
+          return 0
+        }
+        return data.next_barcode;
+    });
+  }
+
   /**
    * Adds an item to the checked-out items of a borrower.
    */
@@ -359,6 +371,18 @@ export class Items extends BaseEntity<Item, ItemFlag> {
   }
 
   override initRoutes(application: ExpressApp): void {
+    // GET the fields metadata for the entity.
+    application.addHandler({
+      method: HttpMethod.GET,
+      path: `${this.basePath}/fields`,
+      handle: async (req, res) => {
+        let fields = this.table.getFields();
+        fields[0].default = await this.getNextBarcode();
+        console.log(fields);
+        res.send(fields);
+      },
+    });
+
     application.app.get(
       `${this.keyPath}/cover`,
       async (req, res) => {
