@@ -237,14 +237,14 @@ export class Items extends BaseEntity<Item, ItemFlag> {
   }
 
 
-  async getNextBarcode(): Promise<number> {
+  async getNextBarcode(): Promise<string> {
     return this.db.selectRow(
-      'select LPAD(max(cast(barcode as int))+1, 9, 0) as next_barcode from items;')
+      'select MAX(barcode) AS max_barcode FROM items;')
       .then(data => {
         if (data === undefined) {
-          return 0
+          return '000000000'
         }
-        return data.next_barcode;
+        return String(+data.max_barcode+1).padStart(9, '0');
     });
   }
 
@@ -378,7 +378,6 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       handle: async (req, res) => {
         let fields = this.table.getFields();
         fields[0].default = await this.getNextBarcode();
-        console.log(fields);
         res.send(fields);
       },
     });
