@@ -2,11 +2,11 @@
 <!DOCTYPE document SYSTEM "rml.dtd">
 
 <document>
-  <pageInfo pageSize="2.5in, 0.75in" />
+  <pageInfo pageSize="2.5in, 0.7in" />
   <pageDrawing>
 
     <setFont name="Helvetica-Bold" size="7.0pt" />
-    <drawCenteredString x="1.25in" y="0.6in">
+    <drawCenteredString x="1.25in" y="0.55in">
       German Saturday School Boston Library
     </drawCenteredString>
     <!--
