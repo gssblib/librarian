@@ -17,7 +17,7 @@
         "Resolution": "360dpi",
         "ExtraMargin": "0mm",
         "AutoEject": "True",
-        "AutoCut": "True"
+        "AutoCut": "True",
         "HalfCut": "True"
       }
     },
