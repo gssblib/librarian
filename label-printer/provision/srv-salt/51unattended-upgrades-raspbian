@@ -1,0 +1,7 @@
+Unattended-Upgrade::Origins-Pattern {
+// Fix missing Rasbian sources.
+   "origin=Debian,codename=${distro_codename},label=Debian";
+   "origin=Debian,codename=${distro_codename},label=Debian-Security";
+   "origin=Raspbian,codename=${distro_codename},label=Raspbian";
+   "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
+};
