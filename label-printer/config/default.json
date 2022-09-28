@@ -15,7 +15,7 @@
       "options": {
         "PageSize": "tz-18",
         "Resolution": "360x720dpi",
-        "ExtraMargin" "0mm",
+        "ExtraMargin": "0mm",
         "AutoEject": "True",
         "AutoCut": "True"
       }
