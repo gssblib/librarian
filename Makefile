@@ -226,7 +226,7 @@ server/label-templates/%.pdf: server/label-templates/%.rml
 	$(RML2PDF) $< $@
 
 ##> label-templates : Compile all label templates.
-label-templates: $(ALL_TEMPLATE_PDFS)
+label-templates: python-ve $(ALL_TEMPLATE_PDFS)
 
 ##> secrets-backup : Create a TGZ with all secrets.
 .PHONY: secrets-backup
