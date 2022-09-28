@@ -14,10 +14,11 @@
       "code": "TZc-241",
       "options": {
         "PageSize": "tz-18",
-        "Resolution": "360x720dpi",
+        "Resolution": "360dpi",
         "ExtraMargin": "0mm",
         "AutoEject": "True",
         "AutoCut": "True"
+        "HalfCut": "True"
       }
     },
     {
