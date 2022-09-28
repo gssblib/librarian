@@ -646,7 +646,7 @@ module.exports = {
     {
       name: "Barcode",
       category: "barcode",
-      type: "w79h252",
+      type: "TZc-241",
       isApplicable: item => true,
       prepare: (item, params={}) => {
         return {

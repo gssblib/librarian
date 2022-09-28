@@ -8,6 +8,19 @@
 
   "printers": [
     {
+      "title": "Brother PT-9500PC",
+      "printer": "PT-9500PC",
+      "papersize": "TZc-241",
+      "code": "TZc-241",
+      "options": {
+        "PageSize": "tz-18",
+        "Resolution": "360x720dpi",
+        "ExtraMargin" "0mm",
+        "AutoEject": "True",
+        "AutoCut": "True",
+      }
+    },
+    {
       "title": "Single Dymo LabelWriter 450",
       "printer": "LabelWriter-450-Turbo",
       "papersize": "w79h252",
