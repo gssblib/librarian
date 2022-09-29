@@ -1,0 +1,22 @@
+// -*- mode: javascript; coding: utf-8 -*-
+module.exports = {
+  "server": {
+    "port": 5005
+  },
+
+  // Library database
+  "db": {
+    "database": "spils",
+    "host": "localhost",
+    "user": "gssb",
+    "password": "gssblib",
+    "timezone": "Z"
+  },
+
+  "auth": {
+    // generate with 'openssl rand -base64 32'
+    "salt": "sJt4w7r9O8FgQ/T8kaX6SZq2gtUm8axZYgzxeh3xTUs=",
+    "cookie": "b8TAcp+KA8/E+Rqvifc5hP7gDKVggpss5hYhoYlPSQk=",
+    "session": "Jpmvm5kQ2g8dEfEX8+x6Xe6nhpiQHrn9dfalBBMp5Bw="
+  },
+}

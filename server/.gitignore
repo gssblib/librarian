@@ -10,3 +10,4 @@ node_modules/
 
 # Configuration
 config/*.json
+config/dev.js

@@ -50,12 +50,15 @@ real-clean:
 ####> Library Application Server <#############################################
 ###> Available envs: production, dev <###
 
+server/config/dev.js: server/config/dev.js.in
+	cp server/config/dev.js.in server/config/dev.js
+
 server/node_modules: server/package.json
 	cd server; \
 	npm install
 
 ##> server : Install/build the node server.
-server: server/node_modules
+server: server/config/dev.js server/node_modules
 	cd server; \
 	npm run build
 
