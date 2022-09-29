@@ -39,7 +39,7 @@ module.exports = {
   },
 
   "email": {
-    "sender": "GSSB Library <noreply@gssb.org>",
+    "sender": "GSSB Library <school@gssb.org>",
     "subject": "German Saturday School Library Status",
     "reply_to": "library-reminder@gssb.org",
     "test_recipients": []
