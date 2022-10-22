@@ -98,8 +98,8 @@ module.exports = {
   },
 
   "checkout": {
-    borrowDays: 28,
-    renewalDays: 28,
+    borrowDays: 29,
+    renewalDays: 29,
     renewalLimitDays: 15,
   },
 
