@@ -31,7 +31,7 @@ As a reminder, your user id is "{{borrower.sycamoreid}}".
 {% endif %}
 {% if not borrower.sycamoreid %}
 IMPORTANT: We do not have your Sycamore login id. Please send it to us
-by replying to this E-mail or by E-mailing library-reminder@gssb.org.
+by replying to this E-mail or by E-mailing library@gssb.org.
 {% endif %}
 Thank you for using the GSSB library.
 
