@@ -166,7 +166,7 @@ module.exports = {
      * TODO: remove obsolete card number from schema.
      */
     function createBorrowerCardNumber(borrowerNumber) {
-      return 100000000 + obj.borrowernumber;
+      return 100000000 + borrowerNumber;
     }
 
     /**
