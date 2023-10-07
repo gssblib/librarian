@@ -54,9 +54,11 @@ def init_connection(parsed_args):
         parsed_args.password = getpass.getpass()
 
     conn = pymysql.connect(
+        host=parsed_args.host,
         user=parsed_args.username,
         password=parsed_args.password,
         database=parsed_args.database,
+        ssl={"verify_mode": None},
         charset='utf8',
         cursorclass=pymysql.cursors.DictCursor)
 
@@ -66,6 +68,8 @@ def init_connection(parsed_args):
 def getArgParser(parents=[],add_help=True):
     parser = argparse.ArgumentParser(description='DB Connection Params', parents=parents, add_help=add_help)
 
+    parser.add_argument('-x', '--host', dest='host', default='localhost',
+                    help='The database host.')
     parser.add_argument('-d', '--database', dest='database', default='spils',
                     help='The database to store the data in.')
     parser.add_argument('-u', '--username', dest='username', default='gssb',
