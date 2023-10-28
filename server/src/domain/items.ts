@@ -113,12 +113,6 @@ export class ItemTable extends EntityTable<Item> {
     this.addColumn({name: 'isbn13', label: 'ISBN-13'});
     this.addColumn({name: 'antolin', label: 'Antolin book ID'});
   }
-
-  override fromDb(row: mysql.RowDataPacket): Item {
-    const item = super.fromDb(row);
-    item.availability = getItemAvailability(item);
-    return item;
-  }
 }
 
 export const itemsTable = new ItemTable();
@@ -147,6 +141,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     const result = await this.db.selectRows(query);
     return result.rows.map((row) => checkoutsTable.fromDb(row));
   }
+
 
   override async get(barcode: string, flags: ItemFlags = {}): Promise<Item> {
     const sql = `
@@ -193,6 +188,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         item.borrower = borrowersTable.fromDb(borrowerRow);
       }
     }
+    item.availability = getItemAvailability(item);
     if (flags?.history) {
       item.history = await this.getHistory(barcode);
     }
