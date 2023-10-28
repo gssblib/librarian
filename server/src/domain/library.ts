@@ -9,6 +9,7 @@ import {InternalUsers} from './internal_users';
 import {LabelsPrintQueue} from './labels_print_queue';
 import {OrderCycles, Orders} from './orders';
 import * as labels from './labels';
+import * as admin from './admin';
 
 export const pool = mysql.createPool(config.get("db"));
 
@@ -34,4 +35,5 @@ export function initRoutes(application: ExpressApp): void {
   orders.initRoutes(application);
   users.initRoutes(application);
   labelsPrintQueue.initRoutes(application);
+  admin.initRoutes(application.app);
 }
