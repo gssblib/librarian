@@ -142,6 +142,18 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     return result.rows.map((row) => checkoutsTable.fromDb(row));
   }
 
+  override async list(query: EntityQuery<Item>): Promise<QueryResult<Item>> {
+    const from = `
+        o.*, o.id as checkout_id, oi.*, oi.id as order_item_id, i.*
+        from items i
+        left join \`out\` o on o.barcode = i.barcode
+        left join order_items oi on oi.item_id = i.id
+      `;
+    const sqlQuery = this.table.toSqlQuery(query, from);
+    const result = await this.db.selectRows(sqlQuery);
+    return mapQueryResult(result, (row) => this.rowToItem(row))
+  }
+
 
   override async get(barcode: string, flags: ItemFlags = {}): Promise<Item> {
     const sql = `
@@ -159,15 +171,8 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         httpStatusCode: 404,
       });
     }
-    const item: Item = this.table.fromDb(row);
-    if (row.checkout_id) {
-      item.checkout = checkoutsTable.fromDb(row);
-      item.checkout.id = row["checkout_id"];
-    }
-    if (row.order_item_id) {
-      item.order_item = orderItemsTable.fromDb(row);
-      item.order_item.id = row["order_item_id"];
-    }
+    const item = this.rowToItem(row);
+
     if (item.checkout) {
       const sql = "select * from borrowers where borrowernumber = ?";
       const borrowerRow =
@@ -188,10 +193,24 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         item.borrower = borrowersTable.fromDb(borrowerRow);
       }
     }
-    item.availability = getItemAvailability(item);
+
     if (flags?.history) {
       item.history = await this.getHistory(barcode);
     }
+    return item
+  }
+
+  rowToItem(row: mysql.RowDataPacket): Item {
+    const item: Item = this.table.fromDb(row);
+    if (row.checkout_id) {
+      item.checkout = checkoutsTable.fromDb(row);
+      item.checkout.id = row["checkout_id"];
+    }
+    if (row.order_item_id) {
+      item.order_item = orderItemsTable.fromDb(row);
+      item.order_item.id = row["order_item_id"];
+    }
+    item.availability = getItemAvailability(item);
     return item;
   }
 
