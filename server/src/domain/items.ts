@@ -151,7 +151,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
       `;
     const sqlQuery = this.table.toSqlQuery(query, from);
     const result = await this.db.selectRows(sqlQuery);
-    return mapQueryResult(result, (row) => this.rowToItem(row))
+    return mapQueryResult(result, (row) => this.fromDb(row))
   }
 
 
@@ -171,7 +171,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         httpStatusCode: 404,
       });
     }
-    const item = this.rowToItem(row);
+    const item = this.fromDb(row);
 
     if (item.checkout) {
       const sql = "select * from borrowers where borrowernumber = ?";
@@ -200,7 +200,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
     return item
   }
 
-  rowToItem(row: mysql.RowDataPacket): Item {
+  fromDb(row: mysql.RowDataPacket): Item {
     const item: Item = this.table.fromDb(row);
     if (row.checkout_id) {
       item.checkout = checkoutsTable.fromDb(row);
