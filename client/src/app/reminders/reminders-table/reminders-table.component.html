@@ -1,5 +1,5 @@
 <p *ngIf="dataSource.data.length === 0">
-  No reminder emails for this borrower.
+  No reminder emails.
 </p>
 <div class="table" [class.gsl-hide]="dataSource.data.length === 0">
   <table mat-table [dataSource]="dataSource" class="reminders">
