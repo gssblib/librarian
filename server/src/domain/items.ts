@@ -368,7 +368,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
   async getCheckoutReport(lastCheckoutDate: string, query: EntityQuery<Item>):
       Promise<QueryResult<Item>> {
     const itemsWhere = this.table.sqlWhere(query);
-    const where = itemsWhere.where ? `where ${itemsWhere.where}` : "";
+    const where = itemsWhere.where || "";
     const sql = `
       select a.*, max(h.checkout_date) as last_checkout_date
       from items a right join issue_history h on a.barcode = h.barcode
