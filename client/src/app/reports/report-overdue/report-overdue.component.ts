@@ -20,7 +20,7 @@ import {MatSort} from "@angular/material/sort";
 })
 export class ReportOverdueComponent implements AfterViewInit {
   /** Formly config for the search form. */
-  searchFields = of([FormlyFields.date('last_checkout_date', 'Last Checkout Date')]);
+  searchFields = of([FormlyFields.date('last_checkout_date', 'Last Checkout Date', true)]);
 
   /** Model of the search form. */
   criteria: any = {};
