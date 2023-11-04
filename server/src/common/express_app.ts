@@ -82,11 +82,11 @@ export class ExpressApp {
           res.status(error.httpStatusCode);
           res.send({errorCode: error.code, message: error.message});
         } else if (isSqlError(error)) {
-          res.status(400);
+          res.status(500);
           res.send({
             error: "SQL Error",
             errorCode: error.code,
-            mesage: error.sqlMessage,
+            message: error.sqlMessage,
           });
         } else {
           res.status(500);
