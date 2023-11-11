@@ -114,7 +114,7 @@ export class EntityTable<T> {
    * @param prefix prefix to add to the field names
    */
   sqlWhere(query: EntityQuery<T>, prefix = ""): SqlWhere {
-    const whereFields: SqlWhere = this.sqlWhereFields(query.fields ?? {}, query.op);
+    const whereFields: SqlWhere = this.sqlWhereFields(query.fields ?? {}, query.op, prefix);
     const conditions: string[] = [];
     const params: SqlParams = [];
     if (whereFields.where.length > 0) {
@@ -135,10 +135,10 @@ export class EntityTable<T> {
    *
    * @param selector From clause, default is "* from ${tableName}".
    */
-  toSqlQuery(query: EntityQuery<T>, selector?: string): SqlQuery {
+  toSqlQuery(query: EntityQuery<T>, selector?: string, prefix = ""): SqlQuery {
     const from = selector ?? `* from ${this.tableName}`;
     if (query.fields) {
-      const whereClause = this.sqlWhere(query);
+      const whereClause = this.sqlWhere(query, prefix);
       return {
         sql: `select ${from} ${whereClause.where}`,
         params: whereClause.params,

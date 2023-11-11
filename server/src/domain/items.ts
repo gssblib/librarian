@@ -149,7 +149,7 @@ export class Items extends BaseEntity<Item, ItemFlag> {
         left join \`out\` o on o.barcode = i.barcode
         left join order_items oi on oi.item_id = i.id
       `;
-    const sqlQuery = this.table.toSqlQuery(query, from);
+    const sqlQuery = this.table.toSqlQuery(query, from, "i.");
     const result = await this.db.selectRows(sqlQuery);
     return mapQueryResult(result, (row) => this.fromDb(row))
   }
