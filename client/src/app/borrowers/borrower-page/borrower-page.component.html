@@ -1,4 +1,4 @@
-<mat-card *ngIf="borrower">
+<mat-card appearance="outlined" *ngIf="borrower">
   <h2 *ngIf="borrower">
     {{borrower.surname}}, {{borrower.firstname}}, {{borrower.contactname}}
     <gsl-borrower-status [status]="borrower.state"></gsl-borrower-status>

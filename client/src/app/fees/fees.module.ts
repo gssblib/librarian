@@ -5,16 +5,16 @@ import { FeesService } from './fees.service';
 import { FeesRoutingModule } from './fees-routing.module';
 import { FeesPageComponent } from './fees-page/fees-page.component';
 import { FeesTableComponent } from './fees-table/fees-table.component';
-import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
-import { MatLegacyInputModule as MatInputModule } from "@angular/material/legacy-input";
-import { MatLegacyCardModule as MatCardModule } from "@angular/material/legacy-card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatLegacyOptionModule as MatOptionModule } from "@angular/material/legacy-core";
-import { MatLegacySelectModule as MatSelectModule } from "@angular/material/legacy-select";
-import { MatLegacyTableModule as MatTableModule } from "@angular/material/legacy-table";
-import { MatLegacyPaginatorModule as MatPaginatorModule } from "@angular/material/legacy-paginator";
+import { MatOptionModule } from "@angular/material/core";
+import { MatSelectModule } from "@angular/material/select";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from "@angular/material/legacy-progress-spinner";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 /**
  * Angular module for the fees owed to the library.

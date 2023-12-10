@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { BorrowerService } from "../shared/borrower.service";
 import { Borrower } from "../shared/borrower";
 import { OrdersService } from "../../orders/shared/orders.service";

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Order } from "../../orders/shared/order";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { OrderItem } from "../../orders/shared/order-item";
 import { Item } from "../../items/shared/item";
 

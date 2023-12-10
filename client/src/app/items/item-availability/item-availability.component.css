@@ -1,3 +1,5 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip {
   display: inline-block;
   padding: 4px;
@@ -6,22 +8,27 @@ mat-chip {
   border-radius: .25em;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip.small {
   font-size: 75%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip.normal {
   font-size: 100%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip.available {
   background-color: #5cb85c;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip.checked_out {
   background-color: #f0ad4e;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip.ordered {
   background-color: #f0ad4e;
 }

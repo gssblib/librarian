@@ -7,8 +7,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { BorrowerReminder } from "../../borrowers/shared/borrower";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
-import { MatLegacyPaginator as MatPaginator } from "@angular/material/legacy-paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: 'gsl-reminders-table',

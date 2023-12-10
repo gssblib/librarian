@@ -17,19 +17,19 @@ import { UserListPageComponent } from './user-list-page/user-list-page.component
 import { UserAddPageComponent } from './user-add-page/user-add-page.component';
 import { UserEditPageComponent } from './user-edit-page/user-edit-page.component';
 import { CdkTableModule } from '@angular/cdk/table';
-import { MatLegacyCardModule as MatCardModule } from "@angular/material/legacy-card";
-import { MatLegacyChipsModule as MatChipsModule } from "@angular/material/legacy-chips";
-import { MatLegacyTabsModule as MatTabsModule } from "@angular/material/legacy-tabs";
-import { MatLegacyDialogModule as MatDialogModule } from "@angular/material/legacy-dialog";
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from "@angular/material/legacy-autocomplete";
+import { MatCardModule } from "@angular/material/card";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatIconModule } from "@angular/material/icon";
-import { MatLegacyInputModule as MatInputModule } from "@angular/material/legacy-input";
-import { MatLegacyFormFieldModule as MatFormFieldModule } from "@angular/material/legacy-form-field";
-import { MatLegacySelectModule as MatSelectModule } from "@angular/material/legacy-select";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
-import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
-import { MatLegacyPaginatorModule as MatPaginatorModule } from "@angular/material/legacy-paginator";
-import { MatLegacyTableModule as MatTableModule } from "@angular/material/legacy-table";
+import { MatButtonModule } from "@angular/material/button";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatTableModule } from "@angular/material/table";
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({

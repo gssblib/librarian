@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/material/form-field';
-import { MatLegacyInput as MatInput } from '@angular/material/legacy-input';
+import { MatInput } from '@angular/material/input';
 import { MatDatetimepickerComponent } from "@mat-datetimepicker/core";
 
 /**

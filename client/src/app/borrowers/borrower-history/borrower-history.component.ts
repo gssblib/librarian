@@ -4,8 +4,8 @@ import { BorrowersService } from '../shared/borrowers.service';
 import { BorrowerService } from '../shared/borrower.service';
 import { merge ,  of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 
 /**

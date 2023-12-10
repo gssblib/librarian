@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Order } from "../shared/order";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { OrderItem } from "../shared/order-item";
 import { Item } from "../../items/shared/item";
 import { NotificationService } from "../../core/notification-service";

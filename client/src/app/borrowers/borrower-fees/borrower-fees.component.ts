@@ -4,7 +4,7 @@ import { Borrower } from '../shared/borrower';
 import { BorrowersService } from '../shared/borrowers.service';
 import { BorrowerService } from '../shared/borrower.service';
 import { Observable } from 'rxjs';
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
 /**

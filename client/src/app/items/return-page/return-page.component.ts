@@ -6,7 +6,7 @@ import { Item } from '../shared/item';
 import { RpcError } from '../../core/rpc-error';
 import { BarcodeFieldComponent } from '../../shared/barcode-field/barcode-field.component';
 import { NotificationService } from "../../core/notification-service";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'gsl-return-page',

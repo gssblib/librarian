@@ -10,9 +10,9 @@
 //  If you specify typography styles for the components you use elsewhere, you should delete this line.
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies();
+@include mat.core();
 
 
 $gssb-theme-primary: mat.define-palette(mat.$blue-palette);
@@ -30,9 +30,10 @@ $gssb-theme: (
   background: mat.$light-theme-background-palette
 );
 
-@include mat.all-legacy-component-themes($gssb-theme);
+@include mat.all-component-themes($gssb-theme);
 @include datetimepicker.mat-datetimepicker-theme($gssb-theme);
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 .formly-checkbox .mat-form-field-infix {
   border-top: 0.5em solid transparent;
 }
@@ -46,7 +47,7 @@ $gssb-theme: (
   src: url(/assets/material-icons.woff2) format('woff2');
 }
 
-.mat-row:hover {
+.mat-mdc-row:hover {
   background: #eee;
 }
 
@@ -66,7 +67,8 @@ $gssb-theme: (
   -webkit-font-smoothing: antialiased;
 }
 
-.mat-mini-fab span.mat-button-wrapper {
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.mat-mdc-mini-fab span.mat-button-wrapper {
   padding: 0;
 }
 
@@ -93,7 +95,7 @@ $gssb-theme: (
 }
 
 /* */
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 

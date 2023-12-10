@@ -1,7 +1,7 @@
 import { Params } from '@angular/router';
 import { ParamsUtil } from './params-util';
 import { SortKey } from './sort-key';
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 
 /**

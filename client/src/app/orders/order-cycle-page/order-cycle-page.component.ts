@@ -10,7 +10,7 @@ import { OrderCycleService } from "../shared/order-cycle.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
-import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
+import { MatTableDataSource } from "@angular/material/table";
 import { Order } from "../shared/order";
 import { DateService } from "../../core/date-service";
 

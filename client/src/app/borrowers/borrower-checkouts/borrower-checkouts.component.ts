@@ -10,7 +10,7 @@ import { DateService } from "../../core/date-service";
 import { FocusService } from "../../core/focus.service";
 import { RenewReturnDialogComponent } from "./renew-return-dialog.component";
 import { NotificationService } from "../../core/notification-service";
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatDialog } from "@angular/material/dialog";
 
 /**
  * Presents the items that a borrower has currently checked out.

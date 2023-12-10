@@ -7,8 +7,8 @@ import { map, flatMap, catchError } from 'rxjs/operators';
 import { DataTableParams } from '../../core/data-table-params';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Column } from "../../core/form.service";
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
 /**
