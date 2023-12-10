@@ -38,7 +38,7 @@ import { CatalogOrderPageComponent } from "./catalog-order-page/catalog-order-pa
         path: '**',
         component: NotFoundComponent
     },
-], { relativeLinkResolution: 'legacy' })
+    ])
   ],
   exports: [
     RouterModule

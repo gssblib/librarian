@@ -12,7 +12,7 @@ import { CheckoutPageComponent } from "./checkouts/checkout-page/checkout-page.c
     { path: 'login', component: InternalLoginPageComponent },
     { path: 'checkout', component: CheckoutPageComponent },
     { path: '**', component: NotFoundComponent },
-], { relativeLinkResolution: 'legacy' })
+    ])
   ],
   exports: [
     RouterModule
