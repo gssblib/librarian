@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { OrderCyclesService } from "../shared/order-cycles.service";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
 import { TableFetchResult } from "../../core/table-fetcher";
 import { OrderCycle, OrderCycleState } from "../shared/order-cycle";
 import { NotificationService } from "../../core/notification-service";

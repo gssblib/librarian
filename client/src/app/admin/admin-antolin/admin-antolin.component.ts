@@ -9,8 +9,8 @@ import { ParamsUtil } from '../../core/params-util';
 import { RpcError } from '../../core/rpc-error';
 import { TableFetchResult } from '../../core/table-fetcher';
 import { Borrower } from '../../borrowers/shared/borrower';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {MatSort} from "@angular/material/sort";
 
 @Component({

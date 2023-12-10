@@ -11,8 +11,8 @@ import { DataTableParams } from '../../core/data-table-params';
 import { Column } from "../../core/form.service";
 import { FocusService } from "../../core/focus.service";
 import { ItemService } from "../shared/item.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {MatSort} from "@angular/material/sort";
 
 const SEARCH_FIELDS = [

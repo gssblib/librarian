@@ -11,8 +11,8 @@ import { ParamsUtil } from '../../core/params-util';
 import { TableFetchResult } from '../../core/table-fetcher';
 import { FormlyFields } from '../../core/form.service';
 import * as FileSaver from "file-saver";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {MatSort} from "@angular/material/sort";
 
 const SEARCH_FIELDS = ['subject', 'classification', 'category'];

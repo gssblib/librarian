@@ -5,7 +5,7 @@ import {Borrower, BorrowerReminder, BorrowerReminderResultCode} from '../shared/
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {NotificationService} from '../../core/notification-service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {
   BorrowerReminderDialogComponent,
   BorrowerReminderDialogComponentData

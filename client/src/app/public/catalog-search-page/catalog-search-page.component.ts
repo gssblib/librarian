@@ -13,7 +13,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError, finalize, map, takeUntil } from "rxjs/operators";
 import { DataTableParams } from '../../core/data-table-params';
 import { NotificationService } from '../../core/notification-service';
-import { MatPaginator } from "@angular/material/paginator";
+import { MatLegacyPaginator as MatPaginator } from "@angular/material/legacy-paginator";
 import { Item } from "../../items/shared/item";
 import { AuthenticationService, User } from "../../core/auth.service";
 import { BorrowersService } from "../../borrowers/shared/borrowers.service";

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { Item } from '../../items/shared/item';
 import { FocusService } from "../../core/focus.service";
 import { NotificationService } from "../../core/notification-service";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatLegacyTableDataSource as MatTableDataSource } from "@angular/material/legacy-table";
 import { MatSort } from "@angular/material/sort";
 
 @Component({
