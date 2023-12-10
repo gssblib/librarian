@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Router } from "@angular/router";
 import { NotificationService } from "../../core/notification-service";
@@ -15,7 +15,7 @@ import { RpcError } from "../../core/rpc-error";
   styleUrls: ["./item-edit-form.component.css"],
 })
 export class ItemEditFormComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   item: Item;
   fields: Array<FormlyFieldConfig> = [];
 

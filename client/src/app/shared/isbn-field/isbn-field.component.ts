@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from "@angular/forms";
+import { UntypedFormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: 'gsl-isbn-field',
@@ -7,7 +7,7 @@ import { FormControl, Validators } from "@angular/forms";
   styleUrls: ['./isbn-field.component.css']
 })
 export class IsbnFieldComponent implements OnInit {
-  isbnCtrl: FormControl;
+  isbnCtrl: UntypedFormControl;
   isbn: string = '';
 
   @Input()
@@ -22,7 +22,7 @@ export class IsbnFieldComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.isbnCtrl = new FormControl('', [
+    this.isbnCtrl = new UntypedFormControl('', [
       Validators.required,
     ]);
   }

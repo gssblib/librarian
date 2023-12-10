@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 /**
  * Input field for digit-only barcodes of a fixed length.
@@ -13,7 +13,7 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./barcode-field.component.css']
 })
 export class BarcodeFieldComponent implements OnInit {
-  barcodeCtrl: FormControl;
+  barcodeCtrl: UntypedFormControl;
 
   set barcode(value: string) {
     this.barcodeCtrl.setValue(value);
@@ -37,7 +37,7 @@ export class BarcodeFieldComponent implements OnInit {
   input: ElementRef;
 
   ngOnInit() {
-    this.barcodeCtrl = new FormControl('', [
+    this.barcodeCtrl = new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(this.length),
       Validators.maxLength(this.length)

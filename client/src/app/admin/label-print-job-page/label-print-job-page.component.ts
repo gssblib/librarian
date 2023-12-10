@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { NotificationService } from "../../core/notification-service";
 import { LabelPrintJob } from "../labels-print-queue";
@@ -14,7 +14,7 @@ import { LabelPrintJobService } from "../label-print-job.service";
   styleUrls: ['./label-print-job-page.component.css']
 })
 export class LabelPrintJobPageComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   fields: Array<FormlyFieldConfig> = [];
   job: LabelPrintJob;
   labelPdf;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from "../../core/notification-service";
 import { FeesService } from '../fees.service';
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 
 @Component({
   selector: 'gsl-fees-page',
@@ -9,7 +9,7 @@ import { FormControl } from "@angular/forms";
   styleUrls: ['./fees-page.component.css']
 })
 export class FeesPageComponent {
-  readonly date = new FormControl(new Date());
+  readonly date = new UntypedFormControl(new Date());
 
   constructor(
     private notificationService: NotificationService,

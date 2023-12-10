@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { BorrowersService } from "../../borrowers/shared/borrowers.service";
 import { BorrowerReminder } from "../../borrowers/shared/borrower";
 import { NotificationService } from "../../core/notification-service";
@@ -12,7 +12,7 @@ import { from } from 'rxjs';
   styleUrls: ['./reminders-page.component.css']
 })
 export class RemindersPageComponent {
-  readonly message = new FormControl();
+  readonly message = new UntypedFormControl();
 
   reminders: BorrowerReminder[] = [];
   sent: 0;

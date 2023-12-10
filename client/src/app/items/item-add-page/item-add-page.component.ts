@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { NotificationService } from "../../core/notification-service";
@@ -17,7 +17,7 @@ import { RpcError } from "../../core/rpc-error";
   styleUrls: ['./item-add-page.component.css']
 })
 export class ItemAddPageComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   item: Item;
   fields: Array<FormlyFieldConfig> = [];
 

@@ -3,7 +3,7 @@ import {
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { Item } from "../shared/item";
 import { ItemsService } from "../shared/items.service";
 import { NotificationService } from "../../core/notification-service";
@@ -23,7 +23,7 @@ export class ItemAutoCompleteComponent implements OnInit, AfterViewInit, OnDestr
   private isBarcode = new RegExp('^[0-9]{9}$');
 
   /** FormControl for the input field. */
-  itemCtrl: FormControl;
+  itemCtrl: UntypedFormControl;
 
   /** Items shown in auto completion list. */
   suggestions: Item[];
@@ -43,7 +43,7 @@ export class ItemAutoCompleteComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   ngOnInit() {
-    this.itemCtrl = new FormControl();
+    this.itemCtrl = new UntypedFormControl();
     this.itemCtrl.valueChanges.subscribe(value => this.onChange(value));
   }
 

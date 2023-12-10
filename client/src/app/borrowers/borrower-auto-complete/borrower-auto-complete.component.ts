@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Borrower } from '../shared/borrower';
 import { BorrowersService } from '../shared/borrowers.service';
 
@@ -17,7 +17,7 @@ export class BorrowerAutoCompleteComponent implements OnInit, AfterViewInit {
   inputElementRef: ElementRef;
 
   /** FormControl for the borrower name input field. */
-  input: FormControl;
+  input: UntypedFormControl;
 
   /** Borrowers shown in the auto completion list. */
   suggestions: Borrower[];
@@ -32,7 +32,7 @@ export class BorrowerAutoCompleteComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.input = new FormControl();
+    this.input = new UntypedFormControl();
     this.input.valueChanges.subscribe(value => this.onChange(value));
   }
 

@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   OnDestroy
 } from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Observable, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -36,9 +36,9 @@ export class MultiFieldSearchBarComponent implements OnInit, OnChanges, OnDestro
   @Output()
   search: EventEmitter<Object> = new EventEmitter();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: UntypedFormBuilder) {
     this.form = fb.group({});
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { NotificationService } from "../../core/notification-service";
@@ -12,7 +12,7 @@ import { User } from "../shared/user";
   styleUrls: ['./user-add-page.component.css']
 })
 export class UserAddPageComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   user: User;
   fields: Array<FormlyFieldConfig> = [];
 

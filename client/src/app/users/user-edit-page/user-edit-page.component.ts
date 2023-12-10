@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { User } from "../shared/user";
 import { NotificationService } from "../../core/notification-service";
@@ -14,7 +14,7 @@ import { UsersService } from "../shared/users.service";
   styleUrls: ['./user-edit-page.component.css']
 })
 export class UserEditPageComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   fields: Array<FormlyFieldConfig> = [];
   user: User;
 

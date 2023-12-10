@@ -3,7 +3,7 @@ import { OrderCyclesService } from "../shared/order-cycles.service";
 import { OrderCycleService } from "../shared/order-cycle.service";
 import { Router } from "@angular/router";
 import { NotificationService } from "../../core/notification-service";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { OrderCycle } from "../shared/order-cycle";
 import { RpcError } from "../../core/rpc-error";
@@ -14,7 +14,7 @@ import { RpcError } from "../../core/rpc-error";
   styleUrls: ['./order-cycle-edit-page.component.css']
 })
 export class OrderCycleEditPageComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   fields: Array<FormlyFieldConfig> = [];
   orderCycle: OrderCycle;
 

@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Borrower } from "../shared/borrower";
 import { NotificationService } from "../../core/notification-service";
@@ -12,7 +12,7 @@ import { BorrowersService } from "../shared/borrowers.service";
   styleUrls: ['./borrower-profile-edit.component.css']
 })
 export class BorrowerProfileEditComponent {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   fields: Array<FormlyFieldConfig> = [];
 
   @Input()

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { OrderCyclesService } from "../shared/order-cycles.service";
 import { OrderCycle } from "../shared/order-cycle";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -16,10 +16,10 @@ import { OrderCycleService } from "../shared/order-cycle.service";
 })
 export class OrderCycleAddPageComponent implements OnInit {
 
-  orderWindowStart = new FormControl(new Date());
-  orderWindowEnd = new FormControl(new Date());
+  orderWindowStart = new UntypedFormControl(new Date());
+  orderWindowEnd = new UntypedFormControl(new Date());
 
-  form = new FormGroup({
+  form = new UntypedFormGroup({
     order_window_start: this.orderWindowStart,
     order_window_end: this.orderWindowEnd,
     orderWindowStart: this.orderWindowStart,
