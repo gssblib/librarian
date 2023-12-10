@@ -65,8 +65,8 @@ export class BorrowersService extends ModelsService<Borrower> {
     return this.rpc.httpGet('borrowers/reminders');
   }
 
-  sendReminders(): Observable<BorrowerReminder[]> {
-    return this.rpc.httpPost('borrowers/sendReminders');
+  sendReminders(reminders: BorrowerReminder[]): Observable<BorrowerReminder[]> {
+    return this.rpc.httpPost('borrowers/sendReminders', {reminders: reminders});
   }
 
   getBorrowerHistory(id: number, params: any): Observable<TableFetchResult<ItemCheckout>> {

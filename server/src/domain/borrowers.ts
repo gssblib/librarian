@@ -539,11 +539,10 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
   }
 
   /**
-   * Generates and send the reminder emails for the borrowers with checked-out
-   * items.
+   * Send reminder emails
    */
-  private async sendReminders(): Promise<BorrowerReminder[]> {
-    const reminders = await this.generateReminders();
+  private async sendReminders(reminders: BorrowerReminder[]): Promise<BorrowerReminder[]> {
+    console.log(`mailing ${reminders.length} reminders`);
     for (const reminder of reminders) {
       if (!reminder.email) {
         continue;
@@ -657,7 +656,7 @@ export class Borrowers extends BaseEntity<Borrower, BorrowerFlag> {
       method: HttpMethod.POST,
       path: `${this.basePath}/sendReminders`,
       handle: async (req, res) => {
-        const result = await this.sendReminders();
+        const result = await this.sendReminders(req.body.reminders);
         res.send(result);
       },
       authAction: {resource: "borrowers", operation: "sendEmail"},
