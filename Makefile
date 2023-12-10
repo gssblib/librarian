@@ -98,12 +98,12 @@ client: client/package.json
 ##> client-dist : Build volunteer client distribution
 client-dist:
 	cd client; \
-	node_modules/.bin/ng build --configuration production --base-href "/"
+	node_modules/.bin/ng build --configuration production --base-href "/" client
 
 ##> client-dev : Start the volunteer client dev server on port 4200.
 client-dev:
 	cd client; \
-	ng serve --proxy-config proxy.conf.json
+	ng serve --proxy-config proxy.conf.json client
 
 ##> public-client-dist : Build public client distribution
 public-client-dist:
