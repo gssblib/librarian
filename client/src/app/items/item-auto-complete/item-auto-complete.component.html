@@ -1,4 +1,4 @@
-<mat-form-field floatPlaceholder="never" class="item-autocomplete" (keyup.enter)="selectFirstItem()">
+<mat-form-field floatPlaceholder="never" appearance="outline" class="item-autocomplete" (keyup.enter)="selectFirstItem()">
   <input #input matInput size="50" placeholder="Item Title or Barcode"
          [formControl]="itemCtrl" [matAutocomplete]="auto">
 </mat-form-field>

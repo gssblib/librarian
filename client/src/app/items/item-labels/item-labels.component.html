@@ -2,7 +2,7 @@
   <div fxFlex="">
     <form (ngSubmit)="printLabel(item, category, data)">
 
-      <mat-form-field [style.width]="'100%'">
+      <mat-form-field [style.width]="'100%'" appearance="outline">
         <mat-select name="category" placeholder="Label Categories"
                     [(ngModel)]="category"
                     (selectionChange)="onCategoryChange(item, category)">

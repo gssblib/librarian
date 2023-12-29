@@ -5,7 +5,7 @@ mat-chip {
   padding: 3px;
   font-size: 75%;
   font-weight: bold;
-  min-width: 6em;
+  min-width: 10em;
   line-height: 1;
   color: #fff;
   text-align: center;

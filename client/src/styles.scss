@@ -38,6 +38,10 @@ $gssb-theme: (
   border-top: 0.5em solid transparent;
 }
 
+formly-wrapper-mat-form-field > mat-form-field {
+  width: 100%;
+}
+
 /* Material Icons Font Registration */
 
 @font-face {

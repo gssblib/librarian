@@ -9,10 +9,10 @@
     <p *ngIf="error" class="error">
       {{error}}
     </p>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <input matInput required [(ngModel)]="model.username" name="username" placeholder="Login" />
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <input matInput required [(ngModel)]="model.password" type="password"
              name="password"
              placeholder="Password" />

@@ -1,5 +1,5 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <input
        matInput placeholder="Isbn" [formControl]="isbnCtrl"
        [(ngModel)]="isbn" (keypress)="keyPress($event)"

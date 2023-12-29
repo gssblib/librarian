@@ -119,6 +119,7 @@ export class FormService {
         label: title,
         placeholder: title,
         required: required,
+        appearance: 'outline',
       }
     };
     switch (domain.type) {

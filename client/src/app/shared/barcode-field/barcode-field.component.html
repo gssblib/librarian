@@ -1,5 +1,5 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <input #input matInput placeholder="Barcode" [formControl]="barcodeCtrl"
            (keypress)="keyPress($event)" maxlength="9" autocomplete="off" [focus]="focus">
   </mat-form-field>

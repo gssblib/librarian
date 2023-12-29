@@ -17,7 +17,7 @@ import { MatDatetimepickerComponent } from "@mat-datetimepicker/core";
 @Component({
   selector: 'formly-field-mat-datetimepicker',
   template: `
-    <mat-form-field class="field">
+    <mat-form-field class="field" appearance="outline">
       <mat-label>{{to.label}}</mat-label>
       <input
         matInput
