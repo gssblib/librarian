@@ -11,7 +11,7 @@ import {OrderCycles, Orders} from './orders';
 import * as labels from './labels';
 import * as admin from './admin';
 
-export const pool = mysql.createPool(config.get("db"));
+export const pool = mysql.createPool(JSON.parse(JSON.stringify(config.get("db"))));
 
 export const db = new Db(pool);
 
