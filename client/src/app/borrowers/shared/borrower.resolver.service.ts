@@ -1,12 +1,12 @@
 
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Borrower } from './borrower';
 import { Injectable } from '@angular/core';
 import { BorrowersService } from './borrowers.service';
 
 @Injectable()
-export class BorrowerResolverService implements Resolve<Borrower> {
+export class BorrowerResolverService  {
   constructor(private borrowersService: BorrowersService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Borrower> {

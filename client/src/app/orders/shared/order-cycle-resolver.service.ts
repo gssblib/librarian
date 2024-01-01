@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { OrderCyclesService } from "./order-cycles.service";
@@ -6,7 +6,7 @@ import { OrderCycleService } from "./order-cycle.service";
 import { OrderCycle } from "./order-cycle";
 
 @Injectable({providedIn: 'root'})
-export class OrderCycleResolverService implements Resolve<OrderCycle> {
+export class OrderCycleResolverService  {
   constructor(private orderCyclesService: OrderCyclesService,
               private orderCycleService: OrderCycleService) {}
 
