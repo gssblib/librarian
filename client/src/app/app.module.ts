@@ -34,7 +34,6 @@ import { MatListModule } from "@angular/material/list";
 import { OrdersRoutingModule } from "./orders/orders-routing.module";
 import { OrdersModule } from "./orders/orders.module";
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimepicker/core";
-import { FormlyMatDatetimepickerModule } from "./shared/formly/datetimepicker.module";
 
 @NgModule({
   declarations: [
@@ -68,7 +67,6 @@ import { FormlyMatDatetimepickerModule } from "./shared/formly/datetimepicker.mo
     MatIconModule,
     MatListModule,
     MatDatetimepickerModule,
-    FormlyMatDatetimepickerModule,
     NotFoundModule,
     HomeModule,
     /* List routers in the right order. */
