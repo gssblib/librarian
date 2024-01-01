@@ -80,6 +80,11 @@ async function authenticateInternal(login: Login):
     users.update({id: row.id, failed_login_attempts: row.failed_login_attempts + 1})
     return {authenticated: false, reason: 'INCORRECT_PASSWORD'};
   }
+
+  if (row.failed_login_attempts > 0) {
+    users.update({id: row.id, failed_login_attempts: 0})
+  }
+
   const roles = userRow.roles.split(',');
   const permissions = getPermissions(roleRepository, roles);
   return {
