@@ -40,6 +40,7 @@ export class FormlyFields {
       key: key,
       type: 'input',
       templateOptions: {
+        appearance: 'outline',
         placeholder: label,
         required: required,
         type: "date"

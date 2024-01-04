@@ -19,16 +19,7 @@ import {MatSort} from "@angular/material/sort";
   styleUrls: ['./report-overdue.component.css']
 })
 export class ReportOverdueComponent implements AfterViewInit {
-  private dateField = FormlyFields.date('last_checkout_date', 'Last Checkout Date', true)
-  searchFields = of([
-    {
-      ...this.dateField,
-      templateOptions: {
-        ...this.dateField.templateOptions,
-        appearance: 'outline',
-      }
-    },
-  ]);
+  searchFields = of([FormlyFields.date('last_checkout_date', 'Last Checkout Date', true)]);
 
   /** Model of the search form. */
   criteria: any = {};

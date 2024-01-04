@@ -43,16 +43,9 @@ export class ReportItemUsageComponent implements AfterViewInit {
               private itemsService: ItemsService,
               private route: ActivatedRoute,
               private router: Router) {
-    const dateField = FormlyFields.date('last_checkout_date', 'Last Checkout Date', true)
     this.searchFields = this.itemsService.getFormlyFields(SEARCH_FIELDS).pipe(map(
       fields => {
-        fields.push({
-          ...dateField,
-          templateOptions: {
-            ...dateField.templateOptions,
-            appearance: 'outline',
-          }
-        });
+        fields.push(FormlyFields.date('lastCheckoutDate', 'Last Checkout Date', true));
         return fields;
       }));
   }
