@@ -32,7 +32,7 @@ export class RemindersPageComponent {
   sendReminders(): void {
     from(this.reminders)
       .pipe(
-        bufferCount(5),
+        bufferCount(25),
         concatMap(remindersBatch => {
           return this.borrowersService.sendReminders(remindersBatch);
         }),
