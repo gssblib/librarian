@@ -100,7 +100,7 @@ module.exports = {
   "checkout": {
     borrowDays: 29,
     renewalDays: 29,
-    renewalLimitDays: 29,
+    renewalLimitDays: 30,
   },
 
   "fonts": {
