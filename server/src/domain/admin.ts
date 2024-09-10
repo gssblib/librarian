@@ -97,12 +97,13 @@ async function loadFamilies(report: string): Promise<FamilyLoadResult> {
     report,
     {
       delimiter: ',',
-      escape: '"',
+      escape: '\\',
       columns: [
         'code','family_name','phone','family_email','last_name','first_name',
         'student_email'
       ],
       fromLine: 2,
+      relax_quotes: true,
       encoding: 'utf-8',
     }
   );
@@ -117,7 +118,7 @@ async function loadFamilies(report: string): Promise<FamilyLoadResult> {
       surname: row.last_name,
       firstname: row.first_name,
       contactname: row.family_name,
-      phone: row.phone.split('|')[0].trim(),
+      phone: row.phone.split('|')[0].replace(/[^+0-9]/g, ""),
       emailaddress: row.family_email.split('|').map((e: string) => e.trim()).join(', '),
       sycamoreid: row.code,
       state: 'ACTIVE',
