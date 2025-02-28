@@ -18,7 +18,7 @@ nunjucksEnv.addFilter("fixed", (num, length) => num.toFixed(length || 2));
 
 nunjucksEnv.addFilter("date", (value: Date|string) => {
   const date = typeof value === "string" ? new Date(value) : value;
-  return date.toLocaleDateString();
+  return date.toLocaleDateString("en-US", { timeZone: "America/New_York" });
 });
 
 /**
