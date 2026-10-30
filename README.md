@@ -41,6 +41,7 @@ $ make help
 
 ### More Documentation
 
+- [Browser regression tests](tests/browser/README.md)
 - [API](doc/api.md)
 - [Install](doc/install.md)
 - [Use-Cases](doc/use-cases.md)
