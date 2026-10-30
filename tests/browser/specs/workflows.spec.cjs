@@ -166,7 +166,10 @@ test("checkout, renewal and return persist in loan history", async ({
   await expect(
     page.getByText("No items checked out.", { exact: true }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "History", exact: true }).click();
+  await page.getByRole("tab", { name: "History", exact: true }).click();
+  await expect(
+    page.getByRole("tab", { name: "History", exact: true }),
+  ).toHaveAttribute("aria-selected", "true");
   await expect(
     page.getByRole("cell", { name: "Test Book 01", exact: true }),
   ).toBeVisible();
@@ -185,9 +188,9 @@ test("canceling the delete confirmation preserves the book", async ({
   await expect(page.getByRole("dialog")).toContainText(
     "Are you sure you want to delete the item?",
   );
-  await expect(page.getByRole("dialog")).toHaveScreenshot(
-    "delete-confirmation.png",
-  );
+  await expect
+    .soft(page.getByRole("dialog"))
+    .toHaveScreenshot("delete-confirmation.png");
   await page.getByRole("button", { name: "No", exact: true }).click();
   await page.reload();
   await expect(
@@ -262,7 +265,7 @@ test("catalog layout and navigation match desktop and narrow baselines", async (
     page.getByRole("heading", { name: "Found 1 matching items" }),
   ).toBeVisible();
   await page.locator("body").click({ position: { x: 1300, y: 950 } });
-  await expect(page).toHaveScreenshot("catalog-desktop.png", {
+  await expect.soft(page).toHaveScreenshot("catalog-desktop.png", {
     fullPage: true,
   });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -270,7 +273,9 @@ test("catalog layout and navigation match desktop and narrow baselines", async (
   await expect(
     page.getByRole("link", { name: /Borrowers$/ }),
   ).not.toBeVisible();
-  await expect(page).toHaveScreenshot("catalog-narrow.png", { fullPage: true });
+  await expect
+    .soft(page)
+    .toHaveScreenshot("catalog-narrow.png", { fullPage: true });
   await page.locator("mat-toolbar button").first().click();
   await expect(page.getByRole("link", { name: /Borrowers$/ })).toBeVisible();
 });

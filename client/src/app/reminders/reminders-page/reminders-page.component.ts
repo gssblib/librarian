@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from "@angular/forms";
 import { BorrowersService } from "../../borrowers/shared/borrowers.service";
 import { BorrowerReminder } from "../../borrowers/shared/borrower";
@@ -9,7 +9,9 @@ import { from } from 'rxjs';
 @Component({
   selector: 'gsl-reminders-page',
   templateUrl: './reminders-page.component.html',
-  styleUrls: ['./reminders-page.component.css']
+  styleUrls: ['./reminders-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class RemindersPageComponent {
   readonly message = new UntypedFormControl();

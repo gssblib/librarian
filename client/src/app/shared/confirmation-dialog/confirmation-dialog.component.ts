@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class ConfirmationDialogComponent {
 

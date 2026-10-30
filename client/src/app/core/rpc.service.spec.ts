@@ -4,27 +4,28 @@ import { XHRBackend } from '@angular/http';
 import { ConfigService } from './config.service';
 import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
 
 describe('RpcService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
+    imports: [],
+    providers: [
         RpcService,
         ConfigService,
-        {provide: XHRBackend, useClass: MockBackend},
-      ],
-    });
+        { provide: XHRBackend, useClass: MockBackend },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+    ]
+});
   });
 
   describe('httpGet', () => {
     it('should return an observable with a json result', waitForAsync(() => {
-      const rpcService = TestBed.get(RpcService);
+      const rpcService = TestBed.inject(RpcService);
 
       // Mock a successful JSON HTTP response.
-      const http = TestBed.get(HttpClient);
+      const http = TestBed.inject(HttpClient);
       spyOn(http, 'get').and.returnValue(Observable.of({
         json() {
           return {name: 'Homer'};

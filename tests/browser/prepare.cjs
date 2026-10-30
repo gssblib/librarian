@@ -2,12 +2,7 @@ const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const fs = require("node:fs");
 const root = path.resolve(__dirname, "../..");
-const frontendNode = process.env.E2E_FRONTEND_NODE;
-if (!frontendNode) {
-  throw Error(
-    "Set E2E_FRONTEND_NODE to the frontend Node executable (Node 18 for Angular 16); see tests/browser/README.md.",
-  );
-}
+const frontendNode = process.env.E2E_FRONTEND_NODE || process.execPath;
 const env = { ...process.env, NG_CLI_ANALYTICS: "false" };
 for (const key of [
   "NODE_ENV",

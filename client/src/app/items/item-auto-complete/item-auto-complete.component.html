@@ -1,9 +1,11 @@
 <mat-form-field floatPlaceholder="never" appearance="outline" class="item-autocomplete" (keyup.enter)="selectFirstItem()">
   <input #input matInput size="50" placeholder="Item Title or Barcode"
-         [formControl]="itemCtrl" [matAutocomplete]="auto">
+    [formControl]="itemCtrl" [matAutocomplete]="auto">
 </mat-form-field>
 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWith">
-  <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
-    {{ displayWith(suggestion) }}
-  </mat-option>
+  @for (suggestion of suggestions; track suggestion) {
+    <mat-option [value]="suggestion">
+      {{ displayWith(suggestion) }}
+    </mat-option>
+  }
 </mat-autocomplete>

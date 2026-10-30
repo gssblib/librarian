@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'gsl-admin-page',
   templateUrl: './admin-page.component.html',
-  styleUrls: ['./admin-page.component.css']
+  styleUrls: ['./admin-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class AdminPageComponent implements OnInit {
   navLinks = [

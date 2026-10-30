@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NotificationService } from "../../core/notification-service";
 import { FeesService } from '../fees.service';
 import { UntypedFormControl } from "@angular/forms";
@@ -6,7 +6,9 @@ import { UntypedFormControl } from "@angular/forms";
 @Component({
   selector: 'gsl-fees-page',
   templateUrl: './fees-page.component.html',
-  styleUrls: ['./fees-page.component.css']
+  styleUrls: ['./fees-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class FeesPageComponent {
   readonly date = new UntypedFormControl(new Date());

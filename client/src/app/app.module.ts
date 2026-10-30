@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
+import { FlexLayoutModule } from "@ngbracket/ngx-layout";
 import { NotFoundModule } from '../not-found/not-found.module';
 import { HomeModule } from '../home/home.module';
 import { CoreModule } from './core/core.module';
@@ -43,7 +43,6 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimep
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     FlexLayoutModule,
     CoreModule,
     ItemsModule,
@@ -77,7 +76,7 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimep
     AdminRoutingModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -10,6 +10,7 @@ import { NotificationService } from "../../core/notification-service";
   templateUrl: './catalog-order-page.component.html',
   styleUrls: ['./catalog-order-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CatalogOrderPageComponent implements OnInit {
   borrower?: Borrower;

@@ -1,6 +1,12 @@
-<p *ngIf="editable">
-  <gsl-borrower-profile-edit *ngIf="borrower" [borrower]="borrower"></gsl-borrower-profile-edit>
-</p>
-<p class="fields" *ngIf="!editable">
-  <gsl-readonly-field-list [model]="borrower" [fields]="fields"></gsl-readonly-field-list>
-</p>
+@if (editable) {
+  <p>
+    @if (borrower) {
+      <gsl-borrower-profile-edit [borrower]="borrower"></gsl-borrower-profile-edit>
+    }
+  </p>
+}
+@if (!editable) {
+  <p class="fields">
+    <gsl-readonly-field-list [model]="borrower" [fields]="fields"></gsl-readonly-field-list>
+  </p>
+}

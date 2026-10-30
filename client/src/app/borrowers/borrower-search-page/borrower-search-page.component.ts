@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { BorrowersService } from '../shared/borrowers.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';
@@ -22,7 +22,9 @@ const SEARCH_FIELDS = ['surname', 'firstname', 'contactname', 'emailaddress', 's
 @Component({
   selector: 'gsl-borrower-search-page',
   templateUrl: './borrower-search-page.component.html',
-  styleUrls: ['./borrower-search-page.component.css']
+  styleUrls: ['./borrower-search-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerSearchPageComponent implements AfterViewInit {
   /** Formly config for the search form. */

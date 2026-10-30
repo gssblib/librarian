@@ -18,7 +18,7 @@
     <h2>Found {{count}} matching items</h2>
     <div class="mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource"
-                 matSort matSortActive="title" matSortDisableClear matSortDirection="asc">
+        matSort matSortActive="title" matSortDisableClear matSortDirection="asc">
         <ng-container matColumnDef="barcode">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
           <mat-cell *matCellDef="let row">
@@ -28,14 +28,18 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <div *ngIf="row.checkout">
-              <a [routerLink]="['/borrowers', row.checkout.borrowernumber, 'checkouts']">
+            @if (row.checkout) {
+              <div>
+                <a [routerLink]="['/borrowers', row.checkout.borrowernumber, 'checkouts']">
+                  <gsl-item-status [status]="row.status" size="normal"></gsl-item-status>
+                </a>
+              </div>
+            }
+            @if (!row.checkout) {
+              <div>
                 <gsl-item-status [status]="row.status" size="normal"></gsl-item-status>
-              </a>
-            </div>
-            <div *ngIf="!row.checkout">
-              <gsl-item-status [status]="row.status" size="normal"></gsl-item-status>
-            </div>
+              </div>
+            }
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="title">

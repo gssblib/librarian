@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UsersService } from '../shared/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';
@@ -20,7 +20,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-user-list-page',
   templateUrl: './user-list-page.component.html',
-  styleUrls: ['./user-list-page.component.css']
+  styleUrls: ['./user-list-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class UserListPageComponent implements AfterViewInit {
   /** Formly config for the list form. */

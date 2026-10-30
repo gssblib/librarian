@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NotificationService } from '../../core/notification-service';
 import { Borrower } from '../shared/borrower';
 import { BorrowersService } from '../shared/borrowers.service';
@@ -13,7 +13,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-borrower-fees',
   templateUrl: './borrower-fees.component.html',
-  styleUrls: ['./borrower-fees.component.css']
+  styleUrls: ['./borrower-fees.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerFeesComponent implements OnInit, AfterViewInit {
   displayedColumns = ['title', 'fee', 'checkout_date', 'date_due', 'returndate', 'actions'];

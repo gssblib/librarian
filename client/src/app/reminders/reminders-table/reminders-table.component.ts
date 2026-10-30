@@ -15,6 +15,7 @@ import { MatPaginator } from "@angular/material/paginator";
   templateUrl: './reminders-table.component.html',
   styleUrls: ['./reminders-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class RemindersTableComponent implements AfterViewInit {
   readonly dataSource = new MatTableDataSource<BorrowerReminder>([]);

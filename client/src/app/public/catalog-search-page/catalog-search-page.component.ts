@@ -33,6 +33,7 @@ const SEARCH_FIELDS = ['title', 'seriestitle', 'author', 'subject', 'category', 
   templateUrl: './catalog-search-page.component.html',
   styleUrls: ['./catalog-search-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CatalogSearchPageComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroyed = new Subject<void>();

@@ -13,6 +13,7 @@ import { OrderCycleService } from "../shared/order-cycle.service";
   templateUrl: './order-cycle-add-page.component.html',
   styleUrls: ['./order-cycle-add-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class OrderCycleAddPageComponent implements OnInit {
 

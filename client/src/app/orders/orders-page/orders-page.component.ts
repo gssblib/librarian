@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Component showing a list of orders.
@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'gsl-orders-page',
   templateUrl: './orders-page.component.html',
-  styleUrls: ['./orders-page.component.css']
+  styleUrls: ['./orders-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class OrdersPageComponent implements OnInit {
 

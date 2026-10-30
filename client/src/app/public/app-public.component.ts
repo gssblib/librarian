@@ -12,6 +12,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   templateUrl: './app-public.component.html',
   styleUrls: ['./app-public.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class AppPublicComponent implements OnInit {
   constructor(private snackBar: MatSnackBar,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ItemService } from '../shared/item.service';
 import { ItemsService } from '../shared/items.service';
 import { Item } from '../shared/item';
@@ -10,6 +10,8 @@ import {MatSort} from "@angular/material/sort";
   selector: 'gsl-item-history',
   templateUrl: './item-history.component.html',
   styleUrls: ['./item-history.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemHistoryComponent implements OnInit, AfterViewInit {
   item: Item;

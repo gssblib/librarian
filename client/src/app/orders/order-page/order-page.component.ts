@@ -26,6 +26,7 @@ import { NotificationService } from "../../core/notification-service";
   templateUrl: './order-page.component.html',
   styleUrls: ['./order-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class OrderPageComponent implements OnInit, OnDestroy {
   private readonly destroyed = new Subject<void>();

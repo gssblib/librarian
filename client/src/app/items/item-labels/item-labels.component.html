@@ -4,11 +4,13 @@
 
       <mat-form-field [style.width]="'100%'" appearance="outline">
         <mat-select name="category" placeholder="Label Categories"
-                    [(ngModel)]="category"
-                    (selectionChange)="onCategoryChange(item, category)">
-          <mat-option *ngFor="let cat of categories" [value]="cat">
-            {{ cat }}
-          </mat-option>
+          [(ngModel)]="category"
+          (selectionChange)="onCategoryChange(item, category)">
+          @for (cat of categories; track cat) {
+            <mat-option [value]="cat">
+              {{ cat }}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -23,16 +25,17 @@
     </form>
   </div>
   <div fxFlex="">
-    <div id="item-label-preview" class="item-label-preview" *ngIf="category">
-      <h2>Preview</h2>
-      <ngx-extended-pdf-viewer
-        [base64Src]="previewPdf"
-        [height]="'25vh'"
-        [useBrowserLocale]="true"
-        [customToolbar]="pdfMenu"
-        >
-      </ngx-extended-pdf-viewer>
-    </div>
+    @if (category) {
+      <div id="item-label-preview" class="item-label-preview">
+        <h2>Preview</h2>
+        <ngx-extended-pdf-viewer
+          [base64Src]="previewPdf"
+          [height]="'25vh'"
+          [customToolbar]="pdfMenu"
+          >
+        </ngx-extended-pdf-viewer>
+      </div>
+    }
   </div>
 </div>
 

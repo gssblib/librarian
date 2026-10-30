@@ -57,4 +57,14 @@ module.exports = async function seed(db, salt) {
     VALUES ('900000014',90001,DATE_SUB(NOW(),INTERVAL 7 DAY),DATE_ADD(CURDATE(),INTERVAL 7 DAY),0)`);
   await db.query(`INSERT INTO order_cycles (order_window_start,order_window_end)
     VALUES (DATE_SUB(NOW(),INTERVAL 1 DAY),DATE_ADD(NOW(),INTERVAL 7 DAY))`);
+  await db.execute(
+    "INSERT INTO labels_print_queue (barcode,labelsize,pdf,status,name) VALUES (?,?,?,?,?)",
+    [
+      "900000001",
+      "small",
+      require("./fixture-pdf.cjs")(),
+      "DONE",
+      "Fictional test label",
+    ],
+  );
 };

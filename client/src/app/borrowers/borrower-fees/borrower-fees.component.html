@@ -1,64 +1,69 @@
-<div *ngIf="borrower" class="container">
-  <p *ngIf="borrower.fees.total == 0">
-    No fees due.
-  </p>
-  <div *ngIf="borrower.fees.total > 0">
-    <form name="fineForm" class="form-inline" (ngSubmit)="payAllFees()">
-      <button type="submit" mat-raised-button color="primary">
-        Pay All Fees
-      </button>
-      <span class="fee">Late fees of {{ borrower.fees.total | currency }}
-        are due for the following {{ items.length }} items:
-      </span>
-    </form>
-
-    <div>
-      <mat-table #table [dataSource]="dataSource"
-                 matSort matSortActive="checkout_date" matSortDisableClear matSortDirection="desc">
-        <ng-container matColumnDef="barcode">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <a [routerLink]="['/items', row.barcode, 'details']">{{ row.barcode }}</a>
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="title">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <a [routerLink]="['/items', row.barcode, 'details']">{{ row.title }}</a>
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="fee">
-          <mat-header-cell *matHeaderCellDef>Fee</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            {{ row.fine_due - row.fine_paid | currency }}
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="checkout_date">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Checked Out</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.checkout_date | date:'MMM dd, yyyy, hh:mm'}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="date_due">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Date Due</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.date_due | date}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="returndate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Returned</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.returndate | date:'MMM dd, yyyy, hh:mm'}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <button type="submit" mat-raised-button color="primary" (click)="payFee(row)">
-              Pay Fee
-            </button>
-            <button type="submit" mat-raised-button color="primary" (click)="waiveFee(row)">
-              Waive Fee
-            </button>
-          </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-    </div>
+@if (borrower) {
+  <div class="container">
+    @if (borrower.fees.total == 0) {
+      <p>
+        No fees due.
+      </p>
+    }
+    @if (borrower.fees.total > 0) {
+      <div>
+        <form name="fineForm" class="form-inline" (ngSubmit)="payAllFees()">
+          <button type="submit" mat-raised-button color="primary">
+            Pay All Fees
+          </button>
+          <span class="fee">Late fees of {{ borrower.fees.total | currency }}
+            are due for the following {{ items.length }} items:
+          </span>
+        </form>
+        <div>
+          <mat-table #table [dataSource]="dataSource"
+            matSort matSortActive="checkout_date" matSortDisableClear matSortDirection="desc">
+            <ng-container matColumnDef="barcode">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <a [routerLink]="['/items', row.barcode, 'details']">{{ row.barcode }}</a>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <a [routerLink]="['/items', row.barcode, 'details']">{{ row.title }}</a>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="fee">
+              <mat-header-cell *matHeaderCellDef>Fee</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                {{ row.fine_due - row.fine_paid | currency }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="checkout_date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Checked Out</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.checkout_date | date:'MMM dd, yyyy, hh:mm'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="date_due">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Date Due</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.date_due | date}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="returndate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Returned</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.returndate | date:'MMM dd, yyyy, hh:mm'}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button type="submit" mat-raised-button color="primary" (click)="payFee(row)">
+                  Pay Fee
+                </button>
+                <button type="submit" mat-raised-button color="primary" (click)="waiveFee(row)">
+                  Waive Fee
+                </button>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    }
   </div>
-</div>
+}

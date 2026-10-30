@@ -12,6 +12,7 @@ import { Item } from "../../items/shared/item";
   templateUrl: './catalog-order.component.html',
   styleUrls: ['./catalog-order.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CatalogOrderComponent implements OnInit {
   readonly dataSource = new MatTableDataSource<OrderItem>();

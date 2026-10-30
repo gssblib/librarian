@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Item } from '../shared/item';
 import { ItemsService } from '../shared/items.service';
 import { ItemService } from '../shared/item.service';
@@ -10,7 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'gsl-item-page',
   templateUrl: './item-page.component.html',
-  styleUrls: ['./item-page.component.css']
+  styleUrls: ['./item-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemPageComponent implements OnInit {
   navLinks = [

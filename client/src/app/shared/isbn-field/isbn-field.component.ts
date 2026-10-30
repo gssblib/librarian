@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: 'gsl-isbn-field',
   templateUrl: './isbn-field.component.html',
-  styleUrls: ['./isbn-field.component.css']
+  styleUrls: ['./isbn-field.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class IsbnFieldComponent implements OnInit {
   isbnCtrl: UntypedFormControl;

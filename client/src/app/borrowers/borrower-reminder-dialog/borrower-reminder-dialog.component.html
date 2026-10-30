@@ -4,9 +4,11 @@
     <label class="inline">Recipient</label>
     <span>{{reminder.email.to}}</span>
   </div>
-  <p *ngIf="reminder.resultCode === ResultCode.EXISTING_EMAIL_IN_WINDOW" class="warning">
-    Warning! User has already received a reminder email within the last 24 h.
-  </p>
+  @if (reminder.resultCode === ResultCode.EXISTING_EMAIL_IN_WINDOW) {
+    <p class="warning">
+      Warning! User has already received a reminder email within the last 24 h.
+    </p>
+  }
 </div>
 <div mat-dialog-content>
   <div class="email-text">{{reminder.email.text}}</div>

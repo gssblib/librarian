@@ -1,35 +1,35 @@
 # Browser regression tests
 
-These tests capture the existing Angular 16 behavior before its upgrade. They
+These tests protect the workflows captured before the Angular 16 to 22 upgrade. They
 exercise the real compiled backend and both production frontend builds in
 Chromium, with a fresh fictional MySQL database for each run. No cloud account,
 production export, Firebase emulator, or production configuration is needed.
 
 ## Setup
 
-Use Node 24.22.1 or newer in the Node 24 line for the backend and Playwright,
-Node 18 for the current Angular build, and MySQL 8.4. The harness supports local
+Use Node 24.22.1 or newer in the Node 24 line for the frontend, backend and
+Playwright, and MySQL 8.4. The harness supports local
 macOS/Linux MySQL installations; a running MySQL service is not required.
 
 From the repository root, with Node 24 on `PATH`:
 
 ```sh
 npm --prefix server ci
-# Run this install with Node 18 on PATH:
-npm --prefix client ci --legacy-peer-deps
+npm --prefix client ci
 
 cd tests/browser
 npm ci
 npx playwright install chromium
 ```
 
-Then, with Node 24 on `PATH`, supply the path to the frontend's Node executable:
+Then, with Node 24 on `PATH`:
 
 ```sh
-E2E_FRONTEND_NODE=/absolute/path/to/node18 npm test
+npm test
 ```
 
-For example, with nvm, use `E2E_FRONTEND_NODE="$(nvm which 18)" npm test`.
+The frontend uses the same Node executable as the test runner. For investigating
+older revisions, `E2E_FRONTEND_NODE` can explicitly override the frontend runtime.
 Set `E2E_MYSQLD=/absolute/path/to/mysqld` if MySQL 8.4 is not in one of the
 standard Homebrew/Linux locations. Run as your ordinary user, not root.
 
@@ -41,6 +41,7 @@ changing application code: it would test stale compiled output.
 
 - Staff login, failed login, session persistence, and logout.
 - Catalog search, author filtering, sorting, pagination, details, and covers.
+- Drag-and-drop cover uploads and rendering a stored PDF label through the real API.
 - Required-field validation and saving an edit through a full page reload.
 - Borrower search and the checkout/renew/return/history workflow.
 - Canceling a destructive confirmation dialog.
@@ -49,7 +50,7 @@ changing application code: it would test stale compiled output.
 
 The legacy Karma/Protractor tests are separate and are not run by this suite.
 This is a practical regression baseline, not exhaustive coverage. Real school
-authentication, email delivery, Firebase hosting, and PDF/label rendering are
+authentication, email delivery, Firebase hosting, and PDF/label generation are
 outside its scope. The school stub validates the fixture credentials while the
 application's real login, JWT, and permission code still runs.
 
@@ -58,9 +59,9 @@ application's real login, JWT, and permission code still runs.
 Two tests in `specs/known-issues.spec.cjs` are marked as **expected failures**,
 not skipped. They describe desired behavior and run on every invocation. An
 unexpected pass fails the suite so the annotation can be removed after a fix.
-The initial result is 12 passing workflow tests and 2 reproduced known failures.
+The current result is 14 passing workflow tests and 2 reproduced known failures.
 Playwright may include expected failures in its overall "passed" count; read the
-annotations in the report rather than treating that count as 14 working flows.
+annotations in the report rather than treating that count as 16 working flows.
 
 1. **Failed family login:** the backend correctly returns 401, but the public
    login screen leaves the Login button disabled and does not display the error
@@ -71,7 +72,7 @@ annotations in the report rather than treating that count as 14 working flows.
    `params` in its authorization action. This is in the existing backend code,
    independent of an Angular upgrade.
 
-Neither application bug is fixed by this test-only change. Successful family
+Neither application bug is fixed by the tests or Angular upgrade. Successful family
 ordering and order removal therefore do not yet have passing end-to-end coverage.
 These findings were reproduced locally, not by submitting requests to production.
 The narrow screenshot also records existing horizontal overflow and clipped

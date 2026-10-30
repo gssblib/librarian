@@ -1,4 +1,6 @@
-<mat-form-field *ngFor="let field of fields" appearance="outline" class="field">
-  <input matInput [placeholder]="field.label" [value]="getValue(field)" readonly>
-</mat-form-field>
+@for (field of fields; track field) {
+  <mat-form-field appearance="outline" class="field">
+    <input matInput [placeholder]="field.label" [value]="getValue(field)" readonly>
+  </mat-form-field>
+}
 

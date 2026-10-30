@@ -1,16 +1,23 @@
 <div class="container">
   <div class="side">
-    <img *ngIf="hasCover" [src]="coverImg(item)" class="cover" (error)="noCover()"/>
-    <div *ngIf="!hasCover" class="missing-cover-image">
-      <mat-icon>broken_image</mat-icon>
-    </div>
+    @if (hasCover) {
+      <img [src]="coverImg(item)" class="cover" (error)="noCover()"/>
+    }
+    @if (!hasCover) {
+      <div class="missing-cover-image">
+        <mat-icon>broken_image</mat-icon>
+      </div>
+    }
     <div class="order">
-      <gsl-item-availability
-        *ngIf="!available(item) || !showOrderButton"
+      @if (!available(item) || !showOrderButton) {
+        <gsl-item-availability
         [availability]="item.availability" [size]="'normal'"></gsl-item-availability>
-      <button *ngIf="showOrderButton && available(item)" mat-raised-button color="primary" class="order"
-              matTooltip="Add this item to your current order"
-              (click)="order(item)">Order</button>
+      }
+      @if (showOrderButton && available(item)) {
+        <button mat-raised-button color="primary" class="order"
+          matTooltip="Add this item to your current order"
+        (click)="order(item)">Order</button>
+      }
     </div>
   </div>
   <div class="details">
@@ -18,17 +25,31 @@
       {{item.title}}
       <gsl-item-antolin [antolin]="item.antolin"></gsl-item-antolin>
     </mat-card-title>
-    <mat-card-subtitle *ngIf="item.author">
-      by {{item.author}}
-    </mat-card-subtitle>
+    @if (item.author) {
+      <mat-card-subtitle>
+        by {{item.author}}
+      </mat-card-subtitle>
+    }
     <div class="info">
       <div><b>Barcode:</b> {{item.barcode}}</div>
-      <div *ngIf="item.category"><b>Category:</b> {{item.category}}</div>
-      <div *ngIf="item.isbn10"><b>ISBN-10:</b> {{item.isbn10}}</div>
-      <div *ngIf="item.isbn13"><b>ISBN-13:</b> {{item.isbn13}}</div>
-      <div *ngIf="item.age"><b>Reading Age:</b> {{item.age}}</div>
-      <div *ngIf="item.subject"><b>Subject:</b> {{item.subject}}</div>
-      <div *ngIf="item.seriestitle"><b>Serie:</b> {{item.seriestitle}}</div>
+      @if (item.category) {
+        <div><b>Category:</b> {{item.category}}</div>
+      }
+      @if (item.isbn10) {
+        <div><b>ISBN-10:</b> {{item.isbn10}}</div>
+      }
+      @if (item.isbn13) {
+        <div><b>ISBN-13:</b> {{item.isbn13}}</div>
+      }
+      @if (item.age) {
+        <div><b>Reading Age:</b> {{item.age}}</div>
+      }
+      @if (item.subject) {
+        <div><b>Subject:</b> {{item.subject}}</div>
+      }
+      @if (item.seriestitle) {
+        <div><b>Serie:</b> {{item.seriestitle}}</div>
+      }
     </div>
   </div>
 </div>

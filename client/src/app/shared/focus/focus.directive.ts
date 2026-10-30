@@ -4,7 +4,8 @@ import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from "
  * Controls focus with the `focus` property.
  */
 @Directive({
-  selector: '[focus]'
+  selector: '[focus]',
+  standalone: false
 })
 export class FocusDirective implements OnInit, OnChanges {
   @Input('focus')

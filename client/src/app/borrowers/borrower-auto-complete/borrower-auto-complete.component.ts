@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Borrower } from '../shared/borrower';
 import { BorrowersService } from '../shared/borrowers.service';
@@ -10,7 +10,9 @@ import { BorrowersService } from '../shared/borrowers.service';
 @Component({
   selector: 'gsl-borrower-auto-complete',
   templateUrl: './borrower-auto-complete.component.html',
-  styleUrls: ['./borrower-auto-complete.component.css']
+  styleUrls: ['./borrower-auto-complete.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerAutoCompleteComponent implements OnInit, AfterViewInit {
   @ViewChild('borrowerInput', { static: true })

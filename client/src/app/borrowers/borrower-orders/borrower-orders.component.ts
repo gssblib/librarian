@@ -18,6 +18,7 @@ import { NotificationService } from "../../core/notification-service";
   templateUrl: './borrower-orders.component.html',
   styleUrls: ['./borrower-orders.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BorrowerOrdersComponent implements OnInit {
   readonly displayedColumns = ['id', 'start', 'end', 'item_count', 'actions'];

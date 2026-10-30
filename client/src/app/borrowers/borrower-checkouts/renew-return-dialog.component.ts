@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 /**
@@ -8,6 +8,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'gsl-renew-return-dialog',
   templateUrl: './renew-return-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class RenewReturnDialogComponent implements OnInit {
 

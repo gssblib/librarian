@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthorizationService } from '../../core/authorization.service';
 import { Item } from '../shared/item';
 import { ItemsService } from '../shared/items.service';
@@ -10,7 +10,9 @@ import { NotificationService } from "../../core/notification-service";
 @Component({
   selector: 'gsl-item-details',
   templateUrl: './item-details.component.html',
-  styleUrls: ['./item-details.component.css']
+  styleUrls: ['./item-details.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemDetailsComponent implements OnInit {
   editable: boolean;

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundModule } from '../../not-found/not-found.module';
 import { HomeModule } from '../../home/home.module';
@@ -40,7 +40,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     FormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     CoreModule,
     MatButtonModule,
     MatCardModule,
@@ -71,7 +70,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     CatalogOrderPageComponent,
     CatalogOrderComponent,
   ],
-  providers: [],
+  providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())],
   bootstrap: [
     AppPublicComponent
   ]

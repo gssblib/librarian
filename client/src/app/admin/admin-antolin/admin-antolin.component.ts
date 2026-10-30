@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormlyFields } from '../../core/form.service';
 import { of } from 'rxjs';
 import { catchError, flatMap, map } from "rxjs/operators";
@@ -16,7 +16,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-admin-antolin',
   templateUrl: './admin-antolin.component.html',
-  styleUrls: ['./admin-antolin.component.css']
+  styleUrls: ['./admin-antolin.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class AdminAntolinComponent {
   loading = false;
