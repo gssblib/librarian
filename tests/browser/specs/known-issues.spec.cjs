@@ -1,4 +1,4 @@
-const { test, expect, login, PUBLIC } = require("./fixtures.cjs");
+const { test, expect, login, PUBLIC, ADMIN } = require("./fixtures.cjs");
 
 // These run against unchanged application code. An unexpected pass makes the
 // suite fail, prompting removal of the annotation after the bug is fixed.
@@ -28,6 +28,45 @@ test("public failed login displays its error and enables another attempt", async
   await expect(
     page.getByRole("button", { name: "Login", exact: true }),
   ).toBeEnabled();
+});
+
+test.describe("existing order-cycle date/time form", () => {
+  const missingType =
+    '[Formly Error] The type "datetimepicker" could not be found.';
+  test.use({ allowedAngularConsoleError: missingType });
+  test("order-cycle start and end controls render for editing and creation", async ({
+    page,
+  }) => {
+    const errors = [];
+    page.on("console", (message) => {
+      if (message.type() === "error" && message.text().includes(missingType))
+        errors.push(message.text());
+    });
+    await login(page);
+    await page.goto(ADMIN + "/ordercycles");
+    await page.getByTitle("Edit order cycle", { exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "Edit order cycle", exact: true }),
+    ).toBeVisible();
+    await expect.poll(() => errors.length).toBeGreaterThanOrEqual(2);
+    await page.goto(ADMIN + "/ordercycles/add");
+    await expect(
+      page.getByRole("heading", { name: "Add order cycle", exact: true }),
+    ).toBeVisible();
+    await expect.poll(() => errors.length).toBeGreaterThanOrEqual(4);
+    // Verified against the local Angular 16.2.12 app as well as Angular 22.
+    // Only this exact existing console error is permitted; new errors still fail.
+    test.fail(
+      true,
+      "Existing Formly datetimepicker type is not registered; see README known issues.",
+    );
+    await expect(
+      page.getByRole("textbox", { name: "Start", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("textbox", { name: "End", exact: true }),
+    ).toBeVisible();
+  });
 });
 
 test("a family can place an order and see it after reload", async ({

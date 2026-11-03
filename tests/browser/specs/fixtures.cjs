@@ -4,6 +4,7 @@ const { test: base, expect } = require("@playwright/test");
 const ADMIN = "http://127.0.0.1:4242";
 const PUBLIC = "http://127.0.0.1:4243";
 const test = base.extend({
+  allowedAngularConsoleError: [null, { option: true }],
   isolatedData: [
     async ({ request }, use) => {
       const state = JSON.parse(
@@ -27,10 +28,25 @@ const test = base.extend({
     });
     await use(context);
   },
-  page: async ({ page }, use) => {
+  page: async ({ page, allowedAngularConsoleError }, use, testInfo) => {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
+    // Angular catches many rendering errors and reports them to the console
+    // instead of dispatching an uncaught browser pageerror.
+    page.on("console", (message) => {
+      if (message.type() !== "error" || !/^ERROR\b/.test(message.text()))
+        return;
+      if (
+        allowedAngularConsoleError &&
+        message.text().includes(allowedAngularConsoleError)
+      )
+        return;
+      errors.push(message.text());
+    });
     await use(page);
+    // A known-bug annotation must not turn an unrelated rendering error into
+    // an expected failure. Only the explicitly allowed message is exempt.
+    if (errors.length) testInfo.expectedStatus = "passed";
     expect(errors, "Unexpected browser JavaScript errors").toEqual([]);
   },
 });

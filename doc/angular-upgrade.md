@@ -37,7 +37,7 @@ backend, builds both production frontends, and runs Chromium against a disposabl
 fictional MySQL database. See [test setup](../tests/browser/README.md).
 
 Verified locally: a clean `npm ci`, `npm ls --all` without peer conflicts, both
-production builds, and 14 passing workflow tests plus the two reproduced known
+production builds, and 19 passing workflow tests plus three reproduced known
 failures. The test run cleaned up its disposable database afterward.
 
 A separate development-server check against the existing local QA backend also
@@ -58,10 +58,35 @@ The two previously identified public-site bugs remain expected failures: the
 loading state after an incorrect school password, and the server error when a
 family places an order. Their fixes are deferred until after this upgrade.
 
+## Extra review on November 3, 2026
+
+Five additional checks cover borrower creation/editing, required fields and
+dropdown persistence; calendar selection and fee calculation in a New York
+timezone; administration tabs, file selection and canceled queue deletion;
+order-cycle details and canceled deletion; and report filters, native date
+inputs, reload persistence and CSV export contents.
+
+The date/time pass uncovered another existing issue: the order-cycle forms refer
+to an unregistered Formly `datetimepicker` type. A read-only comparison against
+the local Angular 16.2.12 frontend reproduced the same missing-type errors and
+absent inputs. It is recorded as a third expected failure, not repaired in this
+upgrade. This limits confidence in order-cycle date editing specifically. The
+working Material calendar and native report date inputs are covered separately.
+
+The test fixture now catches Angular console errors as well as uncaught browser
+errors. Angular's error handler can log a broken form without emitting an
+uncaught browser exception.
+
+Diff review found unchanged class bodies in all 84 modified application
+TypeScript files, and identical expressions in all 88 migrated `ngIf` conditions.
+Review of property/event bindings across 41 changed templates found only the
+documented tab-panel, PDF locale, switch and optional-navigation migrations.
+Bootstrap, theme, dependencies and compiler/build configuration changes were
+also reviewed; no backend, schema or deployment configuration changes were found.
+
 ## Remaining tooling notices
 
-The existing Webpack browser builder is deprecated but still works in Angular
-22. Switching to the application builder can be a separate change. Existing
+The existing Webpack browser builder is deprecated but still works in Angular 22. Switching to the application builder can be a separate change. Existing
 unused-entry-point/CommonJS warnings and the old Karma/Protractor scaffolding
 remain outside this upgrade's scope.
 
