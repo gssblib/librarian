@@ -1,7 +1,7 @@
 const { test, expect, login, PUBLIC, ADMIN } = require("./fixtures.cjs");
 
-// These run against unchanged application code. An unexpected pass makes the
-// suite fail, prompting removal of the annotation after the bug is fixed.
+// These run against unchanged application code. Gate each expected failure on
+// its known symptom so a different failure is not silently accepted.
 test("public failed login displays its error and enables another attempt", async ({
   page,
 }) => {
@@ -18,6 +18,10 @@ test("public failed login displays its error and enables another attempt", async
   expect(
     await page.evaluate(() => localStorage.getItem("currentUser")),
   ).toBeNull();
+  // A different failure after the 401 must not inherit this exception.
+  await expect(
+    page.getByRole("button", { name: "Login", exact: true }),
+  ).toBeDisabled();
   test.fail(
     true,
     "Existing Angular 16 public login stays loading after a 401; see README known issues.",
@@ -93,11 +97,11 @@ test("a family can place an order and see it after reload", async ({
     expect(await response.text()).toMatch(
       /reading (?:'|&#39;)borrower(?:'|&#39;)/,
     );
+    test.fail(
+      true,
+      "Existing order permission check reads undefined action.params.borrower and returns 500; see README known issues.",
+    );
   }
-  test.fail(
-    true,
-    "Existing order permission check reads undefined action.params.borrower and returns 500; see README known issues.",
-  );
   expect(response.status()).toBe(200);
   await page.getByRole("link", { name: /Order$/ }).click();
   await expect(

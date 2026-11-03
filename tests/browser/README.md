@@ -61,8 +61,9 @@ application's real login, JWT, and permission code still runs.
 ## Known issues found while establishing the baseline
 
 Three tests in `specs/known-issues.spec.cjs` are marked as **expected failures**,
-not skipped. They describe desired behavior and run on every invocation. An
-unexpected pass fails the suite so the annotation can be removed after a fix.
+not skipped. They describe desired behavior and run on every invocation. Each
+exception requires its known symptom or error signature. When ordering succeeds,
+the rest of that workflow must pass normally. Remove obsolete checks as bugs are fixed.
 The current result is 19 passing workflow tests and 3 reproduced known failures.
 Playwright may include expected failures in its overall "passed" count; read the
 annotations in the report rather than treating that count as 22 working flows.
