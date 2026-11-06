@@ -25,7 +25,26 @@ $gssb-theme: mat.m2-define-light-theme((
 @include mat.all-component-themes($gssb-theme);
 @include mat.typography-hierarchy($gssb-theme);
 @include mat.toolbar-overrides((container-background-color: #f5f5f5));
+// Angular Material 16 colors: grey sort arrows, faint disabled page arrows.
+@include mat.sort-overrides((arrow-color: rgba(0, 0, 0, 0.54)));
+@include mat.paginator-overrides((disabled-icon-color: rgba(0, 0, 0, 0.12)));
+// ...and dropdowns: selected item in blue on a light grey, even when focused.
+@include mat.option-overrides((focus-state-layer-color: rgba(0, 0, 0, 0.04),
+                               selected-state-layer-color: rgba(0, 0, 0, 0.04)));
+.mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple) .mdc-list-item__primary-text {
+  color: var(--mat-option-selected-state-label-text-color);
+}
 @include datetimepicker.mat-datetimepicker-theme($gssb-theme);
+
+// Angular Material 16 gave <mat-table> (flex) rows a fixed 48px height; newer
+// versions use the 52px table token for every table. Keep the old height for
+// these tables. Native <table mat-table> rows were already 52px.
+mat-table {
+  @include mat.table-overrides((
+    row-item-container-height: 48px,
+    footer-container-height: 48px,
+  ));
+}
 
 /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 .formly-checkbox .mat-form-field-infix {
