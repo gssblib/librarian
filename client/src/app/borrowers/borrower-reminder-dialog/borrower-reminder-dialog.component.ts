@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ChangeDetectionStrategy} from '@angular/core';
 import {BorrowerReminder, BorrowerReminderResultCode} from '../shared/borrower';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
@@ -9,7 +9,9 @@ export interface BorrowerReminderDialogComponentData {
 @Component({
   selector: 'gsl-borrower-reminder-dialog',
   templateUrl: './borrower-reminder-dialog.component.html',
-  styleUrls: ['./borrower-reminder-dialog.component.css']
+  styleUrls: ['./borrower-reminder-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerReminderDialogComponent {
   readonly reminder: BorrowerReminder;

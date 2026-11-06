@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NotificationService } from '../../core/notification-service';
 import { Fee, FeesService } from '../fees.service';
 import { TableFetchResult } from '../../core/table-fetcher';
@@ -16,7 +16,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-fees-table',
   templateUrl: './fees-table.component.html',
-  styleUrls: ['./fees-table.component.css']
+  styleUrls: ['./fees-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class FeesTableComponent implements AfterViewInit {
   /** Current result being shown in the table. */

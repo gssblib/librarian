@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
   selector: 'gsl-item-search-bar',
   templateUrl: './item-search-bar.component.html',
-  styleUrls: ['./item-search-bar.component.css']
+  styleUrls: ['./item-search-bar.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemSearchBarComponent implements OnInit {
 

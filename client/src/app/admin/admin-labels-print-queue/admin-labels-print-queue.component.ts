@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';
 import { merge ,  of as observableOf ,  Observable } from 'rxjs';
@@ -17,7 +17,9 @@ const FILTER_FIELDS = ['barcode', 'labelsize', 'name', 'status'];
 @Component({
   selector: 'gsl-admin-labels-print-queue',
   templateUrl: './admin-labels-print-queue.component.html',
-  styleUrls: ['./admin-labels-print-queue.component.css']
+  styleUrls: ['./admin-labels-print-queue.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class AdminLabelsPrintQueueComponent implements AfterViewInit {
   /** Formly config for the filter form. */

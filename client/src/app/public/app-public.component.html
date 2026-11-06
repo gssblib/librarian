@@ -6,15 +6,19 @@
     <img class="gssb-logo" src="assets/images/gssb_logo_transparent_small.png">
   </a>
   <span class="flex"></span>
-  <div *ngIf="user" class="profile-info">
-    <span class="welcome">
-      Welcome {{ user['surname'] }} family!
-    </span>
-    <a mat-raised-button (click)="logout()">Logout</a>
-  </div>
-  <div *ngIf="!user" class="profile-info">
-    <a mat-raised-button routerLink="/login">Login</a>
-  </div>
+  @if (user) {
+    <div class="profile-info">
+      <span class="welcome">
+        Welcome {{ user['surname'] }} family!
+      </span>
+      <a mat-raised-button (click)="logout()">Logout</a>
+    </div>
+  }
+  @if (!user) {
+    <div class="profile-info">
+      <a mat-raised-button routerLink="/login">Login</a>
+    </div>
+  }
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="side" opened="true" class="menu">

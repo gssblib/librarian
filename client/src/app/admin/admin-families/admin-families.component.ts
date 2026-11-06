@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { catchError, flatMap, map } from "rxjs/operators";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';
@@ -14,7 +14,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-admin-families',
   templateUrl: './admin-families.component.html',
-  styleUrls: ['./admin-families.component.css']
+  styleUrls: ['./admin-families.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class AdminFamiliesComponent {
   loading = false;

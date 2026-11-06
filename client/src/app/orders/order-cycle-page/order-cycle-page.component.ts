@@ -19,6 +19,7 @@ import { DateService } from "../../core/date-service";
   templateUrl: './order-cycle-page.component.html',
   styleUrls: ['./order-cycle-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class OrderCyclePageComponent implements OnInit, OnDestroy {
   private readonly destroyed = new Subject<void>();

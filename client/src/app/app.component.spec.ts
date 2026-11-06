@@ -8,27 +8,25 @@ import { ItemsModule } from './items/items.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         AppComponent,
         HomeComponent,
         NotFoundComponent,
-      ],
-      imports: [
-        BrowserAnimationsModule,
+    ],
+    imports: [BrowserAnimationsModule,
         AppRoutingModule,
         ItemsModule,
-        CoreModule,
-        HttpClientModule,
-      ],
-      providers: [
-        {provide: APP_BASE_HREF, useValue: '/'},
-      ]
-    });
+        CoreModule],
+    providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+    ]
+});
   }));
 
   it('should create the app', waitForAsync(() => {

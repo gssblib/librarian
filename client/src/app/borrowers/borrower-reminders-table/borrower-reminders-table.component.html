@@ -1,9 +1,11 @@
-<p *ngIf="count === 0">
-  No reminder emails for this borrower.
-</p>
+@if (count === 0) {
+  <p>
+    No reminder emails for this borrower.
+  </p>
+}
 <div class="table" [class.gsl-hide]="count === 0">
   <table mat-table [dataSource]="dataSource" class="reminders"
-         matSort matSortActive="send_time" matSortDisableClear matSortDirection="desc">
+    matSort matSortActive="send_time" matSortDisableClear matSortDirection="desc">
     <ng-container matColumnDef="sendTime">
       <th mat-header-cell *matHeaderCellDef>Send time</th>
       <td mat-cell *matCellDef="let row">{{ row.send_time | date:'medium' }}</td>

@@ -3,35 +3,48 @@
 @use '@mat-datetimepicker/core/datetimepicker/datetimepicker-theme' as datetimepicker;
 
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies();
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 
-$gssb-theme-primary: mat.define-palette(mat.$blue-palette);
-$gssb-theme-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
-$gssb-theme-warn: mat.define-palette(mat.$red-palette);
+$gssb-theme-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+$gssb-theme-accent: mat.m2-define-palette(mat.$m2-amber-palette, A200, A100, A400);
+$gssb-theme-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
-/*$gssb-theme: mat-light-theme($gssb-theme-primary, $gssb-theme-accent, $gssb-theme-warn);*/
-
-$gssb-theme: (
-  primary: $gssb-theme-primary,
-  accent: $gssb-theme-accent,
-  warn: $gssb-theme-warn,
-  is-dark: false,
-  foreground: mat.$light-theme-foreground-palette,
-  background: mat.$light-theme-background-palette
-);
+// Preserve the existing Material 2 colors and normal control sizing.
+$gssb-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $gssb-theme-primary,
+    accent: $gssb-theme-accent,
+    warn: $gssb-theme-warn
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0
+));
 
 @include mat.all-component-themes($gssb-theme);
+@include mat.typography-hierarchy($gssb-theme);
+@include mat.toolbar-overrides((container-background-color: #f5f5f5));
+// Angular Material 16 colors: grey sort arrows, faint disabled page arrows.
+@include mat.sort-overrides((arrow-color: rgba(0, 0, 0, 0.54)));
+@include mat.paginator-overrides((disabled-icon-color: rgba(0, 0, 0, 0.12)));
+// ...and dropdowns: selected item in blue on a light grey, even when focused.
+@include mat.option-overrides((focus-state-layer-color: rgba(0, 0, 0, 0.04),
+                               selected-state-layer-color: rgba(0, 0, 0, 0.04)));
+.mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple) .mdc-list-item__primary-text {
+  color: var(--mat-option-selected-state-label-text-color);
+}
 @include datetimepicker.mat-datetimepicker-theme($gssb-theme);
+
+// Angular Material 16 gave <mat-table> (flex) rows a fixed 48px height; newer
+// versions use the 52px table token for every table. Keep the old height for
+// these tables. Native <table mat-table> rows were already 52px.
+mat-table {
+  @include mat.table-overrides((
+    row-item-container-height: 48px,
+    footer-container-height: 48px,
+  ));
+}
 
 /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 .formly-checkbox .mat-form-field-infix {

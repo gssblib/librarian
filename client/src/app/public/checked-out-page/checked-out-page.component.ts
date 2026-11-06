@@ -7,6 +7,7 @@ import { BorrowersService } from "../../borrowers/shared/borrowers.service";
   templateUrl: './checked-out-page.component.html',
   styleUrls: ['./checked-out-page.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CheckedOutPageComponent implements OnInit {
   borrower?: Borrower;

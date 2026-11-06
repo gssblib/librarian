@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { UntypedFormGroup } from "@angular/forms";
@@ -11,7 +11,9 @@ import { UsersService } from "../shared/users.service";
 @Component({
   selector: 'gsl-user-edit-page',
   templateUrl: './user-edit-page.component.html',
-  styleUrls: ['./user-edit-page.component.css']
+  styleUrls: ['./user-edit-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class UserEditPageComponent implements OnInit {
   form = new UntypedFormGroup({});

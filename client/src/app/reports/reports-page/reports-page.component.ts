@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'gsl-reports-page',
   templateUrl: './reports-page.component.html',
-  styleUrls: ['./reports-page.component.css']
+  styleUrls: ['./reports-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ReportsPageComponent implements OnInit {
   navLinks = [

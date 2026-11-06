@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { of } from 'rxjs';
 import { RpcError } from "../../core/rpc-error";
 import { BarcodeFieldComponent } from "../../shared/barcode-field/barcode-field.component";
@@ -18,7 +18,9 @@ import { MatDialog } from "@angular/material/dialog";
 @Component({
   selector: 'gsl-borrower-checkouts',
   templateUrl: './borrower-checkouts.component.html',
-  styleUrls: ['./borrower-checkouts.component.css']
+  styleUrls: ['./borrower-checkouts.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerCheckoutsComponent implements OnInit, AfterViewInit {
   borrower: Borrower;

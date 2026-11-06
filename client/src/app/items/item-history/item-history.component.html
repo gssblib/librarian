@@ -1,16 +1,20 @@
-<div *ngIf="item">
-<p *ngIf="item.history">
-  This item has been checked out
-  <span class="item-history-length">{{item.history.length}}</span>
-  <span [ngPlural]="item.history.length">
-    <ng-template ngPluralCase="=1"> time.</ng-template>
-    <ng-template ngPluralCase="other"> times.</ng-template>
-  </span>
-</p>
-</div>
+@if (item) {
+  <div>
+    @if (item.history) {
+      <p>
+        This item has been checked out
+        <span class="item-history-length">{{item.history.length}}</span>
+        <span [ngPlural]="item.history.length">
+          <ng-template ngPluralCase="=1"> time.</ng-template>
+          <ng-template ngPluralCase="other"> times.</ng-template>
+        </span>
+      </p>
+    }
+  </div>
+}
 <div class="mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource"
-             matSort matSortActive="title" matSortDisableClear matSortDirection="asc">
+    matSort matSortActive="title" matSortDisableClear matSortDirection="asc">
     <ng-container matColumnDef="checkout_date">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Checkout Date</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.checkout_date | date:'MMM dd, yyyy, hh:mm'}}</mat-cell>
@@ -27,8 +31,8 @@
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"
-             style="cursor: pointer"
-             [routerLink]="['/borrowers', row.borrowernumber, 'history']">
+      style="cursor: pointer"
+      [routerLink]="['/borrowers', row.borrowernumber, 'history']">
     </mat-row>
   </mat-table>
   <mat-paginator [length]="count" [pageSize]="10">

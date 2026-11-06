@@ -20,6 +20,7 @@ import {RpcError} from '../../core/rpc-error';
   templateUrl: './borrower-reminders.component.html',
   styleUrls: ['./borrower-reminders.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class BorrowerRemindersComponent implements OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();

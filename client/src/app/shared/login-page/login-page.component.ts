@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../core/auth.service';
 
 @Component({
   selector: 'gsl-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  styleUrls: ['./login-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class LoginPageComponent implements OnInit {
 
@@ -52,7 +54,9 @@ export class LoginPageComponent implements OnInit {
 @Component({
     selector: 'gsl-login-page',
     templateUrl: './login-page.component.html',
-    styleUrls: ['./login-page.component.css']
+    styleUrls: ['./login-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class SycamoreLoginPageComponent extends LoginPageComponent {
   type = 'sycamore';
@@ -62,7 +66,9 @@ export class SycamoreLoginPageComponent extends LoginPageComponent {
 @Component({
     selector: 'gsl-login-page',
     templateUrl: './login-page.component.html',
-    styleUrls: ['./login-page.component.css']
+    styleUrls: ['./login-page.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class InternalLoginPageComponent extends LoginPageComponent {
   type = 'internal';

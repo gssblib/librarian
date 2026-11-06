@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { ConfigService } from "../../core/config.service";
 import { RpcService } from "../../core/rpc.service";
@@ -27,6 +27,8 @@ class CoverUploader extends FileUploader {
   selector: 'gsl-item-edit-cover',
   templateUrl: './item-edit-cover.component.html',
   styleUrls: ['./item-edit-cover.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemEditCoverComponent implements OnInit {
   @Input('item')

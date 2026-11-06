@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from '@angular/router';
 import { UntypedFormGroup } from "@angular/forms";
@@ -11,7 +11,9 @@ import { LabelPrintJobService } from "../label-print-job.service";
 @Component({
   selector: 'gsl-label-print-job-page',
   templateUrl: './label-print-job-page.component.html',
-  styleUrls: ['./label-print-job-page.component.css']
+  styleUrls: ['./label-print-job-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class LabelPrintJobPageComponent implements OnInit {
   form = new UntypedFormGroup({});

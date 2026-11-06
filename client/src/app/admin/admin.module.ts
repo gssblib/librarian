@@ -18,7 +18,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from "@ngbracket/ngx-layout";
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminPageComponent } from './admin-page/admin-page.component';

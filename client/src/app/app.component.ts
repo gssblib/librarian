@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthenticationService } from './core/auth.service';
 import { NotificationService } from "./core/notification-service";
@@ -8,6 +8,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   selector: 'gsl-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class AppComponent implements OnInit {
   constructor(private readonly router: Router,

@@ -1,13 +1,19 @@
-<mat-card appearance="outlined" *ngIf="borrower">
-  <mat-card-title>
-    {{ borrower.surname }}, {{ borrower.firstname }}, {{ borrower.contactname }}
-  </mat-card-title>
-  <p *ngIf="!hasItems">You have no items checked out.</p>
-  <div *ngIf="hasItems">
-    <p>You have the following items checked out:</p>
-    <gsl-borrower-checkouts-table
-      [checkouts]="borrower.items"
-      [showActions]="false">
-    </gsl-borrower-checkouts-table>
-  </div>
-</mat-card>
+@if (borrower) {
+  <mat-card appearance="outlined">
+    <mat-card-title>
+      {{ borrower.surname }}, {{ borrower.firstname }}, {{ borrower.contactname }}
+    </mat-card-title>
+    @if (!hasItems) {
+      <p>You have no items checked out.</p>
+    }
+    @if (hasItems) {
+      <div>
+        <p>You have the following items checked out:</p>
+        <gsl-borrower-checkouts-table
+          [checkouts]="borrower.items"
+          [showActions]="false">
+        </gsl-borrower-checkouts-table>
+      </div>
+    }
+  </mat-card>
+}

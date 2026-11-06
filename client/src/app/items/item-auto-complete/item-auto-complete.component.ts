@@ -1,7 +1,8 @@
 import {
   AfterViewInit,
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { UntypedFormControl } from "@angular/forms";
 import { Item } from "../shared/item";
@@ -17,7 +18,9 @@ import { FocusService } from "../../core/focus.service";
 @Component({
   selector: 'gsl-item-auto-complete',
   templateUrl: './item-auto-complete.component.html',
-  styleUrls: ['./item-auto-complete.component.css']
+  styleUrls: ['./item-auto-complete.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemAutoCompleteComponent implements OnInit, AfterViewInit, OnDestroy {
   private isBarcode = new RegExp('^[0-9]{9}$');

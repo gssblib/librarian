@@ -1,11 +1,13 @@
 <mat-form-field floatPlaceholder="never" appearance="outline" class="borrower-autocomplete" (keyup.enter)="selectFirstBorrower()">
   <input #borrowerInput matInput size="50" placeholder="Borrower Last Name"
-         [formControl]="input"
-         [matAutocomplete]="borrowerAutoComplete">
+    [formControl]="input"
+    [matAutocomplete]="borrowerAutoComplete">
 </mat-form-field>
 <mat-autocomplete #borrowerAutoComplete="matAutocomplete"
-                 [displayWith]="displayName">
-  <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
-    {{displayName(suggestion)}}
-  </mat-option>
+  [displayWith]="displayName">
+  @for (suggestion of suggestions; track suggestion) {
+    <mat-option [value]="suggestion">
+      {{displayName(suggestion)}}
+    </mat-option>
+  }
 </mat-autocomplete>

@@ -1,32 +1,42 @@
 <div class="checkout">
-  <div *ngIf="borrower">
-    <p>Scan or enter barcode to check out, renew, or return an item.</p>
-    <p *ngIf="checkoutLimitReached" class="checkout-limit-reached">
-      The checkout limit of {{checkoutLimit}} items has been reached.
-    </p>
+  @if (borrower) {
     <div>
-      <gsl-barcode-field icon="add" #barcode [focus]="true" class="barcode"
-                         (barcodeSubmit)="checkout($event)"></gsl-barcode-field>
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="renewAll()">Renew All</button>
+      <p>Scan or enter barcode to check out, renew, or return an item.</p>
+      @if (checkoutLimitReached) {
+        <p class="checkout-limit-reached">
+          The checkout limit of {{checkoutLimit}} items has been reached.
+        </p>
+      }
+      <div>
+        <gsl-barcode-field icon="add" #barcode [focus]="true" class="barcode"
+        (barcodeSubmit)="checkout($event)"></gsl-barcode-field>
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="renewAll()">Renew All</button>
+        </div>
       </div>
-    </div>
-    <div *ngIf="borrower.items.length == 0">
-      No items checked out.
-    </div>
-    <div *ngIf="borrower.items.length > 0">
-      <h3>
-        <a mat-mini-fab class="number-checked-out" color="accent" [ngClass]="itemCountClass">
-          <b>{{ checkedOutToday.length }}</b>
-        </a>
-        <span [ngPlural]="checkedOutToday.length">
-          <ng-template ngPluralCase="=1">item</ng-template>
-          <ng-template ngPluralCase="other">items</ng-template>
-        </span>
-        checked out today, {{borrower.items.length}} total<span *ngIf="lateItems.length > 0" class="overdue">,
-        {{lateItems.length}} overdue</span>
-      </h3>
-      <gsl-borrower-checkouts-table [checkouts]="borrower.items"></gsl-borrower-checkouts-table>
-    </div>
+      @if (borrower.items.length == 0) {
+        <div>
+          No items checked out.
+        </div>
+      }
+      @if (borrower.items.length > 0) {
+        <div>
+          <h3>
+            <a mat-mini-fab class="number-checked-out" color="accent" [ngClass]="itemCountClass">
+              <b>{{ checkedOutToday.length }}</b>
+            </a>
+            <span [ngPlural]="checkedOutToday.length">
+              <ng-template ngPluralCase="=1">item</ng-template>
+              <ng-template ngPluralCase="other">items</ng-template>
+            </span>
+            checked out today, {{borrower.items.length}} total@if (lateItems.length > 0) {
+            <span class="overdue">,
+            {{lateItems.length}} overdue</span>
+          }
+        </h3>
+        <gsl-borrower-checkouts-table [checkouts]="borrower.items"></gsl-borrower-checkouts-table>
+      </div>
+    }
   </div>
+}
 </div>

@@ -7,7 +7,8 @@ export interface ConfirmCancelEvent {
 }
 
 @Directive({
-  selector: '[gslConfirmationDialog]'
+  selector: '[gslConfirmationDialog]',
+  standalone: false
 })
 export class ConfirmationDialogDirective {
 

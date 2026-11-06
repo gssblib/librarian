@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NotificationService } from "../../core/notification-service";
 import { Item } from "../shared/item";
 import { ItemService } from "../shared/item.service";
@@ -10,6 +10,8 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
   templateUrl: './item-labels.component.html',
   styleUrls: ['./item-labels.component.css'],
   inputs: ['item'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemLabelsComponent implements OnInit {
   item: Item;

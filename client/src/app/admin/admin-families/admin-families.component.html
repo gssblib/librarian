@@ -5,49 +5,55 @@
   <p>This step requires full reporting access to Sycamore.</p>
   <ol>
     <li>Go
-    to <a href="https://app.sycamoreschool.com/index.php?task=newlogin&schoolid=2132">Sycamore Education</a>.
-    <li>Log in using your admin account.</li>
-    <li>Go to Administrative > Back Office Mgr > Reports</li>
-    <li>Select Dynamic Student / Family Report</li>
-    <li>Select Properties</li>
-    <li>
-      Select the following fields:
-      <ul>
-        <li>Family Information : Family Code (Sycamore ID)</li>
-        <li>Family Information : Family Name</li>
-        <li>Family Information : Cell Phone Number(s)</li>
-        <li>Family Information : Email Address(es)</li>
-        <li>Student Information : Last Name</li>
-        <li>Student Information : First Name</li>
-        <li>Student Information : Email Address</li>
-      </ul>
-    </li>
-    <li>Click Generate CSV</li>
-  </ol>
-  <p>
-  </p>
-  <div>
-    <div *ngIf="loading" class="spinner">
-      <mat-spinner></mat-spinner>
+      to <a href="https://app.sycamoreschool.com/index.php?task=newlogin&schoolid=2132">Sycamore Education</a>.
+      <li>Log in using your admin account.</li>
+      <li>Go to Administrative > Back Office Mgr > Reports</li>
+      <li>Select Dynamic Student / Family Report</li>
+      <li>Select Properties</li>
+      <li>
+        Select the following fields:
+        <ul>
+          <li>Family Information : Family Code (Sycamore ID)</li>
+          <li>Family Information : Family Name</li>
+          <li>Family Information : Cell Phone Number(s)</li>
+          <li>Family Information : Email Address(es)</li>
+          <li>Student Information : Last Name</li>
+          <li>Student Information : First Name</li>
+          <li>Student Information : Email Address</li>
+        </ul>
+      </li>
+      <li>Click Generate CSV</li>
+    </ol>
+    <p>
+    </p>
+    <div>
+      @if (loading) {
+        <div class="spinner">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+      <form enctype="multipart/form-data">
+        <div>
+          <input #csvInput hidden="true" type="file"
+            onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
+          <button mat-flat-button color="primary" (click)="csvInput.click()">
+            Choose Sycamore Report (CSV)
+          </button>
+          @if (!selectedFile) {
+            <span class="fileinfo">No file selected</span>
+          }
+          @if (selectedFile) {
+            <span class="fileinfo">{{ selectedFile.name }}</span>
+          }
+        </div>
+        <div class="action-row">
+          <button color="primary" class="action"
+            mat-raised-button
+            (click)="load()"
+            *gslAuthorized="'admin.load_families'">
+            Load Families
+          </button>
+        </div>
+      </form>
     </div>
-    <form enctype="multipart/form-data">
-      <div>
-        <input #csvInput hidden="true" type="file"
-               onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
-        <button mat-flat-button color="primary" (click)="csvInput.click()">
-          Choose Sycamore Report (CSV)
-        </button>
-        <span class="fileinfo" *ngIf="!selectedFile">No file selected</span>
-        <span class="fileinfo" *ngIf="selectedFile">{{ selectedFile.name }}</span>
-      </div>
-      <div class="action-row">
-        <button color="primary" class="action"
-                mat-raised-button
-                (click)="load()"
-                *gslAuthorized="'admin.load_families'">
-          Load Families
-        </button>
-      </div>
-    </form>
   </div>
-</div>

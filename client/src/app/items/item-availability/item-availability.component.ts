@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Availability, getAvailabilityLabel } from "../shared/item-status";
 
 const enum Size {
@@ -9,7 +9,9 @@ const enum Size {
 @Component({
   selector: 'gsl-item-availability',
   templateUrl: './item-availability.component.html',
-  styleUrls: ['./item-availability.component.css']
+  styleUrls: ['./item-availability.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemAvailabilityComponent {
 

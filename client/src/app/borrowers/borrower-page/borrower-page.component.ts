@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { formatCurrency } from '@angular/common';
 import { Borrower } from '../shared/borrower';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,9 @@ import { BorrowerService } from '../shared/borrower.service';
 @Component({
   selector: 'gsl-borrower-page',
   templateUrl: './borrower-page.component.html',
-  styleUrls: ['./borrower-page.component.css']
+  styleUrls: ['./borrower-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerPageComponent implements OnInit {
   navLinks = [

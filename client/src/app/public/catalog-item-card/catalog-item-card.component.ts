@@ -22,6 +22,7 @@ import { NotificationService } from "../../core/notification-service";
   templateUrl: './catalog-item-card.component.html',
   styleUrls: ['./catalog-item-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class CatalogItemCardComponent {
   @Input() item: Item;

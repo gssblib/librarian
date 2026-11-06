@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Borrower } from "../shared/borrower";
 import { BorrowerService } from "../shared/borrower.service";
 import { BorrowersService } from '../shared/borrowers.service';
@@ -11,7 +11,9 @@ import { AuthorizationService } from '../../core/authorization.service';
 @Component({
   selector: 'gsl-borrower-profile',
   templateUrl: './borrower-profile.component.html',
-  styleUrls: ['./borrower-profile.component.css']
+  styleUrls: ['./borrower-profile.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerProfileComponent implements OnInit {
   editable: boolean;

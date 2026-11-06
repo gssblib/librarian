@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ItemsService } from '../../items/shared/items.service';
 import { BorrowerService } from '../shared/borrower.service';
@@ -20,7 +21,9 @@ import { MatSort } from "@angular/material/sort";
 @Component({
   selector: 'gsl-borrower-checkouts-table',
   templateUrl: './borrower-checkouts-table.component.html',
-  styleUrls: ['./borrower-checkouts-table.component.css']
+  styleUrls: ['./borrower-checkouts-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerCheckoutsTableComponent implements OnInit, OnChanges, AfterViewInit {
   displayedColumns = [

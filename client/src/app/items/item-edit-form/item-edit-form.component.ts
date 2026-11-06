@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Router } from "@angular/router";
@@ -13,6 +13,8 @@ import { RpcError } from "../../core/rpc-error";
   selector: "gsl-item-edit-form",
   templateUrl: "./item-edit-form.component.html",
   styleUrls: ["./item-edit-form.component.css"],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemEditFormComponent implements OnInit {
   form = new UntypedFormGroup({});

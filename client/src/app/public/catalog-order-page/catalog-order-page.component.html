@@ -1,10 +1,16 @@
-<mat-card appearance="outlined" *ngIf="borrower">
-  <mat-card-title>
-    {{ borrower.surname }}, {{ borrower.firstname }}, {{ borrower.contactname }}
-  </mat-card-title>
-  <p *ngIf="!hasOrder">You have not ordered yet.</p>
-  <div *ngIf="hasOrder">
-    <p>Your latest order:</p>
-    <gsl-catalog-order [order]="borrower.order" (removeItem)="removeOrderItem($event)"></gsl-catalog-order>
-  </div>
-</mat-card>
+@if (borrower) {
+  <mat-card appearance="outlined">
+    <mat-card-title>
+      {{ borrower.surname }}, {{ borrower.firstname }}, {{ borrower.contactname }}
+    </mat-card-title>
+    @if (!hasOrder) {
+      <p>You have not ordered yet.</p>
+    }
+    @if (hasOrder) {
+      <div>
+        <p>Your latest order:</p>
+        <gsl-catalog-order [order]="borrower.order" (removeItem)="removeOrderItem($event)"></gsl-catalog-order>
+      </div>
+    }
+  </mat-card>
+}

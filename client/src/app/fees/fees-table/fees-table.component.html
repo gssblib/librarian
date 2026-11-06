@@ -1,9 +1,11 @@
 <div class="container mat-elevation-z8">
-  <div *ngIf="loading" class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
+  @if (loading) {
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
   <mat-table #table [dataSource]="dataSource"
-             matSort matSortActive="fee" matSortDisableClear matSortDirection="desc">
+    matSort matSortActive="fee" matSortDisableClear matSortDirection="desc">
     <ng-container matColumnDef="surname">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.surname}}</mat-cell>
@@ -18,8 +20,8 @@
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"
-             style="cursor: pointer"
-             [routerLink]="['/borrowers', row.borrowernumber, 'fees']">
+      style="cursor: pointer"
+      [routerLink]="['/borrowers', row.borrowernumber, 'fees']">
     </mat-row>
   </mat-table>
   <mat-paginator [length]="count" [pageSize]="10">

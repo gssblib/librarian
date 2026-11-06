@@ -6,17 +6,19 @@
     <b>This process might take several minutes.</b>
   </p>
   <div>
-    <div *ngIf="loading" class="spinner">
-      <mat-spinner></mat-spinner>
-    </div>
+    @if (loading) {
+      <div class="spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
     <form>
       <button color="primary" class="action"
-         mat-raised-button
-         gslConfirmationDialog
-         title="Confirm Antolin Sync"
-         message="Are you sure you want to sync with the Antolin database?"
-         (confirm)="sync()"
-         *gslAuthorized="'admin.sync_antolin'">
+        mat-raised-button
+        gslConfirmationDialog
+        title="Confirm Antolin Sync"
+        message="Are you sure you want to sync with the Antolin database?"
+        (confirm)="sync()"
+        *gslAuthorized="'admin.sync_antolin'">
         Sync
       </button>
     </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -14,7 +14,9 @@ import { RpcError } from "../../core/rpc-error";
 @Component({
   selector: 'gsl-item-add-page',
   templateUrl: './item-add-page.component.html',
-  styleUrls: ['./item-add-page.component.css']
+  styleUrls: ['./item-add-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemAddPageComponent implements OnInit {
   form = new UntypedFormGroup({});

@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {Borrower} from "../shared/borrower";
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'gsl-borrower-search-bar',
   templateUrl: './borrower-search-bar.component.html',
-  styleUrls: ['./borrower-search-bar.component.css']
+  styleUrls: ['./borrower-search-bar.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerSearchBarComponent implements OnInit {
 

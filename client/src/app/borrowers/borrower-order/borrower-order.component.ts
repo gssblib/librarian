@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderCycle } from "../../orders/shared/order-cycle";
 
 /**
@@ -11,7 +11,9 @@ import { OrderCycle } from "../../orders/shared/order-cycle";
 @Component({
   selector: 'gsl-borrower-order',
   templateUrl: './borrower-order.component.html',
-  styleUrls: ['./borrower-order.component.css']
+  styleUrls: ['./borrower-order.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerOrderComponent implements OnInit {
 

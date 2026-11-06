@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderCyclesService } from "../shared/order-cycles.service";
 import { MatTableDataSource } from "@angular/material/table";
 import { TableFetchResult } from "../../core/table-fetcher";
@@ -15,7 +15,9 @@ import { OrderCycleService } from "../shared/order-cycle.service";
 @Component({
   selector: 'gsl-order-cycles-page',
   templateUrl: './order-cycles-page.component.html',
-  styleUrls: ['./order-cycles-page.component.css']
+  styleUrls: ['./order-cycles-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class OrderCyclesPageComponent implements AfterViewInit, OnInit {
   readonly displayedColumns = ['start', 'end', 'state', 'actions'];

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { BorrowerState, BorrowerStateLabels } from "../shared/borrower-state";
 
 const enum Size {
@@ -9,7 +9,9 @@ const enum Size {
 @Component({
   selector: 'gsl-borrower-status',
   templateUrl: './borrower-status.component.html',
-  styleUrls: ['./borrower-status.component.css']
+  styleUrls: ['./borrower-status.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerStatusComponent {
   @Input() status: BorrowerState;

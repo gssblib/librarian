@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderCyclesService } from "../shared/order-cycles.service";
 import { OrderCycleService } from "../shared/order-cycle.service";
 import { Router } from "@angular/router";
@@ -11,7 +11,9 @@ import { RpcError } from "../../core/rpc-error";
 @Component({
   selector: 'gsl-order-cycle-edit-page',
   templateUrl: './order-cycle-edit-page.component.html',
-  styleUrls: ['./order-cycle-edit-page.component.css']
+  styleUrls: ['./order-cycle-edit-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class OrderCycleEditPageComponent implements OnInit {
   form = new UntypedFormGroup({});

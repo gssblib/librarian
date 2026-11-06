@@ -4,6 +4,7 @@ import { Action, AuthorizationService } from './authorization.service';
 
 @Directive({
   selector: '[gslAuthorized]',
+  standalone: false
 })
 export class AuthorizedDirective implements OnInit {
   private hasView = false;

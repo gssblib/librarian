@@ -7,16 +7,20 @@
       [criteria]="criteria" [fields]="searchFields" (search)="navigate()">
     </gsl-multi-field-search-bar>
   </div>
-  <div *ngIf="data.length > 0">
-    Borrowers found: <b>{{ data.length }}</b>
-    <button mat-icon-button (click)="saveAsCsv()"><mat-icon>save</mat-icon></button>
-  </div>
-  <div class="container mat-elevation-z8">
-    <div *ngIf="loading" class="spinner">
-      <mat-spinner></mat-spinner>
+  @if (data.length > 0) {
+    <div>
+      Borrowers found: <b>{{ data.length }}</b>
+      <button mat-icon-button (click)="saveAsCsv()"><mat-icon>save</mat-icon></button>
     </div>
+  }
+  <div class="container mat-elevation-z8">
+    @if (loading) {
+      <div class="spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
     <mat-table #table [dataSource]="dataSource"
-               matSort matSortActive="count" matSortDisableClear matSortDirection="desc">
+      matSort matSortActive="count" matSortDisableClear matSortDirection="desc">
       <ng-container matColumnDef="surname">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Borrower Name</mat-header-cell>
         <mat-cell *matCellDef="let row">{{row.fullName}}</mat-cell>
@@ -27,8 +31,8 @@
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"
-               style="cursor: pointer"
-               [routerLink]="['/borrowers', row.borrowernumber, 'checkouts']">
+        style="cursor: pointer"
+        [routerLink]="['/borrowers', row.borrowernumber, 'checkouts']">
       </mat-row>
     </mat-table>
     <mat-paginator [length]="count" [pageSize]="10">

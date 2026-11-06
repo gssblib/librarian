@@ -1,0 +1,16 @@
+{
+  "name": "librarian-browser-tests",
+  "private": true,
+  "scripts": {
+    "prepare-app": "node prepare.cjs",
+    "test": "node prepare.cjs && playwright test",
+    "test:built": "playwright test",
+    "report": "playwright show-report"
+  },
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}

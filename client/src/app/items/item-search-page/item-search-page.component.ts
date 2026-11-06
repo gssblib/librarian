@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/notification-service';
 import { ItemState } from '../shared/item-state';
@@ -28,7 +28,9 @@ const SEARCH_FIELDS = [
 @Component({
   selector: 'gsl-item-search-page',
   templateUrl: './item-search-page.component.html',
-  styleUrls: ['./item-search-page.component.css']
+  styleUrls: ['./item-search-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ItemSearchPageComponent implements AfterViewInit {
   ItemState = ItemState;

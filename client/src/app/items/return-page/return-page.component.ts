@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ItemsService } from '../shared/items.service';
@@ -11,7 +11,9 @@ import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'gsl-return-page',
   templateUrl: './return-page.component.html',
-  styleUrls: ['./return-page.component.css']
+  styleUrls: ['./return-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ReturnPageComponent implements OnInit {
   displayedColumns = ['barcode', 'title', 'category', 'checkout_date', 'returndate', 'borrower'];

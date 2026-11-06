@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { BorrowersService } from '../shared/borrowers.service';
 import { BorrowerService } from '../shared/borrower.service';
 import { Borrower, BorrowerEmail } from '../shared/borrower';
@@ -13,7 +13,9 @@ import { DataTableParams } from '../../core/data-table-params';
 @Component({
   selector: 'gsl-borrower-reminders-table',
   templateUrl: './borrower-reminders-table.component.html',
-  styleUrls: ['./borrower-reminders-table.component.css']
+  styleUrls: ['./borrower-reminders-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerRemindersTableComponent implements OnInit, OnDestroy {
   readonly destroyed = new Subject<void>();

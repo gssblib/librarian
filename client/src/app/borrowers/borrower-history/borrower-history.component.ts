@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Borrower } from '../shared/borrower';
 import { BorrowersService } from '../shared/borrowers.service';
 import { BorrowerService } from '../shared/borrower.service';
@@ -14,7 +14,9 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'gsl-borrower-history',
   templateUrl: './borrower-history.component.html',
-  styleUrls: ['./borrower-history.component.css']
+  styleUrls: ['./borrower-history.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerHistoryComponent implements OnInit, AfterViewInit {
   borrower: Borrower;

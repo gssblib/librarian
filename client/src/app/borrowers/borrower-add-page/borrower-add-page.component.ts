@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -9,7 +9,9 @@ import { Borrower } from "../shared/borrower";
 @Component({
   selector: 'gsl-borrower-add-page',
   templateUrl: './borrower-add-page.component.html',
-  styleUrls: ['./borrower-add-page.component.css']
+  styleUrls: ['./borrower-add-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerAddPageComponent implements OnInit {
   form = new UntypedFormGroup({});

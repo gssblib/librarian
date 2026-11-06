@@ -1,6 +1,8 @@
-<p *ngIf="dataSource.data.length === 0">
-  No reminder emails.
-</p>
+@if (dataSource.data.length === 0) {
+  <p>
+    No reminder emails.
+  </p>
+}
 <div class="table" [class.gsl-hide]="dataSource.data.length === 0">
   <table mat-table [dataSource]="dataSource" class="reminders">
     <ng-container matColumnDef="recipient">
@@ -13,10 +15,10 @@
         <mat-expansion-panel class="email-text">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="email-text">{{ firstLine(reminder.email?.text) }}</span>
+              <span class="email-text">{{ firstLine($safeNavigationMigration(reminder.email?.text)) }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <span class="email-text">{{ rest(reminder.email?.text) }}</span>
+          <span class="email-text">{{ rest($safeNavigationMigration(reminder.email?.text)) }}</span>
         </mat-expansion-panel>
       </td>
     </ng-container>

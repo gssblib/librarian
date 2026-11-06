@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -9,7 +9,9 @@ import { User } from "../shared/user";
 @Component({
   selector: 'gsl-user-add-page',
   templateUrl: './user-add-page.component.html',
-  styleUrls: ['./user-add-page.component.css']
+  styleUrls: ['./user-add-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class UserAddPageComponent implements OnInit {
   form = new UntypedFormGroup({});

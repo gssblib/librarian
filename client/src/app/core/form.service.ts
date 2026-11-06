@@ -127,11 +127,15 @@ export class FormService {
       case 'enum':
         field.type = 'select';
         field.templateOptions.options = FormService.toFormlyOptions(domain.options);
+        // Formly passes an unset panelWidth through to mat-select, which then
+        // shrinks the option list to its text. 'auto' matches the field width.
+        field.templateOptions.panelWidth = 'auto';
         break;
       case 'multienum':
         field.type = 'select';
         field.templateOptions.options = FormService.toFormlyOptions(domain.options);
         field.templateOptions.multiple = true;
+        field.templateOptions.panelWidth = 'auto';
         break;
       case 'boolean':
         field.type = 'checkbox';

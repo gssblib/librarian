@@ -1,15 +1,22 @@
-<mat-card appearance="outlined" *ngIf="borrower">
-  <h2 *ngIf="borrower">
-    {{borrower.surname}}, {{borrower.firstname}}, {{borrower.contactname}}
-    <gsl-borrower-status [status]="borrower.state"></gsl-borrower-status>
-  </h2>
-  <nav mat-tab-nav-bar>
-    <a mat-tab-link
-       *ngFor="let link of navLinks"
-       [ngClass]="link['class']"
-       [routerLink]="link.link"
-       routerLinkActive #rla="routerLinkActive"
-       [active]="rla.isActive">{{link.label}}</a>
-  </nav>
-  <router-outlet></router-outlet>
-</mat-card>
+@if (borrower) {
+  <mat-card appearance="outlined">
+    @if (borrower) {
+      <h2>
+        {{borrower.surname}}, {{borrower.firstname}}, {{borrower.contactname}}
+        <gsl-borrower-status [status]="borrower.state"></gsl-borrower-status>
+      </h2>
+    }
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      @for (link of navLinks; track link) {
+        <a mat-tab-link
+          [ngClass]="link['class']"
+          [routerLink]="link.link"
+          routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">{{link.label}}</a>
+      }
+    </nav>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+  </mat-card>
+}

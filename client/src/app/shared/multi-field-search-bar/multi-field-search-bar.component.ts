@@ -7,7 +7,8 @@ import {
   AfterViewInit,
   OnChanges,
   SimpleChanges,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -20,7 +21,9 @@ import { takeUntil } from "rxjs/operators";
 @Component({
   selector: 'gsl-multi-field-search-bar',
   templateUrl: './multi-field-search-bar.component.html',
-  styleUrls: ['./multi-field-search-bar.component.css']
+  styleUrls: ['./multi-field-search-bar.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class MultiFieldSearchBarComponent implements OnInit, OnChanges, OnDestroy {
   private readonly destroyed = new Subject<void>();

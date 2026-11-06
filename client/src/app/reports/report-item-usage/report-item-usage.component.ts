@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { RpcService } from '../../core/rpc.service';
 import { ItemsService } from '../../items/shared/items.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -20,7 +20,9 @@ const SEARCH_FIELDS = ['subject', 'classification', 'category'];
 @Component({
   selector: 'gsl-report-item-usage',
   templateUrl: './report-item-usage.component.html',
-  styleUrls: ['./report-item-usage.component.css']
+  styleUrls: ['./report-item-usage.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ReportItemUsageComponent implements AfterViewInit {
   /** Formly config for the search form. */

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { UntypedFormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -9,7 +9,9 @@ import { BorrowersService } from "../shared/borrowers.service";
 @Component({
   selector: 'gsl-borrower-profile-edit',
   templateUrl: './borrower-profile-edit.component.html',
-  styleUrls: ['./borrower-profile-edit.component.css']
+  styleUrls: ['./borrower-profile-edit.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BorrowerProfileEditComponent {
   form = new UntypedFormGroup({});

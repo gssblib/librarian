@@ -6,16 +6,20 @@
   <gsl-multi-field-search-bar
     [criteria]="criteria" [fields]="searchFields" (search)="navigate()">
   </gsl-multi-field-search-bar>
-  <div *ngIf="data.length > 0">
-    Items found: <b>{{ data.length }}</b>
-    <button mat-icon-button (click)="saveAsCsv()"><mat-icon>save</mat-icon></button>
-  </div>
-  <div class="container mat-elevation-z8">
-    <div *ngIf="loading" class="spinner">
-      <mat-spinner></mat-spinner>
+  @if (data.length > 0) {
+    <div>
+      Items found: <b>{{ data.length }}</b>
+      <button mat-icon-button (click)="saveAsCsv()"><mat-icon>save</mat-icon></button>
     </div>
+  }
+  <div class="container mat-elevation-z8">
+    @if (loading) {
+      <div class="spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
     <mat-table #table [dataSource]="dataSource"
-               matSort matSortActive="last_checkout_date" matSortDisableClear matSortDirection="asc">
+      matSort matSortActive="last_checkout_date" matSortDisableClear matSortDirection="asc">
       <ng-container matColumnDef="barcode">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
         <mat-cell *matCellDef="let row">

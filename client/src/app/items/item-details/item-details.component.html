@@ -1,32 +1,36 @@
-<gsl-item-edit-form *ngIf="editable" (done)="editable = false">
-</gsl-item-edit-form>
+@if (editable) {
+  <gsl-item-edit-form (done)="editable = false">
+  </gsl-item-edit-form>
+}
 
-<div *ngIf="!editable">
-  <div fxLayout fxLayoutGap="30px">
-    <div class="fields">
-      <gsl-readonly-field-list [model]="item" [fields]="fields"></gsl-readonly-field-list>
+@if (!editable) {
+  <div>
+    <div fxLayout fxLayoutGap="30px">
+      <div class="fields">
+        <gsl-readonly-field-list [model]="item" [fields]="fields"></gsl-readonly-field-list>
+      </div>
+      <div>
+        <gsl-item-edit-cover [item]="item"></gsl-item-edit-cover>
+      </div>
     </div>
-    <div>
-      <gsl-item-edit-cover [item]="item"></gsl-item-edit-cover>
+    <div class="item-actions">
+      <button mat-raised-button color="primary" (click)="editable = true"
+        *gslAuthorized="'items.update'">
+        Edit
+      </button>
+      <button mat-raised-button color="primary" (click)="onCopy()"
+        *gslAuthorized="'items.create'">
+        Copy
+      </button>
+      <button mat-raised-button color="warn"
+        gslConfirmationDialog
+        title="Confirm Deletion"
+        message="Are you sure you want to delete the item?"
+        (confirm)="onDelete()"
+        *gslAuthorized="'items.delete'">
+        Delete
+      </button>
     </div>
   </div>
-  <div class="item-actions">
-    <button mat-raised-button color="primary" (click)="editable = true"
-            *gslAuthorized="'items.update'">
-      Edit
-    </button>
-    <button mat-raised-button color="primary" (click)="onCopy()"
-            *gslAuthorized="'items.create'">
-      Copy
-    </button>
-    <button mat-raised-button color="warn"
-            gslConfirmationDialog
-            title="Confirm Deletion"
-            message="Are you sure you want to delete the item?"
-            (confirm)="onDelete()"
-            *gslAuthorized="'items.delete'">
-      Delete
-    </button>
-  </div>
-</div>
+}
 

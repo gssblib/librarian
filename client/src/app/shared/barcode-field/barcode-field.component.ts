@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
 /**
@@ -10,7 +10,9 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'gsl-barcode-field',
   templateUrl: './barcode-field.component.html',
-  styleUrls: ['./barcode-field.component.css']
+  styleUrls: ['./barcode-field.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class BarcodeFieldComponent implements OnInit {
   barcodeCtrl: UntypedFormControl;
